@@ -25,7 +25,7 @@ public class PaymentServiceImpl implements PaymentService {
     private final PaymentRepository paymentRepository;
     private final ReservationService reservationService;
 
-    @Value("${app.frontend.url}")
+    @Value("${APP_FRONTEND_URL}")
     private String frontendUrl;
 
     public PaymentServiceImpl(PaymentRepository paymentRepository, @Lazy ReservationService reservationService) {
