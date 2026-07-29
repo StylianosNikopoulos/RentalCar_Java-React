@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class StripeWebhookController {
 
-    @Value("${stripe.webhook.secret}")
+    @Value("${STRIPE_WEBHOOK_SECRET}")
     private String endpointSecret;
     private final PaymentService paymentService;
 
