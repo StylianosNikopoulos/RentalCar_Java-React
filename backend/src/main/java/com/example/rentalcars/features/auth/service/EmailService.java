@@ -21,8 +21,11 @@ public class EmailService {
     @Value("${APP_FRONTEND_URL}")
     private String frontendUrl;
 
-    @Value("${RESEND_API_KEY}")
-    private String resendApiKey;
+    @Value("${MAILJET_API_KEY}")
+    private String mailjetApiKey;
+
+    @Value("${MAILJET_SECRET_KEY}")
+    private String mailjetSecretKey;
 
     @Value("${MAIL_USERNAME}")
     private String senderEmail;
@@ -30,7 +33,7 @@ public class EmailService {
     @Async
     public void sendPasswordResetEmail(String toEmail, String token) {
         String resetLink = frontendUrl + "/reset-password?token=" + token;
-        String resendUrl = "https://api.resend.com/emails";
+        String mailjetUrl = "https://api.mailjet.com/v3.1/send";
 
         String htmlContent = """
             <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #eee; border-radius: 5px;">
@@ -48,27 +51,31 @@ public class EmailService {
             """.formatted(resetLink, resetLink);
 
         Map<String, Object> body = Map.of(
-                "from", senderEmail,
-                "to", List.of(toEmail),
-                "subject", "Reset Your Password - RentalCars",
-                "html", htmlContent
+                "Messages", List.of(
+                        Map.of(
+                                "From", Map.of("Email", senderEmail, "Name", "RentalCars"),
+                                "To", List.of(Map.of("Email", toEmail)),
+                                "Subject", "Reset Your Password - RentalCars",
+                                "HTMLPart", htmlContent
+                        )
+                )
         );
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-        headers.setBearerAuth(resendApiKey);
+        headers.setBasicAuth(mailjetApiKey, mailjetSecretKey);
 
         HttpEntity<Map<String, Object>> request = new HttpEntity<>(body, headers);
 
         try {
-            ResponseEntity<String> response = restTemplate.postForEntity(resendUrl, request, String.class);
+            ResponseEntity<String> response = restTemplate.postForEntity(mailjetUrl, request, String.class);
             if (response.getStatusCode().is2xxSuccessful()) {
-                log.info("Password reset email successfully sent via Resend API to {}", toEmail);
+                log.info("Password reset email successfully sent via Mailjet API to {}", toEmail);
             } else {
-                log.error("Failed to send email via Resend. Status: {}, Body: {}", response.getStatusCode(), response.getBody());
+                log.error("Failed to send email via Mailjet. Status: {}, Body: {}", response.getStatusCode(), response.getBody());
             }
         } catch (Exception e) {
-            log.error("Error sending password reset email via Resend API to {}", toEmail, e);
+            log.error("Error sending password reset email via Mailjet API to {}", toEmail, e);
         }
     }
 }
