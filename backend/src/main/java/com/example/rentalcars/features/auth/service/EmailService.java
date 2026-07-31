@@ -21,8 +21,8 @@ public class EmailService {
     @Value("${APP_FRONTEND_URL}")
     private String frontendUrl;
 
-    @Value("${BREVO_API_KEY}")
-    private String brevoApiKey;
+    @Value("${RESEND_API_KEY}")
+    private String resendApiKey;
 
     @Value("${MAIL_USERNAME}")
     private String senderEmail;
@@ -30,7 +30,7 @@ public class EmailService {
     @Async
     public void sendPasswordResetEmail(String toEmail, String token) {
         String resetLink = frontendUrl + "/reset-password?token=" + token;
-        String brevoUrl = "https://api.brevo.com/v3/smtp/email";
+        String resendUrl = "https://api.resend.com/emails";
 
         String htmlContent = """
             <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #eee; border-radius: 5px;">
@@ -48,27 +48,27 @@ public class EmailService {
             """.formatted(resetLink, resetLink);
 
         Map<String, Object> body = Map.of(
-                "sender", Map.of("name", "RentalCars", "email", senderEmail),
-                "to", List.of(Map.of("email", toEmail)),
+                "from", senderEmail,
+                "to", List.of(toEmail),
                 "subject", "Reset Your Password - RentalCars",
-                "htmlContent", htmlContent
+                "html", htmlContent
         );
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-        headers.set("api-key", brevoApiKey);
+        headers.setBearerAuth(resendApiKey);
 
         HttpEntity<Map<String, Object>> request = new HttpEntity<>(body, headers);
 
         try {
-            ResponseEntity<String> response = restTemplate.postForEntity(brevoUrl, request, String.class);
+            ResponseEntity<String> response = restTemplate.postForEntity(resendUrl, request, String.class);
             if (response.getStatusCode().is2xxSuccessful()) {
-                log.info("Password reset email successfully sent via Brevo API to {}", toEmail);
+                log.info("Password reset email successfully sent via Resend API to {}", toEmail);
             } else {
-                log.error("Failed to send email via Brevo. Status: {}, Body: {}", response.getStatusCode(), response.getBody());
+                log.error("Failed to send email via Resend. Status: {}, Body: {}", response.getStatusCode(), response.getBody());
             }
         } catch (Exception e) {
-            log.error("Error sending password reset email via Brevo API to {}", toEmail, e);
+            log.error("Error sending password reset email via Resend API to {}", toEmail, e);
         }
     }
 }
