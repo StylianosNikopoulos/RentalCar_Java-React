@@ -37,11 +37,30 @@ public class Reservation extends AggregateRoot {
     }
 
     public void cancel() {
+        if (this.status == ReservationStatus.COMPLETED) {
+            throw new IllegalStateException("Cannot cancel a completed reservation.");
+        }
         this.status = ReservationStatus.CANCELED;
     }
 
-    public void calculateTotal(Money dailyPrice) {
+    public void confirm() {
+        if (this.status == ReservationStatus.CANCELED) {
+            throw new IllegalStateException("Cannot confirm a canceled reservation.");
+        }
+        this.status = ReservationStatus.CONFIRMED;
+    }
 
+    public void markAsCompleted() {
+        if (this.status != ReservationStatus.ACTIVE) {
+            throw new IllegalStateException("Only ACTIVE reservations can be completed.");
+        }
+        this.status = ReservationStatus.COMPLETED;
+    }
+
+    public void calculateTotal(Money dailyPrice) {
+        if (this.period == null) {
+            throw new IllegalStateException("Cannot calculate total without a period.");
+        }
         long days = period.toDays();
         if (days <= 0) days = 1;  // At least 1 day
         BigDecimal totalValue = dailyPrice.amount().multiply(BigDecimal.valueOf(days));

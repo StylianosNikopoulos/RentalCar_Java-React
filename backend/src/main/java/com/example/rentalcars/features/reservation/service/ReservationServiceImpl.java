@@ -110,7 +110,7 @@ public class ReservationServiceImpl implements ReservationService {
             paymentService.refundPayment(payment.getStripePaymentId());
         }
 
-        reservation.setStatus(ReservationStatus.CANCELED);
+        reservation.cancel();
         reservationRepository.save(reservation);
         vehicleService.updateVehicleStatus(reservation.getVehicleId(), VehicleStatus.AVAILABLE);
     }
@@ -120,7 +120,7 @@ public class ReservationServiceImpl implements ReservationService {
     public void confirmReservation(UUID reservationId) {
         var reservation = reservationRepository.findById(reservationId)
                 .orElseThrow(() -> new ReservationNotFoundException(reservationId));
-        reservation.setStatus(ReservationStatus.CONFIRMED);
+        reservation.confirm();
         reservationRepository.save(reservation);
     }
 
@@ -153,11 +153,7 @@ public class ReservationServiceImpl implements ReservationService {
         var reservation = reservationRepository.findById(reservationId)
                 .orElseThrow(() -> new ReservationNotFoundException(reservationId));
 
-        if (reservation.getStatus() != ReservationStatus.ACTIVE) {
-            throw new IllegalStateException("Only ACTIVE reservations can be completed.");
-        }
-
-        reservation.setStatus(ReservationStatus.COMPLETED);
+        reservation.markAsCompleted();
         var updatedReservation = reservationRepository.save(reservation);
 
         vehicleService.updateVehicleStatus(reservation.getVehicleId(), VehicleStatus.AVAILABLE);
