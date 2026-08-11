@@ -21,14 +21,25 @@ public class RefreshTokenPersistenceAdapter implements RefreshTokenRepository {
     public RefreshToken save(RefreshToken domain) {
         RefreshTokenEntity entity = RefreshTokenEntity.builder()
                 .id(domain.getId())
+                .createdAt(domain.getCreatedAt())
+                .updatedAt(domain.getUpdatedAt())
                 .token(domain.getToken())
                 .user(userMapper.toEntity(domain.getUser()))
                 .expiryDate(domain.getExpiryDate())
                 .revoked(domain.isRevoked())
                 .build();
 
-        jpaRepository.save(entity);
-        return domain;
+        RefreshTokenEntity savedEntity = jpaRepository.save(entity);
+
+        return RefreshToken.builder()
+                .id(savedEntity.getId())
+                .createdAt(savedEntity.getCreatedAt())
+                .updatedAt(savedEntity.getUpdatedAt())
+                .token(savedEntity.getToken())
+                .user(userMapper.toDomain(savedEntity.getUser()))
+                .expiryDate(savedEntity.getExpiryDate())
+                .revoked(savedEntity.isRevoked())
+                .build();
     }
 
     @Override
@@ -36,6 +47,8 @@ public class RefreshTokenPersistenceAdapter implements RefreshTokenRepository {
         return jpaRepository.findByToken(token)
                 .map(entity -> RefreshToken.builder()
                         .id(entity.getId())
+                        .createdAt(entity.getCreatedAt())
+                        .updatedAt(entity.getUpdatedAt())
                         .token(entity.getToken())
                         .user(userMapper.toDomain(entity.getUser()))
                         .expiryDate(entity.getExpiryDate())
