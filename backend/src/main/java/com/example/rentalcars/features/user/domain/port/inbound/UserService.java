@@ -20,4 +20,5 @@ public interface UserService {
     boolean existsByEmail(String email);
     Optional<User> findByResetToken(String token);
     void save(User user);
+    User getInternalUserById(UUID id);
 }
