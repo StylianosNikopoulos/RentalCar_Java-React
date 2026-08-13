@@ -13,7 +13,6 @@ import com.example.rentalcars.features.user.domain.port.inbound.UserService;
 import com.example.rentalcars.features.vehicle.domain.model.VehicleStatus;
 import com.example.rentalcars.features.vehicle.domain.port.inbound.VehicleService;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
@@ -64,7 +63,7 @@ public class ReservationServiceImpl implements ReservationService {
 
     @Override
     @Transactional(readOnly = true)
-    public Page<Reservation> getMyReservations(Pageable pageable) {
+    public Page<Reservation> getMyReservations(Pageable pageable) {   //TODO PERFORMANCE ISSUE
         var auth = SecurityContextHolder.getContext().getAuthentication();
         var user = userService.getUserByEmail(auth.getName());
         return reservationRepository.findByUserId(user.getId(), pageable);
@@ -117,11 +116,11 @@ public class ReservationServiceImpl implements ReservationService {
 
     @Override
     @Transactional
-    public void confirmReservation(UUID reservationId) {
+    public Reservation confirmReservation(UUID reservationId) {
         var reservation = reservationRepository.findById(reservationId)
                 .orElseThrow(() -> new ReservationNotFoundException(reservationId));
         reservation.confirm();
-        reservationRepository.save(reservation);
+        return reservationRepository.save(reservation);
     }
 
     @Override
