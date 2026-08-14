@@ -6,7 +6,7 @@ import java.util.UUID;
 
 public interface PaymentService {
     String initiatePayment(UUID reservationId, Money amount);
-    void processSuccessfulPayment(String stripeIntentId);
+    void processSuccessfulPayment(String stripeIntentId, String receiptUrl);
     void refundPayment(String stripePaymentId);
     void processFailedPayment(String stripePaymentId);
     Payment getPaymentByReservationId(UUID reservationId);

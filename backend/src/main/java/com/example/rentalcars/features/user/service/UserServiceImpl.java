@@ -66,6 +66,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User getInternalUserById(UUID id) {
+        return userRepository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException(id));
+    }
+
+    @Override
     @Transactional
     public User register(UserRequest request) {
         if (userRepository.findByEmail(request.getEmail()).isPresent()) {

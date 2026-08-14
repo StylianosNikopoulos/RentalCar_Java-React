@@ -2,6 +2,7 @@ package com.example.rentalcars.features.payment.infrastructure.adapter.inbound.r
 
 import com.example.rentalcars.features.payment.domain.port.inbound.PaymentService;
 import com.stripe.model.Event;
+import com.stripe.model.EventDataObjectDeserializer;
 import com.stripe.model.checkout.Session;
 import com.stripe.net.Webhook;
 import lombok.RequiredArgsConstructor;
@@ -15,60 +16,51 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class StripeWebhookController {
 
-    @Value("${STRIPE_WEBHOOK_SECRET}")
-    private String endpointSecret;
     private final PaymentService paymentService;
+
+    @Value("${stripe.webhook.secret}")
+    private String endpointSecret;
 
     @PostMapping
     public ResponseEntity<String> handleStripeEvent(@RequestBody String payload, @RequestHeader("Stripe-Signature") String sigHeader) {
+
         Event event;
         try {
             event = Webhook.constructEvent(payload, sigHeader, endpointSecret);
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Webhook error");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Webhook error: " + e.getMessage());
         }
 
-        var dataObjectDeserializer = event.getDataObjectDeserializer();
+        EventDataObjectDeserializer deserializer = event.getDataObjectDeserializer();
 
         if ("checkout.session.completed".equals(event.getType())) {
-            Session session = getSessionFromEvent(dataObjectDeserializer);
+            Session session = getSessionFromEvent(deserializer);
             if (session != null) {
-                try {
-                    paymentService.processSuccessfulPayment(session.getId());
-                } catch (Exception e) {
-                    System.err.println("Error processing success: " + e.getMessage());
-                }
+                paymentService.processSuccessfulPayment(session.getId(), session.getPaymentIntent());
             }
         }
         else if ("checkout.session.expired".equals(event.getType())) {
-            Session session = getSessionFromEvent(dataObjectDeserializer);
+            Session session = getSessionFromEvent(deserializer);
             if (session != null) {
                 paymentService.processFailedPayment(session.getId());
-            }
-        }
-        else if ("payment_intent.payment_failed".equals(event.getType())) {
-            try {
-                if (dataObjectDeserializer.getObject().isPresent()) {
-                    var pi = (com.stripe.model.PaymentIntent) dataObjectDeserializer.getObject().get();
-                }
-            } catch (Exception e) {
-                System.err.println("Could not deserialize PaymentIntent");
             }
         }
 
         return ResponseEntity.ok().build();
     }
 
-    private Session getSessionFromEvent(com.stripe.model.EventDataObjectDeserializer deserializer) {
-        try {
-            if (deserializer.getObject().isPresent()) {
-                return (Session) deserializer.getObject().get();
-            } else {
-                return (Session) deserializer.deserializeUnsafe();
-            }
-        } catch (com.stripe.exception.EventDataObjectDeserializationException e) {
-            System.err.println("Deserialization failed: " + e.getMessage());
-            return null;
+    private Session getSessionFromEvent(EventDataObjectDeserializer deserializer) {
+        if (deserializer.getObject().isPresent() && deserializer.getObject().get() instanceof Session session) {
+            return session;
         }
+
+        try {
+            if (deserializer.deserializeUnsafe() instanceof Session session) {
+                return session;
+            }
+        } catch (Exception ignored) {
+        }
+
+        return null;
     }
 }

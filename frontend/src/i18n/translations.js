@@ -152,7 +152,7 @@ export const translations = {
       toastLoadError: "Failed to load profile details",
       toastUpdateSuccess: "Profile updated successfully!",
       toastUpdateError: "Update failed.",
-      toastResetSuccess: "A reset token has been generated. Please check your email to proceed.",
+      toastResetSuccess: "If an account with that email exists, we have sent password reset instructions to your inbox.",
       toastResetError: "Failed to request reset.",
       toastDeleteSuccess: "Account terminated",
       toastDeleteError: "Error during deletion"
@@ -465,7 +465,7 @@ export const translations = {
       toastLoadError: "Αποτυχία φόρτωσης στοιχείων προφίλ",
       toastUpdateSuccess: "Το προφίλ ενημερώθηκε με επιτυχία!",
       toastUpdateError: "Η ενημέρωση απέτυχε.",
-      toastResetSuccess: "Δημιουργήθηκε ένα token επαναφοράς. Παρακαλώ ελέγξτε το email σας για να προχωρήσετε.",
+      toastResetSuccess: "Αν υπάρχει λογαριασμός με αυτό το email, σας έχουμε στείλει οδηγίες επαναφοράς κωδικού.",
       toastResetError: "Αποτυχία αιτήματος επαναφοράς.",
       toastDeleteSuccess: "Ο λογαριασμός τερματίστηκε",
       toastDeleteError: "Σφάλμα κατά τη διαγραφή"

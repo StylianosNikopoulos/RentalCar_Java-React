@@ -15,13 +15,15 @@ public class Payment extends AggregateRoot {
     private Money amount;
     private String stripePaymentId;
     private PaymentStatus status;
+    private String receiptUrl;
 
     @Builder
-    public Payment(UUID id, LocalDateTime createdAt, LocalDateTime updatedAt, UUID reservationId, Money amount, String stripePaymentId, PaymentStatus status) {
+    public Payment(UUID id, LocalDateTime createdAt, LocalDateTime updatedAt, UUID reservationId, Money amount, String stripePaymentId, PaymentStatus status, String receiptUrl) {
         super(id, createdAt, updatedAt);
         this.reservationId = reservationId;
         this.amount = amount;
         this.stripePaymentId = stripePaymentId;
         this.status = status;
+        this.receiptUrl = receiptUrl;
     }
 }
