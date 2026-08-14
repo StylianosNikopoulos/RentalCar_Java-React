@@ -126,7 +126,7 @@ public class AuthService implements AuthUseCase {
             userService.save(user);
 
             emailService.sendPasswordResetEmail(email, token);
-            log.info("Password reset token for {}: {}", email, token);
+            log.info("Sent password reset email to {}", email);
         } catch (UserNotFoundException e) {
             log.warn("Password reset requested for non existing email: {}", email);
         }
