@@ -1,6 +1,6 @@
 package com.example.rentalcars.features.user.infrastructure.adapter.outbound.persistence;
 
-import com.example.rentalcars.features.user.domain.model.Role;
+import com.example.rentalcars.features.user.domain.enums.Role;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.UUID;

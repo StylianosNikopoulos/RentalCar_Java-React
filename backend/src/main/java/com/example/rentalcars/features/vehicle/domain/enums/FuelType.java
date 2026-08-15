@@ -1,4 +1,4 @@
-package com.example.rentalcars.features.vehicle.domain.model;
+package com.example.rentalcars.features.vehicle.domain.enums;
 
 public enum FuelType {
     PETROL,

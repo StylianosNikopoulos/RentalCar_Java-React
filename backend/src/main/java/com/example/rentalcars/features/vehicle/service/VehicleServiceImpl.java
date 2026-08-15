@@ -8,7 +8,7 @@ import com.example.rentalcars.features.vehicle.infrastructure.adapter.inbound.re
 import com.example.rentalcars.features.vehicle.domain.model.LicensePlate;
 import com.example.rentalcars.features.vehicle.domain.model.Vehicle;
 import com.example.rentalcars.features.vehicle.domain.port.outbound.VehicleRepository;
-import com.example.rentalcars.features.vehicle.domain.model.VehicleStatus;
+import com.example.rentalcars.features.vehicle.domain.enums.VehicleStatus;
 import com.example.rentalcars.features.vehicle.domain.exception.VehicleNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;

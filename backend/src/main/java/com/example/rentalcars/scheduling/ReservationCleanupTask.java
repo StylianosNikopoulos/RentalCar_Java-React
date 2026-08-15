@@ -1,9 +1,9 @@
 package com.example.rentalcars.scheduling;
 
 import com.example.rentalcars.features.reservation.domain.model.Reservation;
-import com.example.rentalcars.features.reservation.domain.model.ReservationStatus;
+import com.example.rentalcars.features.reservation.domain.enums.ReservationStatus;
 import com.example.rentalcars.features.reservation.domain.port.outbound.ReservationRepository;
-import com.example.rentalcars.features.vehicle.domain.model.VehicleStatus;
+import com.example.rentalcars.features.vehicle.domain.enums.VehicleStatus;
 import com.example.rentalcars.features.vehicle.domain.port.inbound.VehicleService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

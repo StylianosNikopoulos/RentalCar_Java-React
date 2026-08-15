@@ -5,7 +5,7 @@ import com.example.rentalcars.features.reservation.domain.port.inbound.Reservati
 import com.example.rentalcars.features.user.domain.model.CustomerProfile;
 import com.example.rentalcars.features.user.infrastructure.adapter.inbound.rest.dto.UpdateUserRequest;
 import com.example.rentalcars.features.user.infrastructure.adapter.inbound.rest.dto.UserRequest;
-import com.example.rentalcars.features.user.domain.model.Role;
+import com.example.rentalcars.features.user.domain.enums.Role;
 import com.example.rentalcars.features.user.domain.model.User;
 import com.example.rentalcars.features.user.domain.port.outbound.UserRepository;
 import com.example.rentalcars.features.user.domain.exception.UserNotFoundException;

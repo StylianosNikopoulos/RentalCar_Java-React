@@ -3,6 +3,7 @@ package com.example.rentalcars.features.reservation.domain.model;
 import com.example.rentalcars.core.domain.AggregateRoot;
 import com.example.rentalcars.core.valueobject.DateRange;
 import com.example.rentalcars.core.valueobject.Money;
+import com.example.rentalcars.features.reservation.domain.enums.ReservationStatus;
 import lombok.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;

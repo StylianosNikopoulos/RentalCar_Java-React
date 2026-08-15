@@ -2,7 +2,7 @@ package com.example.rentalcars.features.reservation.domain.port.outbound;
 
 import com.example.rentalcars.core.valueobject.DateRange;
 import com.example.rentalcars.features.reservation.domain.model.Reservation;
-import com.example.rentalcars.features.reservation.domain.model.ReservationStatus;
+import com.example.rentalcars.features.reservation.domain.enums.ReservationStatus;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

@@ -2,6 +2,7 @@ package com.example.rentalcars.features.payment.domain.model;
 
 import com.example.rentalcars.core.domain.AggregateRoot;
 import com.example.rentalcars.core.valueobject.Money;
+import com.example.rentalcars.features.payment.domain.enums.PaymentStatus;
 import lombok.*;
 
 import java.time.LocalDateTime;

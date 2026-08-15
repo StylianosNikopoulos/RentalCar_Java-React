@@ -6,7 +6,7 @@ import com.example.rentalcars.features.payment.domain.exception.InvalidPaymentSt
 import com.example.rentalcars.features.payment.domain.exception.PaymentNotFoundException;
 import com.example.rentalcars.features.payment.domain.exception.StripePaymentException;
 import com.example.rentalcars.features.payment.domain.model.Payment;
-import com.example.rentalcars.features.payment.domain.model.PaymentStatus;
+import com.example.rentalcars.features.payment.domain.enums.PaymentStatus;
 import com.example.rentalcars.features.payment.domain.port.inbound.PaymentService;
 import com.example.rentalcars.features.payment.domain.port.outbound.PaymentRepository;
 import com.example.rentalcars.features.reservation.domain.model.Reservation;

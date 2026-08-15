@@ -1,6 +1,7 @@
 package com.example.rentalcars.features.user.domain.model;
 
 import com.example.rentalcars.core.domain.AggregateRoot;
+import com.example.rentalcars.features.user.domain.enums.Role;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,7 +16,7 @@ import java.util.UUID;
 public class User extends AggregateRoot {
     private  String email;
     private  String passwordHash;
-    private  Role role;
+    private Role role;
     private  String firstName;
     private  String lastName;
     private  CustomerProfile profile;

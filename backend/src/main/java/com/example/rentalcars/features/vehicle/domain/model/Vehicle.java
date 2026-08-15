@@ -1,6 +1,8 @@
 package com.example.rentalcars.features.vehicle.domain.model;
 
 import com.example.rentalcars.core.domain.AggregateRoot;
+import com.example.rentalcars.features.vehicle.domain.enums.FuelType;
+import com.example.rentalcars.features.vehicle.domain.enums.VehicleStatus;
 import lombok.*;
 
 import java.math.BigDecimal;

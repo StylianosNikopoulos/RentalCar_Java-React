@@ -1,6 +1,6 @@
 package com.example.rentalcars.features.vehicle.domain.port.inbound;
 
-import com.example.rentalcars.features.vehicle.domain.model.VehicleStatus;
+import com.example.rentalcars.features.vehicle.domain.enums.VehicleStatus;
 import com.example.rentalcars.features.vehicle.infrastructure.adapter.inbound.rest.dto.VehicleRequest;
 import com.example.rentalcars.features.vehicle.domain.model.Vehicle;
 import org.springframework.data.domain.Page;

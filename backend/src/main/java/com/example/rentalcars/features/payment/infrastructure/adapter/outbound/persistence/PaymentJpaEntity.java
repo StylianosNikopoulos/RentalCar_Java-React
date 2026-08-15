@@ -1,6 +1,6 @@
 package com.example.rentalcars.features.payment.infrastructure.adapter.outbound.persistence;
 
-import com.example.rentalcars.features.payment.domain.model.PaymentStatus;
+import com.example.rentalcars.features.payment.domain.enums.PaymentStatus;
 import jakarta.persistence.*;
 import lombok.*;
 import java.math.BigDecimal;

@@ -6,11 +6,11 @@ import com.example.rentalcars.features.reservation.domain.exception.CarNotAvaila
 import com.example.rentalcars.features.reservation.domain.exception.InvalidReservationDatesException;
 import com.example.rentalcars.features.reservation.domain.exception.ReservationNotFoundException;
 import com.example.rentalcars.features.reservation.domain.model.Reservation;
-import com.example.rentalcars.features.reservation.domain.model.ReservationStatus;
+import com.example.rentalcars.features.reservation.domain.enums.ReservationStatus;
 import com.example.rentalcars.features.reservation.domain.port.inbound.ReservationService;
 import com.example.rentalcars.features.reservation.domain.port.outbound.ReservationRepository;
 import com.example.rentalcars.features.user.domain.port.inbound.UserService;
-import com.example.rentalcars.features.vehicle.domain.model.VehicleStatus;
+import com.example.rentalcars.features.vehicle.domain.enums.VehicleStatus;
 import com.example.rentalcars.features.vehicle.domain.port.inbound.VehicleService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

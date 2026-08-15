@@ -1,4 +1,4 @@
-package com.example.rentalcars.features.reservation.domain.model;
+package com.example.rentalcars.features.reservation.domain.enums;
 
 public enum ReservationStatus {
     PENDING,

@@ -1,6 +1,6 @@
 package com.example.rentalcars.features.reservation.infrastructure.adapter.outbound.persistence;
 
-import com.example.rentalcars.features.reservation.domain.model.ReservationStatus;
+import com.example.rentalcars.features.reservation.domain.enums.ReservationStatus;
 import com.example.rentalcars.features.user.infrastructure.adapter.outbound.persistence.UserJpaEntity;
 import jakarta.persistence.*;
 import lombok.*;

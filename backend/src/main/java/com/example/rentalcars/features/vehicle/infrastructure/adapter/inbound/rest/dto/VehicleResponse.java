@@ -1,7 +1,7 @@
 package com.example.rentalcars.features.vehicle.infrastructure.adapter.inbound.rest.dto;
 
-import com.example.rentalcars.features.vehicle.domain.model.FuelType;
-import com.example.rentalcars.features.vehicle.domain.model.VehicleStatus;
+import com.example.rentalcars.features.vehicle.domain.enums.FuelType;
+import com.example.rentalcars.features.vehicle.domain.enums.VehicleStatus;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import lombok.Builder;

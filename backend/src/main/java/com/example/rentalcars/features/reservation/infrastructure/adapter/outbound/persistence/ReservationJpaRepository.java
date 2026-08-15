@@ -1,6 +1,6 @@
 package com.example.rentalcars.features.reservation.infrastructure.adapter.outbound.persistence;
 
-import com.example.rentalcars.features.reservation.domain.model.ReservationStatus;
+import com.example.rentalcars.features.reservation.domain.enums.ReservationStatus;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

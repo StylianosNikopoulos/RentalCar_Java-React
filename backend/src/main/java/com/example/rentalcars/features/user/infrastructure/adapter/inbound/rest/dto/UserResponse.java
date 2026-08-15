@@ -1,6 +1,6 @@
 package com.example.rentalcars.features.user.infrastructure.adapter.inbound.rest.dto;
 
-import com.example.rentalcars.features.user.domain.model.Role;
+import com.example.rentalcars.features.user.domain.enums.Role;
 import lombok.Builder;
 import lombok.Data;
 import java.util.UUID;

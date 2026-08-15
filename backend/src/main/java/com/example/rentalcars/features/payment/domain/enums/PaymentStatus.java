@@ -1,4 +1,4 @@
-package com.example.rentalcars.features.payment.domain.model;
+package com.example.rentalcars.features.payment.domain.enums;
 
 public enum PaymentStatus {
     PENDING,
