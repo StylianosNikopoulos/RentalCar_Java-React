@@ -55,7 +55,7 @@ const AdminPage = () => {
     
     const { data: vehicleResponse = {}, isLoading: loadingVehicles } = useQuery({
         queryKey: ['admin-vehicles', vehiclePage],
-        queryFn: () => vehicleService.getAllVehicles(vehiclePage - 1, itemsPerPage),
+        queryFn: () => vehicleService.getAllVehiclesForAdmin(vehiclePage - 1, itemsPerPage),
         enabled: activeTab === 'vehicles',
         refetchInterval: 10000,
         staleTime: 0,
@@ -84,28 +84,34 @@ const AdminPage = () => {
         placeholderData: keepPreviousData
     });
 
-    // Vehicles Data
+    // Data extraction
     const currentVehicles = vehicleResponse.content || [];
     const totalVehiclePages = vehicleResponse.page?.totalPages || 1;
 
-    // Users Data
     const currentUsers = userResponse.content || [];
     const totalUserPages = userResponse.page?.totalPages || 1;
 
-    // Reservations Data
     const currentReservations = reservationResponse.content || [];
     const totalReservationPages = reservationResponse.page?.totalPages || 1;
 
     // React Query: Mutations ---
 
-    const deleteVehicleMutation = useMutation({
+    const oosMutation = useMutation({
         mutationFn: (id) => vehicleService.deleteVehicle(id),
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['admin-vehicles'] });
-            toast.success(t.toastVehDeleted);
-            if (currentVehicles.length === 1 && vehiclePage > 1) setVehiclePage(prev => prev - 1);
+            toast.success(t.toastVehOos || "Vehicle set to Out of Service");
         },
-        onError: () => toast.error(t.toastVehDelErr)
+        onError: () => toast.error(t.toastOpFailed || "Operation failed")
+    });
+
+    const restoreMutation = useMutation({
+        mutationFn: (id) => vehicleService.restoreVehicle ? vehicleService.restoreVehicle(id) : vehicleService.restoreVehicle(id, 'AVAILABLE'),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['admin-vehicles'] });
+            toast.success(t.toastVehRestored || "Vehicle restored to service");
+        },
+        onError: () => toast.error(t.toastOpFailed || "Operation failed")
     });
 
     const deleteUserMutation = useMutation({
@@ -150,9 +156,23 @@ const AdminPage = () => {
         });
     };
 
-    const handleDeleteVehicle = (id) => {
-        confirmSwal(t.swalDeleteVehTitle, t.swalDeleteVehText, () => {
-            deleteVehicleMutation.mutate(id);
+    const handlerestoreVehicle = (vehicle) => {
+        const isCurrentlyOos = vehicle.status === 'OUT_OF_SERVICE';
+
+        const title = isCurrentlyOos 
+            ? (t.swalRestoreTitle || "Restore Vehicle?") 
+            : (t.swalOosTitle || "Set Out of Service?");
+            
+        const text = isCurrentlyOos 
+            ? (t.swalRestoreText || "This vehicle will become available for new reservations.") 
+            : (t.swalOosText || "This vehicle will be disabled and marked as out of service.");
+
+        confirmSwal(title, text, () => {
+            if (isCurrentlyOos) {
+                restoreMutation.mutate(vehicle.id);
+            } else {
+                oosMutation.mutate(vehicle.id);
+            }
         });
     };
 
@@ -360,25 +380,40 @@ const AdminPage = () => {
                                                 <th>{t.tableVehicle}</th>
                                                 <th>{t.tablePlate}</th>
                                                 <th>{t.tablePrice}</th>
+                                                <th>{t.tableStatus || "STATUS"}</th>
                                                 <th>{t.tableActions}</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {currentVehicles.map(car => (
-                                                <tr key={car.id}>
-                                                    <td><strong>{car.brand}</strong> {car.model}</td>
-                                                    <td>{car.licensePlate}</td>
-                                                    <td>€{car.dailyPrice}</td>
-                                                    <td className="actions-cell">
-                                                        <button className="btn-update" onClick={() => openUpdateModal(car)}>
-                                                            <i className="fas fa-edit"></i> {t.btnUpdate}
-                                                        </button>
-                                                        <button className="btn-delete" onClick={() => handleDeleteVehicle(car.id)}>
-                                                            <i className="fas fa-trash"></i> {t.btnDelete}
-                                                        </button>
-                                                    </td>
-                                                </tr>
-                                            ))}
+                                            {currentVehicles.map(car => {
+                                                const isOos = car.status === 'OUT_OF_SERVICE';
+                                                return (
+                                                    <tr key={car.id} className={isOos ? 'row-out-of-service' : ''}>
+                                                        <td><strong>{car.brand}</strong> {car.model}</td>
+                                                        <td>{car.licensePlate}</td>
+                                                        <td>€{car.dailyPrice}</td>
+                                                        <td>
+                                                            <span className={`status-badge ${isOos ? 'status-oos' : 'status-active'}`}>
+                                                                <i className={`fas ${isOos ? 'fa-ban' : 'fa-check-circle'}`}></i>
+                                                                {isOos ? (t.badgeOos || 'OUT OF SERVICE') : (t.badgeAvailable || 'ACTIVE')}
+                                                            </span>
+                                                        </td>
+                                                        <td className="actions-cell">
+                                                            <button className="btn-update" onClick={() => openUpdateModal(car)}>
+                                                                <i className="fas fa-edit"></i> {t.btnUpdate}
+                                                            </button>
+                                                            <button 
+                                                                className={`btn-status-toggle ${isOos ? 'btn-restore' : 'btn-oos'}`} 
+                                                                onClick={() => handlerestoreVehicle(car)}
+                                                                title={isOos ? (t.btnRestoreHint || "Restore to service") : (t.btnOosHint || "Set out of service")}
+                                                            >
+                                                                <i className={`fas ${isOos ? 'fa-undo' : 'fa-ban'}`}></i> 
+                                                                {isOos ? (t.btnRestore || 'RESTORE') : (t.btnOos || 'OUT OF SERVICE')}
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                );
+                                            })}
                                         </tbody>
                                     </table>
                                     
@@ -392,57 +427,75 @@ const AdminPage = () => {
                         </div>
                     )}
 
-                    {activeTab === 'users' && (
-                        <div className="admin-section">
-                            {loadingUsers ? (
-                                <div className="loader-container" style={{ minHeight: '300px', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-                                    <div className="loader"></div>
-                                    <span style={{ color: '#888', fontSize: '0.8rem', fontWeight: '800', letterSpacing: '2px', marginTop: '15px' }}>
-                                        {t.fetchingUsers}
-                                    </span>
-                                </div>
-                            ) : (
-                                <>
-                                    <table className="admin-table">
-                                        <thead>
-                                            <tr>
-                                                <th>{t.tableName}</th>
-                                                <th>{t.tableEmail}</th>
-                                                <th>{t.tableRole}</th>
-                                                <th>{t.tableActions}</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {currentUsers.map(user => (
-                                                <tr key={user.id}>
+                {activeTab === 'users' && (
+                    <div className="admin-section">
+                        {loadingUsers ? (
+                            <div className="loader-container" style={{ minHeight: '300px', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+                                <div className="loader"></div>
+                                <span style={{ color: '#888', fontSize: '0.8rem', fontWeight: '800', letterSpacing: '2px', marginTop: '15px' }}>
+                                    {t.fetchingUsers}
+                                </span>
+                            </div>
+                        ) : (
+                            <>
+                                <table className="admin-table">
+                                    <thead>
+                                        <tr>
+                                            <th>{t.tableName}</th>
+                                            <th>{t.tableEmail}</th>
+                                            <th>{t.tableRole}</th>
+                                            <th>{t.tableActions}</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {currentUsers.map(user => {
+                                            const isDeleted = user.deleted || 
+                                                            user.isDeleted || 
+                                                            user.status === 'DELETED' || 
+                                                            user.active === false ||
+                                                            user.email?.startsWith('deleted_') ||
+                                                            user.firstName === 'Deleted User';
+
+                                            return (
+                                                <tr key={user.id} className={isDeleted ? 'row-out-of-service' : ''}>
                                                     <td>{user.firstName} {user.lastName}</td>
                                                     <td>{user.email}</td>
-                                                    <td><span className={`role-badge ${user.role.toLowerCase()}`}>{user.role}</span></td>
+                                                    <td>
+                                                        <span className={`role-badge ${user.role.toLowerCase()}`}>
+                                                            {user.role}
+                                                        </span>
+                                                    </td>
                                                     <td>
                                                         <div className="actions-cell">
-                                                            {user.role !== 'ADMIN' && (
+                                                            {user.role !== 'ADMIN' && !isDeleted && (
                                                                 <button className="btn-delete" onClick={() => handleDeleteUser(user.id)}>
                                                                     <i className="fas fa-trash"></i> {t.btnDelete}
                                                                 </button>
                                                             )}
+                                                            
+                                                            {isDeleted && (
+                                                                <span className="status-badge status-oos">
+                                                                    {t.badgeDeleted || 'DELETED'}
+                                                                </span>
+                                                            )}
                                                         </div>
                                                     </td>
                                                 </tr>
-                                            ))}
-                                        </tbody>
-                                    </table>
-                                    
-                                    <PaginationControls 
-                                        currentPage={userPage} 
-                                        totalPages={totalUserPages} 
-                                        onPageChange={setUserPage} 
-                                    />
-                                </>
-                            )}
-                        </div>
-                    )}
-                    
-                    {activeTab === 'reservations' && (
+                                            );
+                                        })}
+                                    </tbody>
+                                </table>
+                                
+                                <PaginationControls 
+                                    currentPage={userPage} 
+                                    totalPages={totalUserPages} 
+                                    onPageChange={setUserPage} 
+                                />
+                            </>
+                        )}
+                    </div>
+                )}
+                                    {activeTab === 'reservations' && (
                         <div className="admin-section">
                             {loadingReservations ? (
                                 <div className="loader-container" style={{ minHeight: '300px', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>

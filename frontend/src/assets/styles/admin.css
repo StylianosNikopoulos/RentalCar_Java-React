@@ -600,3 +600,77 @@
     .btn-update, .btn-delete, .status-btn { width: 100%; justify-content: center; }
     .add-btn { width: 100%; text-align: center; }
 }
+
+tr.row-out-of-service {
+    opacity: 0.65;
+    background-color: rgba(255, 77, 0, 0.03);
+}
+
+tr.row-out-of-service:hover {
+    opacity: 0.9;
+}
+
+/* Status Badges */
+.status-badge.status-active {
+    background: rgba(46, 204, 113, 0.15);
+    color: #2ecc71;
+    border: 1px solid rgba(46, 204, 113, 0.3);
+    padding: 5px 10px;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.status-badge.status-oos {
+    background: rgba(231, 76, 60, 0.15);
+    color: #e74c3c;
+    border: 1px solid rgba(231, 76, 60, 0.3);
+    padding: 5px 10px;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+/* Out of Service Buttons */
+.btn-status-toggle {
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    border: none;
+}
+
+.btn-status-toggle.btn-oos {
+    background: rgba(231, 76, 60, 0.12);
+    color: #ff5252;
+    border: 1px solid rgba(231, 76, 60, 0.4);
+}
+
+.btn-status-toggle.btn-oos:hover {
+    background: #e74c3c;
+    color: #fff;
+    box-shadow: 0 0 12px rgba(231, 76, 60, 0.4);
+}
+
+.btn-status-toggle.btn-restore {
+    background: rgba(46, 204, 113, 0.12);
+    color: #2ecc71;
+    border: 1px solid rgba(46, 204, 113, 0.4);
+}
+
+.btn-status-toggle.btn-restore:hover {
+    background: #2ecc71;
+    color: #fff;
+    box-shadow: 0 0 12px rgba(46, 204, 113, 0.4);
+}

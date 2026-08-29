@@ -1,7 +1,7 @@
 import api from '../api/axios';
 
 const reservationService = {
-    
+    // Admin endpoints
     getAllReservations: async (page = 0, size = 9) => {
         const response = await api.get(`/admin/reservations?page=${page}&size=${size}`);
         return response.data;
@@ -12,6 +12,7 @@ const reservationService = {
         return response.data;
     },
 
+    // User endpoints
     getMyReservations: async (page = 0, size = 9) => {
         const response = await api.get(`/reservations/me?page=${page}&size=${size}`);
         return response.data;
