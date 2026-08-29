@@ -11,11 +11,13 @@ import java.util.UUID;
 
 public interface VehicleService {
     Vehicle createVehicle(VehicleRequest request);
-    Page<Vehicle> getAllVehicles(String search, Pageable pageable);
     Vehicle getVehicleById(UUID id);
     Vehicle updateVehicle(UUID id, VehicleRequest request);
     Vehicle getVehicleByIdWithLock(UUID id);
     void deleteVehicle(UUID id);
     Page<Vehicle> getAvailableVehicles(LocalDateTime start, LocalDateTime end, String search, Pageable pageable);
     void updateVehicleStatus(UUID vehicleId, VehicleStatus newStatus);
+    Vehicle restoreVehicle(UUID id);
+    Page<Vehicle> getAllVehicles(String search, Pageable pageable);
+    Page<Vehicle> getAllAvailableVehicles(String search, Pageable pageable);
 }

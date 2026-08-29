@@ -41,4 +41,12 @@ public interface VehicleJpaRepository extends JpaRepository<VehicleJpaEntity, UU
             "OR LOWER(v.brand) LIKE LOWER(CONCAT('%', :search, '%')) " +
             "OR LOWER(v.model) LIKE LOWER(CONCAT('%', :search, '%')))")
     Page<VehicleJpaEntity> findAllWithSearch(@Param("search") String search, Pageable pageable);
+
+
+    @Query("SELECT v FROM VehicleJpaEntity v WHERE " +
+            "v.status = 'AVAILABLE' " +
+            "AND (:search IS NULL OR TRIM(:search) = '' " +
+            "OR LOWER(v.brand) LIKE LOWER(CONCAT('%', :search, '%')) " +
+            "OR LOWER(v.model) LIKE LOWER(CONCAT('%', :search, '%')))")
+    Page<VehicleJpaEntity> findAllAvailableWithSearch(@Param("search") String search, Pageable pageable);
 }

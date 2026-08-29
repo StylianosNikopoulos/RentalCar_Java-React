@@ -13,8 +13,9 @@ public interface VehicleRepository {
     Vehicle save(Vehicle vehicle);
     Optional<Vehicle> findById(UUID id);
     Optional<Vehicle> findByIdWithLock(UUID id);
-    Page<Vehicle> findAllVehicles(String search, Pageable pageable);
+    Page<Vehicle> findAllAvailableVehicles(String search, Pageable pageable);
     boolean existsByLicensePlate(String licensePlate);
     void deleteById(UUID id);
     Page<Vehicle> findAvailableVehicles(LocalDateTime start, LocalDateTime end, String search, Pageable pageable);
+    Page<Vehicle> findAll(String search, Pageable pageable);
 }
