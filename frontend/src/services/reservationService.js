@@ -7,8 +7,8 @@ const reservationService = {
         return response.data;
     },
 
-    returnVehicle: async (id) => {
-        const response = await api.patch(`/admin/reservations/${id}/return`);
+    completeReservation: async (id) => {
+        const response = await api.patch(`/admin/reservations/${id}/complete`);
         return response.data;
     },
 

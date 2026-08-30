@@ -134,7 +134,7 @@ const AdminPage = () => {
     });
 
     const returnResMutation = useMutation({
-        mutationFn: (id) => reservationService.returnVehicle(id),
+        mutationFn: (id) => reservationService.completeReservation(id),
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['admin-reservations'] });
             toast.success(t.toastVehReturned);
@@ -176,7 +176,7 @@ const AdminPage = () => {
         });
     };
 
-    const handleReturnVehicle = (id) => {
+    const handleCompleteReservation = (id) => {
         confirmSwal(t.swalReturnTitle, t.swalReturnText, () => {
             returnResMutation.mutate(id);
         });
@@ -538,7 +538,7 @@ const AdminPage = () => {
                                                             )}
 
                                                             {res.status === 'ACTIVE' && (
-                                                                <button className="status-btn return-btn-table" onClick={() => handleReturnVehicle(res.id)}>
+                                                                <button className="status-btn return-btn-table" onClick={() => handleCompleteReservation(res.id)}>
                                                                     <i className="fas fa-undo"></i> {t.btnReturn}
                                                                 </button>
                                                             )}
