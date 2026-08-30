@@ -1,17 +1,14 @@
 package com.example.rentalcars.features.vehicle.infrastructure.adapter.inbound.rest;
 
-import com.example.rentalcars.features.vehicle.infrastructure.adapter.inbound.rest.dto.VehicleRequest;
 import com.example.rentalcars.features.vehicle.infrastructure.adapter.inbound.rest.dto.VehicleResponse;
 import com.example.rentalcars.features.vehicle.domain.port.inbound.VehicleService;
 import com.example.rentalcars.features.vehicle.infrastructure.adapter.inbound.rest.mapper.VehicleRestMapper;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.time.LocalDateTime;
@@ -26,32 +23,14 @@ public class VehicleController {
     private final VehicleRestMapper vehicleRestMapper;
 
     @GetMapping
-    public ResponseEntity<Page<VehicleResponse>> getAllVehicles(@RequestParam(required = false) String search, @PageableDefault(size = 9, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
-        var vehicles = vehicleService.getAllVehicles(search, pageable).map(vehicleRestMapper::toResponse);
+    public ResponseEntity<Page<VehicleResponse>> getAllAvailableVehicles(@RequestParam(required = false) String search, @PageableDefault(size = 9, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
+        var vehicles = vehicleService.getAllAvailableVehicles(search, pageable).map(vehicleRestMapper::toResponse);
         return ResponseEntity.ok(vehicles);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<VehicleResponse> getVehicleById(@PathVariable UUID id){
         return ResponseEntity.ok(vehicleRestMapper.toResponse(vehicleService.getVehicleById(id)));
-    }
-
-    @PostMapping
-    public ResponseEntity<VehicleResponse> createVehicle(@Valid @RequestBody VehicleRequest request){
-        var vehicle = vehicleService.createVehicle(request);
-        return new ResponseEntity<>(vehicleRestMapper.toResponse(vehicle), HttpStatus.CREATED);
-    }
-
-    @PatchMapping("/{id}")
-    public ResponseEntity<VehicleResponse> updateVehicle(@PathVariable UUID id, @Valid @RequestBody VehicleRequest request) {
-        var updatedVehicle = vehicleService.updateVehicle(id,request);
-        return ResponseEntity.ok(vehicleRestMapper.toResponse(updatedVehicle));
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteVehicle(@PathVariable UUID id) {
-        vehicleService.deleteVehicle(id);
-        return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/available")

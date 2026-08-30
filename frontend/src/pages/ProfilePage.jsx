@@ -48,7 +48,7 @@ const ProfilePage = () => {
             const userId = authData?.user?.id;
             if (userId) {
                 try {
-                    const data = await userService.getUserById(userId);
+                    const data = await userService.getMyProfile(userId);
                     setFullUser(data);
                     setEditData({ 
                         firstName: data.firstName || '', 
@@ -66,14 +66,13 @@ const ProfilePage = () => {
         };
         if (authData) fetchUserData();
     }, [authData, t]);
-
     const handleUpdate = async (e) => {
         e.preventDefault();
         if (isSubmitting) return;
 
         setIsSubmitting(true);
         try {
-            const updated = await userService.updateUser(fullUser.id, editData);
+            const updated = await userService.updateMyProfile(editData);
             setFullUser(updated);
             setIsEditing(false);
             toast.success(t.toastUpdateSuccess);

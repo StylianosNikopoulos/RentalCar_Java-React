@@ -35,8 +35,14 @@ public class VehicleRepositoryImpl implements VehicleRepository {
     }
 
     @Override
-    public Page<Vehicle> findAllVehicles(String search, Pageable pageable) {
+    public Page<Vehicle> findAll(String search, Pageable pageable) {
         return jpaRepository.findAllWithSearch(search, pageable)
+                .map(vehiclePersistenceMapper::toDomain);
+    }
+
+    @Override
+    public Page<Vehicle> findAllAvailableVehicles(String search, Pageable pageable) {
+        return jpaRepository.findAllAvailableWithSearch(search, pageable)
                 .map(vehiclePersistenceMapper::toDomain);
     }
 

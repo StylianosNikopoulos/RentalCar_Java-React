@@ -1,6 +1,7 @@
 import api from '../api/axios';
 
 const vehicleService = {
+    // User endpoints
     getAllVehicles: async (page = 0, size = 9, sortOrder = 'default', searchTerm = '') => {
         let sortParam = 'id,desc';
         if (sortOrder === 'low') sortParam = 'dailyPrice,asc';
@@ -43,18 +44,36 @@ const vehicleService = {
         return response.data;
     },
 
+    // Admin endpoints
+
+    getAllVehiclesForAdmin: async (page = 0, size = 9, sortOrder = 'default', searchTerm = '') => {
+        let sortParam = 'id,desc';
+        if (sortOrder === 'low') sortParam = 'dailyPrice,asc';
+        if (sortOrder === 'high') sortParam = 'dailyPrice,desc';
+
+        const response = await api.get('/admin/vehicles', {
+            params: { page, size, sort: sortParam, search: searchTerm }
+        });
+        return response.data;
+    },  
+
     createVehicle: async (vehicleData) => {
-        const response = await api.post('/vehicles', vehicleData);
+        const response = await api.post('/admin/vehicles', vehicleData);
         return response.data;
     },
 
     updateVehicle: async (id, vehicleData) => {
-        const response = await api.patch(`/vehicles/${id}`, vehicleData);
+        const response = await api.patch(`/admin/vehicles/${id}`, vehicleData);
         return response.data;
     },
 
     deleteVehicle: async (id) => {
-        await api.delete(`/vehicles/${id}`);
+        await api.delete(`/admin/vehicles/${id}`);
+    },
+
+    restoreVehicle: async (id) => {
+        const response = await api.patch(`/admin/vehicles/${id}/restore`);
+        return response.data;
     }
 };
 

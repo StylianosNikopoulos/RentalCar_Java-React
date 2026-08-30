@@ -13,7 +13,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -25,8 +24,8 @@ public class AdminReservationController {
     private final ReservationService reservationService;
     private final ReservationRestMapper reservationMapper;
 
-    @PatchMapping("/{id}/return")
-    public ResponseEntity<ReservationResponse> returnVehicle(@PathVariable UUID id) {
+    @PatchMapping("/{id}/complete")
+    public ResponseEntity<ReservationResponse> completeReservation(@PathVariable UUID id) {
         Reservation completedReservation = reservationService.markAsCompleted(id);
         return ResponseEntity.ok(reservationMapper.toResponse(completedReservation));
     }

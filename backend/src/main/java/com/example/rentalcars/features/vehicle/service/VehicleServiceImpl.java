@@ -51,11 +51,6 @@ public class VehicleServiceImpl implements VehicleService {
     }
 
     @Override
-    public Page<Vehicle> getAllVehicles(String search, Pageable pageable) {
-        return vehicleRepository.findAllVehicles(search, pageable);
-    }
-
-    @Override
     public Vehicle getVehicleById(UUID id) {
         return vehicleRepository.findById(id)
                 .orElseThrow(()-> new VehicleNotFoundException(id));
@@ -96,10 +91,11 @@ public class VehicleServiceImpl implements VehicleService {
     @Override
     @Transactional
     public void deleteVehicle(UUID id) {
-        if (vehicleRepository.findById(id).isEmpty()) {
-            throw new VehicleNotFoundException(id);
-        }
-        vehicleRepository.deleteById(id);
+        Vehicle vehicle = vehicleRepository.findById(id)
+                .orElseThrow(() -> new VehicleNotFoundException(id));
+
+        vehicle.setStatus(VehicleStatus.OUT_OF_SERVICE);
+        vehicleRepository.save(vehicle);
     }
 
     @Override
@@ -127,6 +123,39 @@ public class VehicleServiceImpl implements VehicleService {
                 .build();
 
         vehicleRepository.save(updatedVehicle);
+    }
+
+    @Override
+    @Transactional
+    public Vehicle restoreVehicle(UUID id) {
+        Vehicle existingVehicle = vehicleRepository.findById(id)
+                .orElseThrow(() -> new VehicleNotFoundException(id));
+
+        Vehicle restoredVehicle = Vehicle.builder()
+                .id(existingVehicle.getId())
+                .version(existingVehicle.getVersion())
+                .createdAt(existingVehicle.getCreatedAt())
+                .brand(existingVehicle.getBrand())
+                .model(existingVehicle.getModel())
+                .year(existingVehicle.getYear())
+                .fuelType(existingVehicle.getFuelType())
+                .licensePlate(existingVehicle.getLicensePlate())
+                .status(VehicleStatus.AVAILABLE)
+                .dailyPrice(existingVehicle.getDailyPrice())
+                .images(existingVehicle.getImages())
+                .build();
+
+        return vehicleRepository.save(restoredVehicle);
+    }
+
+    @Override
+    public Page<Vehicle> getAllVehicles(String search, Pageable pageable) {
+        return vehicleRepository.findAll(search, pageable);
+    }
+
+    @Override
+    public Page<Vehicle> getAllAvailableVehicles(String search, Pageable pageable) {
+        return vehicleRepository.findAllAvailableVehicles(search, pageable);
     }
 
     private List<VehicleImage> mapImageUrlsToDomain(List<String> urls, String mainUrl, List<VehicleImage> existingImages) {

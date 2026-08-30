@@ -20,33 +20,6 @@ public class RateLimitingFilter extends OncePerRequestFilter {
 
     private final Map<String, Bucket> buckets = new ConcurrentHashMap<>();
 
-    // Limit: Auth & Payments (10 req/min)
-    private Bucket createStrictBucket() {
-        Bandwidth limit = Bandwidth.builder()
-                .capacity(10)
-                .refillIntervally(10, Duration.ofMinutes(1))
-                .build();
-        return Bucket.builder().addLimit(limit).build();
-    }
-
-    // Limit: All GET requests (60 req/min)
-    private Bucket createReadBucket() {
-        Bandwidth limit = Bandwidth.builder()
-                .capacity(60)
-                .refillIntervally(60, Duration.ofMinutes(1))
-                .build();
-        return Bucket.builder().addLimit(limit).build();
-    }
-
-    // Limit: POST, PUT, DELETE, PATCH Admin / Users (20 req/min)
-    private Bucket createWriteBucket() {
-        Bandwidth limit = Bandwidth.builder()
-                .capacity(20)
-                .refillIntervally(20, Duration.ofMinutes(1))
-                .build();
-        return Bucket.builder().addLimit(limit).build();
-    }
-
     @Override
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
@@ -83,5 +56,32 @@ public class RateLimitingFilter extends OncePerRequestFilter {
         }
 
         filterChain.doFilter(request, response);
+    }
+
+    // Limit: Auth & Payments (10 req/min)
+    private Bucket createStrictBucket() {
+        Bandwidth limit = Bandwidth.builder()
+                .capacity(10)
+                .refillIntervally(10, Duration.ofMinutes(1))
+                .build();
+        return Bucket.builder().addLimit(limit).build();
+    }
+
+    // Limit: All GET requests (60 req/min)
+    private Bucket createReadBucket() {
+        Bandwidth limit = Bandwidth.builder()
+                .capacity(60)
+                .refillIntervally(60, Duration.ofMinutes(1))
+                .build();
+        return Bucket.builder().addLimit(limit).build();
+    }
+
+    // Limit: POST, PUT, DELETE, PATCH Admin / Users (20 req/min)
+    private Bucket createWriteBucket() {
+        Bandwidth limit = Bandwidth.builder()
+                .capacity(20)
+                .refillIntervally(20, Duration.ofMinutes(1))
+                .build();
+        return Bucket.builder().addLimit(limit).build();
     }
 }
