@@ -1,27 +1,31 @@
+/* Page Layout */
 .vehicles-page {
     padding: 8rem 5% 4rem;
     background: radial-gradient(circle at 50% 0%, #1a0a00 0%, #050505 100%);
     min-height: 100vh;
 }
 
+/* Header Container */
 .vehicles-header {
     max-width: 1200px;
     margin: 0 auto 4rem;
     text-align: center;
 }
 
+/* Header Title */
 .vehicles-header h1 {
     font-family: 'Outfit', sans-serif;
     font-size: clamp(2.5rem, 6vw, 4rem);
     font-weight: 900;
     text-transform: uppercase;
     letter-spacing: -2px;
-    background: linear-gradient(to bottom, #fff 40%, #888);
+    background: linear-gradient(to bottom, #ffffff 40%, #888888);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     margin-bottom: 2rem;
 }
 
+/* Clear Button */
 .clear-dates-btn {
     background: rgba(255, 255, 255, 0.03);
     color: #a0a0a0;
@@ -41,20 +45,22 @@
     backdrop-filter: blur(5px);
 }
 
+/* Button Hover */
 .clear-dates-btn:hover {
-    color: #fff;
+    color: #ffffff;
     background: rgba(255, 77, 0, 0.08);
     border-color: rgba(255, 77, 0, 0.4);
     box-shadow: 0 0 20px rgba(255, 77, 0, 0.15);
     transform: translateY(-1px);
 }
 
+/* Button Active */
 .clear-dates-btn:active {
     transform: translateY(1px);
     box-shadow: 0 0 10px rgba(255, 77, 0, 0.05);
 }
 
-/* FILTERS & SEARCH BAR (VIBRANT) */
+/* Filter Bar */
 .filters-bar {
     display: flex;
     justify-content: space-between;
@@ -68,45 +74,50 @@
     backdrop-filter: blur(10px);
 }
 
+/* Search Wrapper */
 .search-container {
     position: relative;
     width: 100%;
     max-width: 600px;
 }
 
+/* Search Icon */
 .search-icon {
     position: absolute;
     left: 25px;
     top: 50%;
     transform: translateY(-50%);
-    color: #666;
+    color: #666666;
     font-size: 1.1rem;
 }
 
+/* Search Input */
 .search-input {
     width: 100%;
     padding: 16px 25px 16px 60px;
     background: rgba(0, 0, 0, 0.4);
     border: 1px solid rgba(255, 255, 255, 0.05);
     border-radius: 50px;
-    color: white;
+    color: #ffffff;
     font-size: 0.95rem;
     font-weight: 500;
     transition: 0.3s ease;
 }
 
+/* Input Focus */
 .search-input:focus {
     border-color: var(--primary);
     box-shadow: 0 0 20px rgba(255, 77, 0, 0.2);
     outline: none;
 }
 
+/* Sort Dropdown */
 .sort-select {
     padding: 16px 25px;
     background: rgba(0, 0, 0, 0.4);
     border: 1px solid rgba(255, 255, 255, 0.05);
     border-radius: 50px;
-    color: white;
+    color: #ffffff;
     cursor: pointer;
     font-weight: 700;
     text-transform: uppercase;
@@ -117,11 +128,12 @@
     transition: 0.3s;
 }
 
+/* Sort Hover */
 .sort-select:hover {
     border-color: var(--primary);
 }
 
-/* VEHICLE CARDS */
+/* Vehicle Grid */
 .vehicle-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
@@ -129,6 +141,7 @@
     padding: 20px 0;
 }
 
+/* Vehicle Card */
 .vehicle-item {
     background: rgba(10, 10, 10, 0.8);
     border: 1px solid rgba(255, 255, 255, 0.05);
@@ -140,11 +153,13 @@
     flex-direction: column;
 }
 
+/* Card Hover */
 .vehicle-item:hover {
     transform: translateY(-8px);
     border-color: rgba(255, 77, 0, 0.3);
 }
 
+/* Image Wrapper */
 .vehicle-img-wrapper {
     width: 100%;
     height: 220px;
@@ -152,6 +167,7 @@
     position: relative;
 }
 
+/* Image Item */
 .vehicle-img {
     width: 100%;
     height: 100%;
@@ -159,10 +175,12 @@
     transition: transform 0.8s cubic-bezier(0.2, 1, 0.3, 1);
 }
 
+/* Image Hover */
 .vehicle-item:hover .vehicle-img {
     transform: scale(1.05);
 }
 
+/* Type Badge */
 .type-tag {
     position: absolute;
     top: 15px;
@@ -174,10 +192,11 @@
     font-size: 0.75rem;
     font-weight: 700;
     text-transform: uppercase;
-    color: #fff;
-    border: 1px solid rgba(255,255,255,0.1);
+    color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
+/* Card Body */
 .vehicle-card-body {
     padding: 1.8rem;
     display: flex;
@@ -185,6 +204,7 @@
     flex-grow: 1;
 }
 
+/* Title Section */
 .vehicle-title-section {
     display: flex;
     justify-content: space-between;
@@ -192,46 +212,53 @@
     margin-bottom: 1rem;
 }
 
+/* Vehicle Name */
 .car-name {
     font-size: 1.3rem;
     font-weight: 800;
     margin: 0;
-    color: #fff;
+    color: #ffffff;
 }
 
+/* Name Accent */
 .car-name span {
     color: var(--primary);
     font-weight: 400;
 }
 
+/* Model Year */
 .car-year {
     font-size: 0.8rem;
     background: rgba(255, 255, 255, 0.05);
     padding: 3px 8px;
     border-radius: 4px;
-    color: #aaa;
+    color: #aaaaaa;
 }
 
+/* Mini Specs */
 .card-mini-specs {
     display: flex;
     gap: 1rem;
     margin-bottom: 1.5rem;
-    border-bottom: 1px solid rgba(255,255,255,0.05);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
     padding-bottom: 1rem;
 }
 
+/* Spec Item */
 .card-mini-specs span {
     font-size: 0.8rem;
-    color: #888;
+    color: #888888;
     display: flex;
     align-items: center;
     gap: 5px;
 }
 
+/* Spec Icon */
 .card-mini-specs i {
     color: var(--primary);
 }
 
+/* Pricing Footer */
 .card-pricing-footer {
     display: flex;
     justify-content: space-between;
@@ -239,42 +266,49 @@
     margin-top: auto;
 }
 
+/* Price Number */
 .car-price-tag .price-value {
     font-size: 1.8rem;
     font-weight: 900;
-    color: #fff;
+    color: #ffffff;
 }
 
+/* Price Subtext */
 .car-price-tag .price-label {
     font-size: 0.75rem;
-    color: #666;
+    color: #666666;
     letter-spacing: 1px;
     margin-left: 3px;
 }
 
+/* Total Badge */
 .total-price-badge {
     text-align: right;
 }
 
+/* Total Subtext */
 .total-price-badge span {
     display: block;
     font-size: 0.75rem;
-    color: #666;
+    color: #666666;
 }
 
+/* Total Amount */
 .total-price-badge strong {
     font-size: 1.2rem;
     color: #00ff66;
 }
 
-/* BUTTONS */
+/* Action Button */
 .rent-btn-minimal {
     width: 100%;
     padding: 16px;
     background: transparent;
     border-top: 1px solid rgba(255, 255, 255, 0.05);
-    border-bottom: none; border-left: none; border-right: none;
-    color: #aaa;
+    border-right: none;
+    border-bottom: none;
+    border-left: none;
+    color: #aaaaaa;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 1px;
@@ -286,11 +320,13 @@
     gap: 8px;
 }
 
+/* Action Hover */
 .vehicle-item:hover .rent-btn-minimal {
     background: var(--primary);
-    color: white;
+    color: #ffffff;
 }
 
+/* Banner Container */
 .availability-info-banner {
     background: rgba(255, 77, 0, 0.05);
     border: 1px solid rgba(255, 77, 0, 0.2);
@@ -303,36 +339,48 @@
     align-items: center;
 }
 
+/* Days Badge */
 .days-badge {
-    color: #aaa;
+    color: #aaaaaa;
     margin-left: 5px;
 }
 
-@media (max-width: 900px) {
-    .filters-bar {
-        flex-direction: column;
-        border-radius: 20px;
-        padding: 1.5rem;
-    }
-    .search-container, .sort-select {
-        width: 100%;
-        max-width: 100%;
-    }
-}
-
+/* Desktop Breakpoint */
 @media (min-width: 1024px) {
+    /* Grid Desktop */
     .vehicle-grid {
         grid-template-columns: repeat(3, 1fr);
     }
 }
 
+/* Tablet Breakpoint */
 @media (max-width: 992px) {
+    /* Grid Tablet */
     .vehicle-grid {
         grid-template-columns: repeat(2, 1fr);
     }
 }
 
+/* Filter Breakpoint */
+@media (max-width: 900px) {
+    /* Filter Mobile */
+    .filters-bar {
+        flex-direction: column;
+        border-radius: 20px;
+        padding: 1.5rem;
+    }
+
+    /* Controls Mobile */
+    .search-container, 
+    .sort-select {
+        width: 100%;
+        max-width: 100%;
+    }
+}
+
+/* Mobile Breakpoint */
 @media (max-width: 576px) {
+    /* Grid Mobile */
     .vehicle-grid {
         grid-template-columns: 1fr;
     }

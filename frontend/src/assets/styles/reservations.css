@@ -1,3 +1,4 @@
+/* Container Base */
 .reservations-container {
     max-width: 1100px; 
     margin: 8rem auto 4rem;
@@ -5,25 +6,27 @@
     min-height: 80vh;
 }
 
-/* HEADER */
+/* Header Container */
 .reservations-header {
     margin-bottom: 3.5rem;
     border-left: 3px solid var(--primary);
     padding-left: 2rem;
 }
 
+/* Header Title */
 .reservations-header h2 {
     font-family: 'Outfit', sans-serif;
     font-size: 2.4rem;
     font-weight: 900;
     text-transform: uppercase;
     letter-spacing: -1px;
-    color: #fff;
+    color: #ffffff;
     margin: 0;
 }
 
+/* Header Subtitle */
 .reservations-header p {
-    color: #555;
+    color: #555555;
     font-size: 0.85rem;
     margin-top: 6px;
     text-transform: uppercase;
@@ -31,12 +34,14 @@
     font-weight: 600;
 }
 
+/* List Wrapper */
 .res-list-container {
     display: flex;
     flex-direction: column;
     gap: 2rem;
 }
 
+/* Reservation Card */
 .res-card {
     background: rgba(15, 15, 15, 0.8);
     border: 1px solid rgba(255, 255, 255, 0.04);
@@ -50,12 +55,14 @@
     backdrop-filter: blur(10px);
 }
 
+/* Card Hover */
 .res-card:hover {
     border-color: rgba(255, 77, 0, 0.2);
     transform: translateY(-4px);
-    box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
 }
 
+/* Meta Section */
 .res-meta-section {
     display: flex;
     align-items: center;
@@ -63,12 +70,14 @@
     flex-grow: 1;
 }
 
+/* Vehicle Block */
 .res-vehicle-block {
     display: flex;
     align-items: center;
     gap: 1.5rem;
 }
 
+/* Placeholder Icon */
 .car-placeholder-icon {
     font-size: 1.8rem;
     color: var(--primary);
@@ -78,37 +87,42 @@
     border: 1px solid rgba(255, 77, 0, 0.1);
 }
 
+/* Vehicle Name */
 .res-vehicle-block h4 {
     font-size: 1.3rem;
     font-weight: 800;
-    color: #fff;
+    color: #ffffff;
     margin: 0 0 4px 0;
 }
 
+/* Name Accent */
 .res-vehicle-block h4 span {
     color: var(--primary);
     font-weight: 400;
 }
 
+/* Identifier Tag */
 .res-id-tag {
     font-size: 0.75rem;
-    color: #444;
+    color: #444444;
     font-family: monospace;
     letter-spacing: 0.5px;
 }
 
+/* Timeline Label */
 .res-timeline-block .timeline-item small {
     display: block;
     font-size: 0.7rem;
     text-transform: uppercase;
-    color: #555;
+    color: #555555;
     font-weight: 700;
     letter-spacing: 1px;
     margin-bottom: 6px;
 }
 
+/* Timeline Value */
 .res-timeline-block .timeline-item p {
-    color: #ccc;
+    color: #cccccc;
     font-size: 0.95rem;
     font-weight: 600;
     margin: 0;
@@ -117,16 +131,19 @@
     gap: 8px;
 }
 
+/* Timeline Icon */
 .res-timeline-block i {
-    color: #666;
+    color: #666666;
 }
 
+/* Arrow Separator */
 .arrow-sep {
     color: var(--primary);
     font-weight: bold;
     margin: 0 4px;
 }
 
+/* Actions Section */
 .res-status-actions-section {
     display: flex;
     align-items: center;
@@ -134,6 +151,7 @@
     min-width: fit-content;
 }
 
+/* Pricing Section */
 .res-pricing-status {
     display: flex;
     flex-direction: column;
@@ -141,13 +159,14 @@
     gap: 12px;
 }
 
+/* Badge Wrapper */
 .status-badge-wrapper {
     display: flex;
     align-items: center;
     gap: 10px;
 }
 
-/* STATUS BADGES */
+/* Badge Base */
 .status-badge {
     padding: 6px 14px;
     border-radius: 50px;
@@ -157,59 +176,90 @@
     letter-spacing: 1px;
 }
 
-.status-badge.confirmed { background: rgba(0, 255, 127, 0.06); color: #00ff7f; border: 1px solid rgba(0,255,127,0.1); }
-.status-badge.pending { background: rgba(255, 170, 0, 0.06); color: #ffaa00; border: 1px solid rgba(255,170,0,0.1); }
-.status-badge.canceled { background: rgba(255, 77, 77, 0.06); color: #ff4444; border: 1px solid rgba(255,77,77,0.1); }
-.status-badge.active { background: rgba(0, 123, 255, 0.06); color: #3399ff; border: 1px solid rgba(0,123,255,0.1); }
-.status-badge.completed { background: rgba(46, 204, 113, 0.06); color: #2ecc71; border: 1px solid rgba(46,204,113,0.1); }
-
-/* TIMER STYLES */
-.res-timer {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    background: rgba(255, 77, 0, 0.06);
-    padding: 5px 12px;
-    border-radius: 50px;
-    border: 1px solid rgba(255, 77, 0, 0.2);
-    color: var(--primary);
-    font-size: 0.75rem;
-    font-weight: 700;
+/* Confirmed Status */
+.status-badge.confirmed {
+    background: rgba(0, 255, 127, 0.06);
+    color: #00ff7f;
+    border: 1px solid rgba(0, 255, 127, 0.1);
 }
 
+/* Pending Status */
+.status-badge.pending {
+    background: rgba(255, 170, 0, 0.06);
+    color: #ffaa00;
+    border: 1px solid rgba(255, 170, 0, 0.1);
+}
+
+/* Canceled Status */
+.status-badge.canceled {
+    background: rgba(255, 77, 77, 0.06);
+    color: #ff4444;
+    border: 1px solid rgba(255, 77, 77, 0.1);
+}
+
+/* Active Status */
+.status-badge.active {
+    background: rgba(0, 123, 255, 0.06);
+    color: #3399ff;
+    border: 1px solid rgba(0, 123, 255, 0.1);
+}
+
+/* Completed Status */
+.status-badge.completed {
+    background: rgba(46, 204, 113, 0.06);
+    color: #2ecc71;
+    border: 1px solid rgba(46, 204, 113, 0.1);
+}
+
+/* Timer Base */
+.res-timer,
 .timer-expired {
     display: flex;
     align-items: center;
     gap: 6px;
-    background: rgba(255, 77, 77, 0.06);
     padding: 5px 12px;
     border-radius: 50px;
-    border: 1px solid rgba(255, 77, 77, 0.2);
-    color: #ff4444;
     font-size: 0.75rem;
     font-weight: 700;
 }
 
+/* Active Timer */
+.res-timer {
+    background: rgba(255, 77, 0, 0.06);
+    border: 1px solid rgba(255, 77, 0, 0.2);
+    color: var(--primary);
+}
+
+/* Expired Timer */
+.timer-expired {
+    background: rgba(255, 77, 77, 0.06);
+    border: 1px solid rgba(255, 77, 77, 0.2);
+    color: #ff4444;
+}
+
+/* Price Box */
 .res-total-price {
     text-align: right;
 }
 
+/* Price Label */
 .res-total-price span {
     display: block;
     font-size: 0.7rem;
     text-transform: uppercase;
-    color: #444;
+    color: #444444;
     font-weight: 700;
     letter-spacing: 0.5px;
 }
 
+/* Price Value */
 .res-total-price strong {
-    color: #fff;
+    color: #ffffff;
     font-size: 1.5rem;
     font-weight: 900;
 }
 
-/* BUTTONS */
+/* Action Group */
 .res-actions {
     display: flex;
     flex-direction: column;
@@ -217,9 +267,10 @@
     min-width: 180px;
 }
 
+/* Checkout Button */
 .checkOut-btn-premium {
     background: var(--primary);
-    color: white;
+    color: #ffffff;
     border: none;
     padding: 12px 20px;
     border-radius: 10px;
@@ -235,16 +286,18 @@
     gap: 8px;
 }
 
+/* Checkout Hover */
 .checkOut-btn-premium:hover {
     background: #ff6622;
     box-shadow: 0 6px 20px rgba(255, 77, 0, 0.3);
     transform: translateY(-2px);
 }
 
+/* Cancel Button */
 .cancel-btn-premium {
     background: rgba(255, 255, 255, 0.02);
     border: 1px solid rgba(255, 255, 255, 0.05);
-    color: #888;
+    color: #888888;
     padding: 12px 20px;
     border-radius: 10px;
     font-weight: 700;
@@ -254,39 +307,44 @@
     transition: 0.3s;
 }
 
+/* Cancel Hover */
 .cancel-btn-premium:hover {
     background: rgba(255, 68, 68, 0.1);
     color: #ff4444;
     border-color: rgba(255, 68, 68, 0.2);
 }
 
+/* Empty State */
 .empty-state {
     text-align: center;
     padding: 5rem 2rem;
     background: #0a0a0a;
     border-radius: 24px;
-    border: 1px dashed rgba(255,255,255,0.05);
+    border: 1px dashed rgba(255, 255, 255, 0.05);
 }
 
+/* Empty Icon */
 .empty-icon {
     font-size: 3rem;
-    color: #333;
+    color: #333333;
     margin-bottom: 1.5rem;
 }
 
+/* Empty Title */
 .empty-state h3 {
     font-size: 1.5rem;
     font-weight: 800;
-    color: #fff;
+    color: #ffffff;
     margin-bottom: 0.5rem;
 }
 
+/* Empty Text */
 .empty-state p {
-    color: #555;
+    color: #555555;
     font-size: 0.95rem;
 }
 
-/* PAGINATION */
+/* Pagination Wrapper */
 .pagination {
     display: flex;
     justify-content: center;
@@ -295,10 +353,11 @@
     margin-top: 4rem;
 }
 
+/* Page Button */
 .page-btn {
     background: transparent;
-    border: 1px solid rgba(255,255,255,0.05);
-    color: #888;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    color: #888888;
     padding: 10px 25px;
     border-radius: 100px;
     font-weight: 700;
@@ -309,24 +368,28 @@
     transition: 0.3s;
 }
 
+/* Page Hover */
 .page-btn:hover:not(:disabled) {
     border-color: var(--primary);
     color: var(--primary);
 }
 
+/* Page Disabled */
 .page-btn:disabled {
     opacity: 0.3;
     cursor: not-allowed;
 }
 
+/* Page Info */
 .page-info {
-    color: #444;
+    color: #444444;
     font-size: 0.8rem;
     font-weight: 700;
 }
 
-/* RESPONSIVE DESIGN */
+/* Tablet Media */
 @media (max-width: 950px) {
+    /* Card Mobile */
     .res-card {
         flex-direction: column;
         align-items: stretch;
@@ -334,42 +397,50 @@
         padding: 1.5rem;
     }
 
+    /* Meta Mobile */
     .res-meta-section {
         flex-direction: column;
         align-items: flex-start;
         gap: 1.5rem;
     }
 
+    /* Actions Mobile */
     .res-status-actions-section {
         flex-direction: row;
         justify-content: space-between;
         align-items: flex-end;
-        border-top: 1px solid rgba(255,255,255,0.03);
+        border-top: 1px solid rgba(255, 255, 255, 0.03);
         padding-top: 1.5rem;
     }
 
+    /* Group Mobile */
     .res-actions {
         min-width: 200px;
     }
 }
 
+/* Mobile Media */
 @media (max-width: 550px) {
+    /* Stack Actions */
     .res-status-actions-section {
         flex-direction: column;
         align-items: stretch;
         gap: 1.5rem;
     }
 
+    /* Status Pricing */
     .res-pricing-status {
         flex-direction: row;
         justify-content: space-between;
         align-items: center;
     }
 
+    /* Price Align */
     .res-pricing-status .res-total-price {
         text-align: right;
     }
 
+    /* Group Full */
     .res-actions {
         width: 100%;
     }

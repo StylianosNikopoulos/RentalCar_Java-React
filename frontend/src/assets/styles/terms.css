@@ -1,24 +1,29 @@
+/* Container Base */
 .terms-container {
     padding: 120px 10% 80px;
     background: var(--bg-dark);
     min-height: 100vh;
 }
 
+/* Header Container */
 .terms-header {
     text-align: center;
     margin-bottom: 60px;
 }
 
+/* Main Title */
 .terms-header h1 {
     font-family: 'Outfit', sans-serif;
     font-size: 3.5rem;
     text-transform: uppercase;
 }
 
+/* Primary Color */
 .text-primary {
     color: var(--primary);
 }
 
+/* Subtitle Label */
 .subtitle {
     color: var(--text-muted);
     letter-spacing: 2px;
@@ -26,6 +31,7 @@
     font-weight: 600;
 }
 
+/* Content Card */
 .terms-content {
     max-width: 900px;
     margin: 0 auto;
@@ -36,10 +42,12 @@
     backdrop-filter: blur(10px);
 }
 
+/* Content Section */
 .terms-section {
     margin-bottom: 40px;
 }
 
+/* Section Heading */
 .terms-section h2 {
     color: var(--primary);
     margin-bottom: 15px;
@@ -47,23 +55,28 @@
     font-family: 'Outfit', sans-serif;
 }
 
-.terms-section p, .terms-section li {
+/* Section Text */
+.terms-section p,
+.terms-section li {
     color: #ccc;
     line-height: 1.8;
 }
 
+/* Unordered List */
 .terms-section ul {
     margin-top: 15px;
     list-style: none;
     padding-left: 0;
 }
 
+/* List Item */
 .terms-section li {
     margin-bottom: 10px;
     padding-left: 20px;
     position: relative;
 }
 
+/* Arrow Bullet */
 .terms-section li::before {
     content: '→';
     position: absolute;
@@ -71,59 +84,75 @@
     color: var(--primary);
 }
 
+/* Desktop Breakpoint */
 @media (max-width: 1024px) {
+    /* Tablet Container */
     .terms-container {
         padding: 100px 5% 60px;
     }
     
+    /* Tablet Title */
     .terms-header h1 {
         font-size: 2.8rem;
     }
 }
 
+/* Tablet Breakpoint */
 @media (max-width: 768px) {
+    /* Mobile Container */
     .terms-container {
         padding: 80px 20px 40px;
     }
 
+    /* Mobile Header */
     .terms-header {
         margin-bottom: 40px;
     }
 
+    /* Mobile Title */
     .terms-header h1 {
         font-size: 2.2rem;
         line-height: 1.1;
     }
 
+    /* Mobile Subtitle */
     .subtitle {
         font-size: 0.8rem;
         letter-spacing: 1px;
     }
 
+    /* Mobile Card */
     .terms-content {
         padding: 25px;
         border-radius: 15px;
     }
 
+    /* Mobile Heading */
     .terms-section h2 {
         font-size: 1.3rem;
     }
 
-    .terms-section p, .terms-section li {
+    /* Mobile Text */
+    .terms-section p, 
+    .terms-section li {
         font-size: 0.95rem;
     }
 }
 
+/* Phone Breakpoint */
 @media (max-width: 480px) {
+    /* Small Title */
     .terms-header h1 {
         font-size: 1.8rem;
     }
 
+    /* Small Card */
     .terms-content {
         padding: 20px;
         background: rgba(10, 10, 10, 0.95);
     }
 
+    /* Small Section */
     .terms-section {
         margin-bottom: 30px;
     }

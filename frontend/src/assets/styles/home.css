@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Outfit:wght@400;900&display=swap');
 
+/* Root Variables */
 :root {
     --primary: #ff4d00; 
     --primary-glow: rgba(255, 77, 0, 0.4);
@@ -10,12 +11,14 @@
     --glass-border: rgba(255, 255, 255, 0.05);
 }
 
+/* Global Reset */
 * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
 }
 
+/* Page Base */
 html, body {
     background-color: var(--bg-dark);
     font-family: 'Plus Jakarta Sans', sans-serif;
@@ -23,7 +26,7 @@ html, body {
     overflow-x: hidden;
 }
 
-/* HERO SECTION */
+/* Hero Section */
 .hero {
     height: 90vh;
     padding: 0 8%;
@@ -35,12 +38,14 @@ html, body {
         url('https://images.unsplash.com/photo-1555215695-3004980ad54e?q=80&w=2070') center/cover no-repeat;
 }
 
+/* Hero Container */
 .hero-content {
     width: 100%;
     max-width: 1200px;
     margin: 0 auto;
 }
 
+/* Hero Badge */
 .hero-badge {
     color: var(--primary);
     text-transform: uppercase;
@@ -51,6 +56,7 @@ html, body {
     display: block;
 }
 
+/* Hero Title */
 .hero h1 {
     font-family: 'Outfit', sans-serif;
     font-size: clamp(3rem, 8vw, 6.5rem);
@@ -59,11 +65,13 @@ html, body {
     text-transform: uppercase;
 }
 
+/* Stroke Text */
 .text-outline {
     -webkit-text-stroke: 1.5px rgba(255,255,255,0.8);
     color: transparent;
 }
 
+/* Hero Paragraph */
 .hero p {
     font-size: 1.1rem;
     color: #aaa;
@@ -73,6 +81,7 @@ html, body {
     padding-left: 20px;
 }
 
+/* Search Widget */
 .search-widget-v2 {
     background: #0a0a0a;
     border: 1px solid var(--glass-border);
@@ -87,6 +96,7 @@ html, body {
     backdrop-filter: blur(20px);
 }
 
+/* Search Field */
 .search-field {
     display: flex;
     align-items: center;
@@ -94,16 +104,19 @@ html, body {
     flex-grow: 1;
 }
 
+/* Field Icon */
 .field-icon {
     font-size: 1.2rem;
     color: var(--primary);
 }
 
+/* Inputs Wrapper */
 .field-inputs {
     display: flex;
     flex-direction: column;
 }
 
+/* Field Label */
 .field-inputs label {
     font-size: 0.75rem;
     text-transform: uppercase;
@@ -113,6 +126,7 @@ html, body {
     margin-bottom: 2px;
 }
 
+/* Field Input */
 .field-inputs input {
     background: transparent;
     border: none;
@@ -122,6 +136,7 @@ html, body {
     outline: none;
 }
 
+/* Date Picker */
 .custom-home-datepicker {
     background: transparent;
     border: none;
@@ -133,6 +148,7 @@ html, body {
     width: 220px;
 }
 
+/* Search Button */
 .search-btn-v2 {
     background: var(--primary);
     color: white;
@@ -150,17 +166,19 @@ html, body {
     letter-spacing: 0.5px;
 }
 
+/* Button Hover */
 .search-btn-v2:hover {
     background: #ff6622;
-    box-shadow: 0 0 25px rgba(255, 77, 0, 0.4);
+    box-shadow: 0 0 25px var(--primary-glow);
 }
 
-/* SECTION HEADERS */
+/* Section Header */
 .section-header-v2 {
     text-align: center;
     margin-bottom: 4rem;
 }
 
+/* Section Title */
 .section-header-v2 h2 {
     font-family: 'Outfit', sans-serif;
     font-size: 2.8rem;
@@ -168,23 +186,27 @@ html, body {
     text-transform: uppercase;
 }
 
+/* Section Subtitle */
 .section-header-v2 p {
     color: #555;
     font-size: 1rem;
     margin-top: 0.5rem;
 }
 
+/* Fleet Section */
 .featured-fleet-section {
     padding: 6rem 8%;
-    background: #050505;
+    background: var(--bg-dark);
 }
 
+/* Vehicle Grid */
 .home-vehicle-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
     gap: 3rem;
 }
 
+/* Vehicle Card */
 .home-vehicle-card {
     background: var(--card-bg);
     border: 1px solid var(--glass-border);
@@ -194,23 +216,27 @@ html, body {
     transition: 0.3s ease;
 }
 
+/* Card Hover */
 .home-vehicle-card:hover {
     transform: translateY(-5px);
     border-color: rgba(255, 77, 0, 0.2);
 }
 
+/* Image Wrapper */
 .home-car-img-wrapper {
     position: relative;
     width: 100%;
     height: 200px;
 }
 
+/* Car Image */
 .home-car-img-wrapper img {
     width: 100%;
     height: 100%;
     object-fit: cover;
 }
 
+/* Category Tag */
 .home-car-tag {
     position: absolute;
     top: 15px;
@@ -223,10 +249,12 @@ html, body {
     text-transform: uppercase;
 }
 
+/* Card Info */
 .home-car-info {
     padding: 1.5rem;
 }
 
+/* Car Name */
 .home-car-info h3 {
     font-size: 1.3rem;
     font-weight: 800;
@@ -234,27 +262,32 @@ html, body {
     margin-bottom: 0.5rem;
 }
 
+/* Name Accent */
 .home-car-info h3 span {
     color: var(--primary);
     font-weight: 400;
 }
 
+/* Specs Row */
 .home-car-specs-row {
     display: flex;
     gap: 1rem;
     margin-bottom: 1.5rem;
 }
 
+/* Spec Item */
 .home-car-specs-row span {
     font-size: 0.8rem;
     color: #555;
 }
 
+/* Spec Icon */
 .home-car-specs-row i {
     color: var(--primary);
     margin-right: 4px;
 }
 
+/* Price Row */
 .home-car-price-row {
     display: flex;
     justify-content: space-between;
@@ -263,17 +296,20 @@ html, body {
     padding-top: 1rem;
 }
 
+/* Price Value */
 .home-price strong {
     font-size: 1.6rem;
     color: #fff;
 }
 
+/* Price Unit */
 .home-price span {
     font-size: 0.8rem;
     color: #555;
     margin-left: 3px;
 }
 
+/* Deal Button */
 .home-view-deal-btn {
     background: transparent;
     border: 1px solid #222;
@@ -286,22 +322,26 @@ html, body {
     font-size: 0.85rem;
 }
 
+/* Deal Hover */
 .home-vehicle-card:hover .home-view-deal-btn {
     background: var(--primary);
     border-color: var(--primary);
 }
 
+/* Features Section */
 .features-section {
     padding: 6rem 8%;
-    background: #050505;
+    background: var(--bg-dark);
 }
 
+/* Features Grid */
 .features-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 3rem;
 }
 
+/* Feature Card */
 .feature-card {
     background: var(--card-bg);
     padding: 3.5rem 2.5rem;
@@ -311,29 +351,35 @@ html, body {
     transition: 0.3s ease;
 }
 
+/* Feature Hover */
 .feature-card:hover {
     border-color: var(--primary);
 }
 
+/* Feature Icon */
 .feature-icon {
     font-size: 2.2rem;
     color: var(--primary);
     margin-bottom: 1.5rem;
 }
 
+/* Feature Title */
 .feature-card h3 {
     font-size: 1.3rem;
     font-weight: 800;
     margin-bottom: 1rem;
 }
 
+/* Feature Text */
 .feature-card p {
-    color: #666;
+    color: var(--text-muted);
     font-size: 0.95rem;
     line-height: 1.6;
 }
 
+/* Mobile Media */
 @media (max-width: 992px) {
+    /* Mobile Widget */
     .search-widget-v2 {
         flex-direction: column;
         border-radius: 24px;
@@ -341,13 +387,19 @@ html, body {
         gap: 1.5rem;
         align-items: stretch;
     }
+    
+    /* Mobile Field */
     .search-field {
         border-bottom: 1px solid rgba(255,255,255,0.05);
         padding-bottom: 1rem;
     }
+    
+    /* Mobile Picker */
     .custom-home-datepicker {
         width: 100%;
     }
+    
+    /* Mobile Button */
     .search-btn-v2 {
         justify-content: center;
     }
