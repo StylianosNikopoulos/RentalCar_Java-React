@@ -1,202 +1,254 @@
-/* Page Layout */
-.vehicles-page {
-    padding: 8rem 5% 4rem;
-    background: radial-gradient(circle at 50% 0%, #1a0a00 0%, #050505 100%);
-    min-height: 100vh;
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap');
+
+:root {
+    --primary: #ff4d00;
+    --primary-hover: #ff6a26;
+    --primary-glow: rgba(255, 77, 0, 0.35);
+    --bg-dark: #070709;
+    --card-bg: #0d0e12;
+    --glass-bg: rgba(18, 20, 29, 0.55);
+    --glass-border: rgba(255, 255, 255, 0.08);
+    --text-main: #ffffff;
+    --text-muted: #888d9b;
+    --font-main: 'Plus Jakarta Sans', sans-serif;
 }
 
-/* Header Container */
+body {
+    background-color: var(--bg-dark);
+    color: var(--text-main);
+    font-family: var(--font-main);
+}
+
+.vehicles-page {
+    padding: 7rem 5% 6rem;
+    background: radial-gradient(circle at 50% -10%, rgba(255, 77, 0, 0.08) 0%, #070709 60%);
+    min-height: 100vh;
+    animation: pageFadeIn 0.6s ease-out;
+}
+
+@keyframes pageFadeIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
 .vehicles-header {
-    max-width: 1200px;
-    margin: 0 auto 4rem;
+    max-width: 1280px;
+    margin: 0 auto 3.5rem;
     text-align: center;
 }
 
-/* Header Title */
 .vehicles-header h1 {
-    font-family: 'Outfit', sans-serif;
-    font-size: clamp(2.5rem, 6vw, 4rem);
+    font-size: clamp(2.4rem, 5vw, 3.8rem);
     font-weight: 900;
     text-transform: uppercase;
-    letter-spacing: -2px;
-    background: linear-gradient(to bottom, #ffffff 40%, #888888);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    letter-spacing: -1px;
+    color: #ffffff;
     margin-bottom: 2rem;
 }
 
-/* Clear Button */
+.availability-info-banner {
+    background: rgba(255, 77, 0, 0.06);
+    border: 1px solid rgba(255, 77, 0, 0.25);
+    border-radius: 20px;
+    padding: 16px 28px;
+    margin: 0 auto 2.5rem;
+    max-width: 1280px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    backdrop-filter: blur(12px);
+}
+
+.availability-text {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.9rem;
+    color: #e0e0e0;
+}
+
+.availability-text i {
+    color: var(--primary);
+    font-size: 1.1rem;
+}
+
+.availability-text strong {
+    color: #ffffff;
+    font-weight: 800;
+}
+
+.date-separator {
+    color: var(--primary);
+    font-weight: 900;
+}
+
+.days-badge {
+    color: var(--text-muted);
+    font-weight: 700;
+}
+
 .clear-dates-btn {
-    background: rgba(255, 255, 255, 0.03);
-    color: #a0a0a0;
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    padding: 14px 28px;
-    border-radius: 12px;
-    font-size: 0.8rem;
+    background: rgba(255, 255, 255, 0.04);
+    color: var(--text-muted);
+    border: 1px solid var(--glass-border);
+    padding: 10px 22px;
+    border-radius: 30px;
+    font-size: 0.75rem;
     font-weight: 800;
     text-transform: uppercase;
-    letter-spacing: 2px;
+    letter-spacing: 1px;
     cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.2, 1, 0.3, 1);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     display: inline-flex;
     align-items: center;
-    justify-content: center;
     gap: 8px;
-    backdrop-filter: blur(5px);
+    backdrop-filter: blur(8px);
 }
 
-/* Button Hover */
 .clear-dates-btn:hover {
     color: #ffffff;
-    background: rgba(255, 77, 0, 0.08);
+    background: rgba(255, 77, 0, 0.15);
     border-color: rgba(255, 77, 0, 0.4);
-    box-shadow: 0 0 20px rgba(255, 77, 0, 0.15);
-    transform: translateY(-1px);
+    box-shadow: 0 0 20px var(--primary-glow);
+    transform: translateY(-2px);
 }
 
-/* Button Active */
-.clear-dates-btn:active {
-    transform: translateY(1px);
-    box-shadow: 0 0 10px rgba(255, 77, 0, 0.05);
-}
-
-/* Filter Bar */
 .filters-bar {
     display: flex;
     justify-content: space-between;
     align-items: center;
     gap: 2rem;
-    margin-top: 2rem;
-    background: rgba(255, 255, 255, 0.02);
-    padding: 1.5rem 2rem;
+    background: var(--glass-bg);
+    padding: 1.2rem 2rem;
     border-radius: 100px;
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(10px);
+    border: 1px solid var(--glass-border);
+    backdrop-filter: blur(16px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
 }
 
-/* Search Wrapper */
 .search-container {
     position: relative;
     width: 100%;
     max-width: 600px;
 }
 
-/* Search Icon */
 .search-icon {
     position: absolute;
-    left: 25px;
+    left: 22px;
     top: 50%;
     transform: translateY(-50%);
-    color: #666666;
-    font-size: 1.1rem;
+    color: var(--text-muted);
+    font-size: 1rem;
+    transition: color 0.3s ease;
 }
 
-/* Search Input */
 .search-input {
     width: 100%;
-    padding: 16px 25px 16px 60px;
-    background: rgba(0, 0, 0, 0.4);
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    padding: 14px 22px 14px 55px;
+    background: rgba(0, 0, 0, 0.5);
+    border: 1px solid var(--glass-border);
     border-radius: 50px;
     color: #ffffff;
-    font-size: 0.95rem;
-    font-weight: 500;
-    transition: 0.3s ease;
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
 }
 
-/* Input Focus */
 .search-input:focus {
     border-color: var(--primary);
-    box-shadow: 0 0 20px rgba(255, 77, 0, 0.2);
+    box-shadow: 0 0 20px var(--primary-glow);
     outline: none;
+    background: rgba(0, 0, 0, 0.8);
 }
 
-/* Sort Dropdown */
+.search-container:focus-within .search-icon {
+    color: var(--primary);
+}
+
 .sort-select {
-    padding: 16px 25px;
-    background: rgba(0, 0, 0, 0.4);
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    padding: 14px 24px;
+    background: rgba(0, 0, 0, 0.5);
+    border: 1px solid var(--glass-border);
     border-radius: 50px;
     color: #ffffff;
     cursor: pointer;
-    font-weight: 700;
+    font-weight: 800;
     text-transform: uppercase;
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     letter-spacing: 1px;
     outline: none;
     min-width: 220px;
-    transition: 0.3s;
+    transition: all 0.3s ease;
 }
 
-/* Sort Hover */
 .sort-select:hover {
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.sort-select:focus {
     border-color: var(--primary);
 }
 
-/* Vehicle Grid */
 .vehicle-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-    gap: 30px;
-    padding: 20px 0;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 32px;
+    max-width: 1280px;
+    margin: 0 auto;
 }
 
-/* Vehicle Card */
 .vehicle-item {
-    background: rgba(10, 10, 10, 0.8);
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    border-radius: 20px;
+    background: var(--card-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 24px;
     overflow: hidden;
     cursor: pointer;
-    transition: transform 0.4s cubic-bezier(0.2, 1, 0.3, 1), border-color 0.3s;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     display: flex;
     flex-direction: column;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
 }
 
-/* Card Hover */
 .vehicle-item:hover {
     transform: translateY(-8px);
-    border-color: rgba(255, 77, 0, 0.3);
+    border-color: rgba(255, 77, 0, 0.35);
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.6), 0 0 30px var(--primary-glow);
 }
 
-/* Image Wrapper */
 .vehicle-img-wrapper {
     width: 100%;
-    height: 220px;
+    height: 230px;
     overflow: hidden;
     position: relative;
 }
 
-/* Image Item */
 .vehicle-img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 0.8s cubic-bezier(0.2, 1, 0.3, 1);
+    transition: transform 0.7s ease;
 }
 
-/* Image Hover */
 .vehicle-item:hover .vehicle-img {
-    transform: scale(1.05);
+    transform: scale(1.06);
 }
 
-/* Type Badge */
 .type-tag {
     position: absolute;
-    top: 15px;
-    left: 15px;
-    background: rgba(0, 0, 0, 0.7);
-    backdrop-filter: blur(5px);
+    top: 16px;
+    left: 16px;
+    background: rgba(7, 7, 9, 0.75);
+    backdrop-filter: blur(10px);
     padding: 6px 14px;
-    border-radius: 50px;
-    font-size: 0.75rem;
-    font-weight: 700;
+    border-radius: 30px;
+    font-size: 0.7rem;
+    font-weight: 800;
     text-transform: uppercase;
     color: #ffffff;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid var(--glass-border);
+    letter-spacing: 1px;
 }
 
-/* Card Body */
 .vehicle-card-body {
     padding: 1.8rem;
     display: flex;
@@ -204,7 +256,6 @@
     flex-grow: 1;
 }
 
-/* Title Section */
 .vehicle-title-section {
     display: flex;
     justify-content: space-between;
@@ -212,53 +263,51 @@
     margin-bottom: 1rem;
 }
 
-/* Vehicle Name */
 .car-name {
-    font-size: 1.3rem;
-    font-weight: 800;
+    font-size: 1.35rem;
+    font-weight: 900;
     margin: 0;
     color: #ffffff;
+    text-transform: uppercase;
+    letter-spacing: -0.5px;
 }
 
-/* Name Accent */
 .car-name span {
-    color: var(--primary);
-    font-weight: 400;
+    color: transparent;
+    -webkit-text-stroke: 1px rgba(255, 255, 255, 0.75);
 }
 
-/* Model Year */
 .car-year {
-    font-size: 0.8rem;
-    background: rgba(255, 255, 255, 0.05);
-    padding: 3px 8px;
-    border-radius: 4px;
-    color: #aaaaaa;
+    font-size: 0.75rem;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--glass-border);
+    padding: 4px 10px;
+    border-radius: 8px;
+    color: var(--text-muted);
+    font-weight: 800;
 }
 
-/* Mini Specs */
 .card-mini-specs {
     display: flex;
-    gap: 1rem;
+    gap: 1.2rem;
     margin-bottom: 1.5rem;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--glass-border);
+    padding-bottom: 1.2rem;
 }
 
-/* Spec Item */
 .card-mini-specs span {
     font-size: 0.8rem;
-    color: #888888;
+    color: var(--text-muted);
     display: flex;
     align-items: center;
-    gap: 5px;
+    gap: 6px;
+    font-weight: 700;
 }
 
-/* Spec Icon */
 .card-mini-specs i {
     color: var(--primary);
 }
 
-/* Pricing Footer */
 .card-pricing-footer {
     display: flex;
     justify-content: space-between;
@@ -266,122 +315,210 @@
     margin-top: auto;
 }
 
-/* Price Number */
 .car-price-tag .price-value {
     font-size: 1.8rem;
     font-weight: 900;
     color: #ffffff;
+    line-height: 1;
 }
 
-/* Price Subtext */
 .car-price-tag .price-label {
     font-size: 0.75rem;
-    color: #666666;
-    letter-spacing: 1px;
-    margin-left: 3px;
+    color: var(--text-muted);
+    letter-spacing: 0.5px;
+    margin-left: 4px;
+    font-weight: 700;
+    text-transform: uppercase;
 }
 
-/* Total Badge */
 .total-price-badge {
     text-align: right;
 }
 
-/* Total Subtext */
 .total-price-badge span {
     display: block;
-    font-size: 0.75rem;
-    color: #666666;
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    font-weight: 700;
+    text-transform: uppercase;
 }
 
-/* Total Amount */
 .total-price-badge strong {
-    font-size: 1.2rem;
-    color: #00ff66;
+    font-size: 1.25rem;
+    color: #00ff88;
+    font-weight: 900;
 }
 
-/* Action Button */
 .rent-btn-minimal {
     width: 100%;
     padding: 16px;
     background: transparent;
-    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    border-top: 1px solid var(--glass-border);
     border-right: none;
     border-bottom: none;
     border-left: none;
-    color: #aaaaaa;
-    font-weight: 700;
+    color: #ffffff;
+    font-weight: 800;
+    font-size: 0.8rem;
     text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: 1.5px;
     cursor: pointer;
-    transition: 0.3s;
+    transition: all 0.3s ease;
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 8px;
+    gap: 10px;
 }
 
-/* Action Hover */
 .vehicle-item:hover .rent-btn-minimal {
     background: var(--primary);
     color: #ffffff;
 }
 
-/* Banner Container */
-.availability-info-banner {
-    background: rgba(255, 77, 0, 0.05);
-    border: 1px solid rgba(255, 77, 0, 0.2);
-    border-radius: 16px;
-    padding: 15px 25px;
-    margin: 2rem auto;
-    max-width: 1200px;
+.rent-btn-minimal i {
+    transition: transform 0.3s ease;
+}
+
+.vehicle-item:hover .rent-btn-minimal i {
+    transform: translateX(4px);
+}
+
+.loader-container {
+    min-height: 400px;
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
+    justify-content: center;
     align-items: center;
 }
 
-/* Days Badge */
-.days-badge {
-    color: #aaaaaa;
-    margin-left: 5px;
+.loader {
+    width: 45px;
+    height: 45px;
+    border: 2px solid rgba(255, 255, 255, 0.05);
+    border-top: 2px solid var(--primary);
+    border-radius: 50%;
+    animation: spin 0.9s linear infinite;
 }
 
-/* Desktop Breakpoint */
+.loader-text {
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    font-weight: 800;
+    letter-spacing: 2px;
+    margin-top: 18px;
+    text-transform: uppercase;
+}
+
+.no-results {
+    padding: 5rem 2rem;
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 1.1rem;
+    font-weight: 700;
+}
+
+.no-results i {
+    font-size: 2.2rem;
+    color: var(--primary);
+    margin-bottom: 1.2rem;
+    display: block;
+}
+
+.error-message {
+    min-height: 60vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--primary);
+    font-weight: 800;
+    letter-spacing: 1px;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1.5rem;
+    margin-top: 4rem;
+}
+
+.page-btn {
+    background: var(--card-bg);
+    border: 1px solid var(--glass-border);
+    color: #ffffff;
+    padding: 12px 22px;
+    border-radius: 30px;
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.page-btn:hover:not(:disabled) {
+    border-color: var(--primary);
+    background: rgba(255, 77, 0, 0.1);
+    transform: translateY(-2px);
+}
+
+.page-btn:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+}
+
+.page-info {
+    font-size: 0.8rem;
+    font-weight: 800;
+    color: var(--text-muted);
+    letter-spacing: 1.5px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
 @media (min-width: 1024px) {
-    /* Grid Desktop */
     .vehicle-grid {
         grid-template-columns: repeat(3, 1fr);
     }
 }
 
-/* Tablet Breakpoint */
 @media (max-width: 992px) {
-    /* Grid Tablet */
     .vehicle-grid {
         grid-template-columns: repeat(2, 1fr);
     }
 }
 
-/* Filter Breakpoint */
 @media (max-width: 900px) {
-    /* Filter Mobile */
     .filters-bar {
         flex-direction: column;
-        border-radius: 20px;
+        border-radius: 24px;
         padding: 1.5rem;
     }
 
-    /* Controls Mobile */
     .search-container, 
     .sort-select {
         width: 100%;
         max-width: 100%;
     }
+
+    .availability-info-banner {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: flex-start;
+    }
 }
 
-/* Mobile Breakpoint */
-@media (max-width: 576px) {
-    /* Grid Mobile */
+@media (max-width: 600px) {
     .vehicle-grid {
         grid-template-columns: 1fr;
+    }
+
+    .vehicles-page {
+        padding: 5rem 4% 4rem;
     }
 }
