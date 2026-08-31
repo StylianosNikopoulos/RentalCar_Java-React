@@ -12,6 +12,7 @@ const VehiclesTab = () => {
     const queryClient = useQueryClient();
     const { lang } = useLang();
     const t = translations[lang].admin;
+    const activeTranslation = translations[lang].myReservations?.active;
 
     const [vehiclePage, setVehiclePage] = useState(1);
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -38,18 +39,18 @@ const VehiclesTab = () => {
         mutationFn: (id) => vehicleService.deleteVehicle(id),
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['admin-vehicles'] });
-            toast.success(t.toastVehOos || "Vehicle set to Out of Service");
+            toast.success(t.toastVehOos);
         },
-        onError: () => toast.error(t.toastOpFailed || "Operation failed")
+        onError: () => toast.error(t.toastOpFailed)
     });
 
     const restoreMutation = useMutation({
         mutationFn: (id) => vehicleService.restoreVehicle ? vehicleService.restoreVehicle(id) : vehicleService.restoreVehicle(id, 'AVAILABLE'),
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['admin-vehicles'] });
-            toast.success(t.toastVehRestored || "Vehicle restored to service");
+            toast.success(t.toastVehRestored);
         },
-        onError: () => toast.error(t.toastOpFailed || "Operation failed")
+        onError: () => toast.error(t.toastOpFailed)
     });
 
     const confirmSwal = (title, text, onConfirm) => {
@@ -70,12 +71,12 @@ const VehiclesTab = () => {
         const isCurrentlyOos = vehicle.status === 'OUT_OF_SERVICE';
 
         const title = isCurrentlyOos 
-            ? (t.swalRestoreTitle || "Restore Vehicle?") 
-            : (t.swalOosTitle || "Set Out of Service?");
+            ? t.swalRestoreVehTitle 
+            : t.swalOosVehTitle;
             
         const text = isCurrentlyOos 
-            ? (t.swalRestoreText || "This vehicle will become available for new reservations.") 
-            : (t.swalOosText || "This vehicle will be disabled and marked as out of service.");
+            ? t.swalRestoreVehText 
+            : t.swalOosVehText;
 
         confirmSwal(title, text, () => {
             if (isCurrentlyOos) {
@@ -117,7 +118,7 @@ const VehiclesTab = () => {
                                 <th>{t.tableVehicle}</th>
                                 <th>{t.tablePlate}</th>
                                 <th>{t.tablePrice}</th>
-                                <th>{t.tableStatus || "STATUS"}</th>
+                                <th>{t.tableStatus}</th>
                                 <th>{t.tableActions}</th>
                             </tr>
                         </thead>
@@ -132,7 +133,7 @@ const VehiclesTab = () => {
                                         <td>
                                             <span className={`status-badge ${isOos ? 'status-oos' : 'status-active'}`}>
                                                 <i className={`fas ${isOos ? 'fa-ban' : 'fa-check-circle'}`}></i>
-                                                {isOos ? (t.badgeOos || 'OUT OF SERVICE') : (t.badgeAvailable || 'ACTIVE')}
+                                                {isOos ? t.btnOutOfService : activeTranslation}
                                             </span>
                                         </td>
                                         <td className="actions-cell">
@@ -142,10 +143,9 @@ const VehiclesTab = () => {
                                             <button 
                                                 className={`btn-status-toggle ${isOos ? 'btn-restore' : 'btn-oos'}`} 
                                                 onClick={() => handleRestoreVehicle(car)}
-                                                title={isOos ? (t.btnRestoreHint || "Restore to service") : (t.btnOosHint || "Set out of service")}
                                             >
                                                 <i className={`fas ${isOos ? 'fa-undo' : 'fa-ban'}`}></i> 
-                                                {isOos ? (t.btnRestore || 'RESTORE') : (t.btnOos || 'OUT OF SERVICE')}
+                                                {isOos ? t.btnRestore : t.btnOutOfService}
                                             </button>
                                         </td>
                                     </tr>
