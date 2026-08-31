@@ -120,15 +120,13 @@ const VehiclesPage = () => {
             </div>
 
             {isLoading ? (
-                <div className="loader-container" style={{ minHeight: '400px', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+                <div className="loader-container">
                     <div className="loader"></div>
-                    <span style={{ color: '#888', fontSize: '0.8rem', fontWeight: '800', letterSpacing: '2px', marginTop: '15px' }}>
-                        {t.fetching}
-                    </span>
+                    <span className="loader-text">{t.fetching}</span>
                 </div>
             ) : currentItems.length === 0 ? (
-                <div className="no-results" style={{ padding: '4rem 2rem', textAlign: 'center' }}>
-                    <i className="fas fa-search" style={{ fontSize: '2rem', color: '#ff4d00', marginBottom: '1rem', display: 'block' }}></i>
+                <div className="no-results">
+                    <i className="fas fa-search"></i>
                     {t.noResults}
                 </div>
             ) : (
@@ -146,6 +144,7 @@ const VehiclesPage = () => {
                                         alt={`${car.brand} ${car.model}`} 
                                         className="vehicle-img" 
                                     />
+                                    <span className="type-tag">{car.brand}</span>
                                 </div>
                                 
                                 <div className="vehicle-card-body">
@@ -156,7 +155,7 @@ const VehiclesPage = () => {
 
                                     <div className="card-mini-specs">
                                         <span><i className="fas fa-gas-pump"></i> {car.fuelType}</span>
-                                        <span><i className="fas fa-cog"></i> {car.licensePlate}</span>
+                                        <span><i className="fas fa-id-card"></i> {car.licensePlate}</span>
                                     </div>
 
                                     <div className="card-pricing-footer">

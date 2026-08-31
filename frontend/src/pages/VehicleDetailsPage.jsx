@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom'; 
 import { useAuth } from '../hooks/useAuth';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
@@ -19,7 +19,7 @@ import 'swiper/css/thumbs';
 
 const VehicleDetailsPage = () => {
     const { lang } = useLang();
-    const t = translations[lang].details;
+    const t = translations[lang]?.details || {};
 
     const { id } = useParams();
     const navigate = useNavigate();
@@ -60,17 +60,15 @@ const VehicleDetailsPage = () => {
 
     const bookingMutation = useMutation({
         mutationFn: (bookingData) => reservationService.createReservation(bookingData),
-        onMutate: () => {
-            setIsActionPending(true);
-        },
+        onMutate: () => setIsActionPending(true),
         onSuccess: () => {
-            toast.success(t.toastBookingSuccess);
+            toast.success(t.toastBookingSuccess || 'Reservation submitted successfully!');
             queryClient.invalidateQueries({ queryKey: ['vehicle-reservations', id] });
-            setTimeout(() => navigate('/reservations'), 1500);
+            setTimeout(() => navigate('/reservations'), 1200);
         },
         onError: (error) => {
             setIsActionPending(false);
-            toast.error(error.response?.data?.message || t.toastBookingError);
+            toast.error(error.response?.data?.message || t.toastBookingError || 'Failed to complete reservation');
         }
     });
 
@@ -78,16 +76,16 @@ const VehicleDetailsPage = () => {
         e.preventDefault(); 
         if (bookingMutation.isPending || isActionPending) return;
         if (!user) {
-            toast.error(t.toastLoginReq);
+            toast.error(t.toastLoginReq || 'Please log in to make a reservation');
             navigate('/login');
             return;
         }
         if (!acceptedTerms) {
-            toast.error(t.toastTermsReq);
+            toast.error(t.toastTermsReq || 'You must agree to the rental terms');
             return;
         }
         if (!startDate || !endDate) {
-            toast.error(t.toastDatesReq);
+            toast.error(t.toastDatesReq || 'Please select valid rental dates');
             return;
         }
 
@@ -110,20 +108,20 @@ const VehicleDetailsPage = () => {
 
     if ((vehicleLoading || datesLoading) && !isActionPending) {
         return (
-            <div className="loader-container" style={{ minHeight: '80vh', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', background: '#0a0a0a' }}>
-                <div className="loader"></div>
-                <span style={{ color: '#888', fontSize: '0.8rem', fontWeight: '800', letterSpacing: '2px', marginTop: '15px' }}>
-                    {t.fetching}
-                </span>
+            <div className="loader-container">
+                <div className="luxury-spinner"></div>
+                <span className="loader-text">{t.fetching || 'LOADING DETAILS...'}</span>
             </div>
         );
     }
 
     if (!vehicle) {
         return (
-            <div className="error-message" style={{ minHeight: '80vh', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', color: '#ff4d4d', padding: '2rem', textAlign: 'center' }}>
-                <i className="fas fa-exclamation-triangle" style={{ fontSize: '2rem', marginBottom: '1rem' }}></i>
-                {t.errorNotFound}
+            <div className="error-message">
+                <h2>VEHICLE NOT FOUND</h2>
+                <button onClick={() => navigate('/vehicles')} className="back-btn">
+                    EXPLORE FLEET
+                </button>
             </div>
         );
     }
@@ -136,12 +134,24 @@ const VehicleDetailsPage = () => {
 
     return (
         <div className="details-container">
+            <div className="details-top-bar">
+                <button onClick={() => navigate(-1)} className="back-link">
+                    <i className="fas fa-arrow-left"></i> FLEET OVERVIEW
+                </button>
+            </div>
+
             <div className="details-header">
                 <div className="header-main">
-                    <h1>{vehicle.brand} <span>{vehicle.model}</span></h1>
+                    <div className="brand-meta">
+                        <span className="brand-subtitle">{vehicle.brand}</span>
+                        <h1>{vehicle.brand} <span className="model-accent">{vehicle.model}</span></h1>
+                    </div>
                     <div className="price-tag">
-                        <span className="amount">${vehicle.dailyPrice}</span>
-                        <span className="per-day">/ {t.perDay}</span>
+                        <div className="price-wrapper">
+                            <span className="currency">$</span>
+                            <span className="amount">{vehicle.dailyPrice}</span>
+                        </div>
+                        <span className="per-day">/ {t.perDay || 'per day'}</span>
                     </div>
                 </div>
             </div>
@@ -161,7 +171,7 @@ const VehicleDetailsPage = () => {
                         >
                             {allImages.map((img, index) => (
                                 <SwiperSlide key={index}>
-                                    <img src={img.url} alt={`${vehicle.brand} ${index}`} className="swiper-vehicle-img" />
+                                    <img src={img.url} alt={`${vehicle.brand} ${index + 1}`} className="swiper-vehicle-img" />
                                 </SwiperSlide>
                             ))}
                         </Swiper>
@@ -169,7 +179,7 @@ const VehicleDetailsPage = () => {
                         {allImages.length > 1 && (
                             <Swiper
                                 onSwiper={setThumbsSwiper}
-                                spaceBetween={10}
+                                spaceBetween={12}
                                 slidesPerView={4}
                                 freeMode={true}
                                 watchSlidesProgress={true}
@@ -179,7 +189,7 @@ const VehicleDetailsPage = () => {
                                 {allImages.map((img, index) => (
                                     <SwiperSlide key={index}>
                                         <div className="thumb-img-box">
-                                            <img src={img.url} alt={`Thumb ${index}`} />
+                                            <img src={img.url} alt={`Thumbnail ${index + 1}`} />
                                         </div>
                                     </SwiperSlide>
                                 ))}
@@ -188,40 +198,40 @@ const VehicleDetailsPage = () => {
                     </div>
 
                     <div className="real-car-features">
-                        <h2>{t.specifications}</h2>
+                        <h2>{t.specifications || 'VEHICLE SPECIFICATIONS'}</h2>
                         <div className="features-grid">
                             <div className="feature-item">
                                 <i className="fas fa-gas-pump"></i>
-                                <div>
-                                    <span>{t.fuelType}</span>
+                                <div className="feature-meta">
+                                    <span>{t.fuelType || 'Fuel System'}</span>
                                     <strong>{vehicle.fuelType}</strong>
                                 </div>
                             </div>
                             <div className="feature-item">
                                 <i className="fas fa-calendar-alt"></i>
-                                <div>
-                                    <span>{t.yearModel}</span>
+                                <div className="feature-meta">
+                                    <span>{t.yearModel || 'Model Year'}</span>
                                     <strong>{vehicle.year}</strong>
                                 </div>
                             </div>
                             <div className="feature-item">
-                                <i className="fas fa-calendar-alt"></i>
-                                <div>
-                                    <span>{t.modelLabel}</span>
+                                <i className="fas fa-car-side"></i>
+                                <div className="feature-meta">
+                                    <span>{t.modelLabel || 'Edition'}</span>
                                     <strong>{vehicle.model}</strong>
                                 </div>
                             </div>
                             <div className="feature-item">
-                                <i className="fas fa-calendar-alt"></i>
-                                <div>
-                                    <span>{t.licensePlate}</span>
+                                <i className="fas fa-id-card"></i>
+                                <div className="feature-meta">
+                                    <span>{t.licensePlate || 'Registration'}</span>
                                     <strong>{vehicle.licensePlate}</strong>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                
+
                 <div className="booking-sidebar">
                     <div className={`booking-card ${bookingMutation.isPending || isActionPending ? 'submitting' : ''}`}>
                         {(bookingMutation.isPending || isActionPending) && (
@@ -230,48 +240,50 @@ const VehicleDetailsPage = () => {
                             </div>
                         )}
                         <div className="card-header">
-                            <h3>{t.sidebarTitle}</h3>
-                            <p>{t.sidebarSubtitle}</p>
+                            <h3>{t.sidebarTitle || 'RESERVE VEHICLE'}</h3>
+                            <p>{t.sidebarSubtitle || 'Select dates to configure pricing'}</p>
                         </div>
+                        
                         <form onSubmit={handleBooking}>
                             <div className="form-group date-picker-group">
-                                <label><i className="far fa-calendar"></i> {t.datesLabel}</label>
-                                <DatePicker
-                                    selectsRange={true}
-                                    startDate={startDate}
-                                    endDate={endDate}
-                                    onChange={(update) => {
-                                        const [start, end] = update;
-                                        setStartDate(start);
-                                        setEndDate(end);
-                                    }}
-                                    minDate={new Date(new Date().setDate(new Date().getDate() + 1))}
-                                    excludeDateIntervals={bookedDates}
-                                    isClearable={true}
-                                    placeholderText={t.placeholderDates}
-                                    className="custom-datepicker-input" 
-                                    required
-                                    disabled={bookingMutation.isPending || isActionPending}
-                                />
+                                <label><i className="far fa-calendar-alt"></i> {t.datesLabel || 'Rental Interval'}</label>
+                                <div className="inline-datepicker-wrapper">
+                                    <DatePicker
+                                        inline
+                                        selectsRange={true}
+                                        startDate={startDate}
+                                        endDate={endDate}
+                                        onChange={(update) => {
+                                            const [start, end] = update;
+                                            setStartDate(start);
+                                            setEndDate(end);
+                                        }}
+                                        minDate={new Date(new Date().setDate(new Date().getDate() + 1))}
+                                        excludeDateIntervals={bookedDates}
+                                        monthsShown={1}
+                                    />
+                                </div>
                             </div>
 
-                            {startDate && endDate && (
-                                <div className="invoice-breakdown">
-                                    <h4>{t.invoiceTitle}</h4>
-                                    <div className="invoice-row">
-                                        <span>{t.dailyRate}</span>
-                                        <span>${vehicle.dailyPrice} x {rentalDays} {t.daysCount}</span>
-                                    </div>
-                                    <div className="invoice-row">
-                                        <span>{t.taxesLabel}</span>
-                                        <span className="free-badge">{t.includedBadge}</span>
-                                    </div>
-                                    <div className="invoice-total">
-                                        <span>{t.totalAmount}</span>
-                                        <strong>${(rentalDays * vehicle.dailyPrice).toFixed(2)}</strong>
-                                    </div>
+                            <div className="invoice-breakdown">
+                                <h4>{t.invoiceTitle || 'PRICE BREAKDOWN'}</h4>
+                                <div className="invoice-row">
+                                    <span>Daily Rate</span>
+                                    <span>${vehicle.dailyPrice}</span>
                                 </div>
-                            )}
+                                <div className="invoice-row">
+                                    <span>Duration</span>
+                                    <span>{rentalDays} {rentalDays === 1 ? 'Day' : 'Days'}</span>
+                                </div>
+                                <div className="invoice-row">
+                                    <span>Insurance & Fees</span>
+                                    <span className="free-badge">INCLUDED</span>
+                                </div>
+                                <div className="invoice-total">
+                                    <span>{t.totalAmount || 'Estimated Total'}</span>
+                                    <strong>${(rentalDays * vehicle.dailyPrice).toFixed(2)}</strong>
+                                </div>
+                            </div>
 
                             <div className="terms-checkbox-group">
                                 <label className="checkbox-container">
@@ -283,16 +295,19 @@ const VehicleDetailsPage = () => {
                                     />
                                     <span className="checkmark"></span>
                                     <span className="checkbox-text">
-                                        {t.termsCheckboxText} <Link to="/terms" target="_blank">{t.termsLinkText}</Link>
+                                        {t.termsCheckboxText || 'I agree to the'} <Link to="/terms" target="_blank">{t.termsLinkText || 'Terms & Conditions'}</Link>
                                     </span>
                                 </label>
                             </div>
+
                             <button 
                                 type="submit" 
                                 className="confirm-glow-btn" 
                                 disabled={bookingMutation.isPending || isActionPending}
                             >
-                                {bookingMutation.isPending || isActionPending ? t.btnProcessing : (user ? t.btnReserve : t.btnLoginToBook)}
+                                {bookingMutation.isPending || isActionPending 
+                                    ? (t.btnProcessing || 'PROCESSING...') 
+                                    : (user ? (t.btnReserve || 'CONFIRM RESERVATION') : (t.btnLoginToBook || 'LOG IN TO BOOK'))}
                             </button>
                         </form>
                     </div>

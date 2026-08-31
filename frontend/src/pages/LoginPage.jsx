@@ -45,6 +45,8 @@ const LoginPage = () => {
         <div className="auth-container">
             <div className="auth-card">
                 <h2>{t.title}</h2>
+                <p className="auth-subtitle">{t.subtitle || (lang === 'en' ? 'Welcome back! Please enter your details.' : 'Καλώς ήρθατε! Παρακαλώ εισάγετε τα στοιχεία σας.')}</p>
+                
                 <form onSubmit={handleSubmit}>
                     <div className="form-group">
                         <label>{t.emailLabel}</label>
@@ -58,6 +60,7 @@ const LoginPage = () => {
                             disabled={isSubmitting}
                         />
                     </div>
+                    
                     <div className="form-group">
                         <label>{t.passwordLabel}</label>
                         <input 
@@ -70,6 +73,7 @@ const LoginPage = () => {
                             disabled={isSubmitting}
                         />
                     </div>
+
                     <div className="forgot-password-wrapper">
                         {isSubmitting ? (
                             <span className="disabled-link">{t.forgotPassword}</span>
@@ -79,14 +83,16 @@ const LoginPage = () => {
                             </Link>
                         )}
                     </div>
+
                     <button 
                         type="submit" 
                         className="auth-button" 
                         disabled={isSubmitting}
                     >
-                        {isSubmitting ? '...' : t.btnSubmit} <i className="fas fa-sign-in-alt"></i>
+                        {isSubmitting ? '...' : t.btnSubmit} <i className="fas fa-arrow-right"></i>
                     </button>
                 </form>
+
                 {isSubmitting ? (
                     <span className="auth-link disabled-link">{t.registerLink}</span>
                 ) : (

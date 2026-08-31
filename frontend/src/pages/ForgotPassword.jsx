@@ -35,9 +35,9 @@ const ForgotPassword = () => {
             <div className="auth-container">
                 <div className="auth-card">
                     <h2>{t.checkEmailTitle}</h2>
-                    <p>{t.checkEmailDesc.replace('{{email}}', email)}</p>
+                    <p className="auth-subtitle">{t.checkEmailDesc.replace('{{email}}', email)}</p>
                     <Link to="/login" className="back-to-login">
-                     <span className="arrow">←</span> {t.backToLogin}
+                        <span className="arrow">←</span> {t.backToLogin}
                     </Link>
                 </div>
             </div>
@@ -48,24 +48,28 @@ const ForgotPassword = () => {
         <div className="auth-container">
             <form className="auth-card" onSubmit={handleSubmit}>
                 <h2>{t.title}</h2>
-                <p>{t.subtitle}</p>
+                <p className="auth-subtitle">{t.subtitle}</p>
+                
                 <div className="form-group">
+                    <label>{t.placeholderEmail || (lang === 'en' ? 'Email Address' : 'Διεύθυνση Email')}</label>
                     <input 
                         type="email" 
-                        placeholder={t.placeholderEmail} 
+                        placeholder="name@example.com" 
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         required 
                         disabled={isSubmitting}
                     />
                 </div>
+                
                 <button 
                     type="submit" 
                     className="confirm-glow-btn"
                     disabled={isSubmitting}
                 >
-                    {isSubmitting ? '...' : t.btnSubmit}
+                    {isSubmitting ? '...' : t.btnSubmit} <i className="fas fa-paper-plane"></i>
                 </button>
+
                 {isSubmitting ? (
                     <span className="back-to-login disabled-link">
                         <span className="arrow">←</span> {t.backToLogin}

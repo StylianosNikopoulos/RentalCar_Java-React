@@ -47,7 +47,11 @@ const ReservationTimer = ({ createdAt, onExpire }) => {
     }, [createdAt, onExpire]);
 
     if (timeLeft <= 0) {
-        return <span className="timer-expired"><i className="fas fa-exclamation-circle"></i> {t.timerExpired}</span>;
+        return (
+            <span className="timer-expired">
+                <i className="fas fa-exclamation-circle"></i> {t.timerExpired}
+            </span>
+        );
     }
 
     const minutes = Math.floor((timeLeft / 1000 / 60) % 60);
@@ -55,7 +59,7 @@ const ReservationTimer = ({ createdAt, onExpire }) => {
 
     return (
         <span className="res-timer">
-            <i className="fas fa-history"></i> {minutes}{t.timerMin} {seconds < 10 ? `0${seconds}` : seconds}{t.timerSec}
+            <i className="fas fa-clock"></i> {minutes}{t.timerMin} {seconds < 10 ? `0${seconds}` : seconds}{t.timerSec}
         </span>
     );
 };
@@ -130,7 +134,7 @@ const MyReservationPage = () => {
             text: t.swalCancelText,
             icon: 'warning',
             iconColor: '#ff4d00',
-            background: '#151515',
+            background: '#121212',
             showCancelButton: true,
             confirmButtonText: t.swalYes,
             cancelButtonText: t.swalNo,
@@ -174,6 +178,7 @@ const MyReservationPage = () => {
     return (
         <div className="reservations-container">
             <div className="reservations-header">
+                <span className="reservations-badge">PORTAL</span>
                 <h2>{t.title}</h2>
                 <p>{t.subtitle}</p>
             </div>
@@ -181,20 +186,22 @@ const MyReservationPage = () => {
             {isLoading && !isActionPending ? (
                 <div className="loader-container">
                     <div className="loader"></div>
-                    <span style={{color: '#888', fontSize: '0.8rem', fontWeight: '800', letterSpacing: '2px', marginTop: '15px'}}>{t.fetching}</span>
+                    <span className="loader-text">{t.fetching}</span>
                 </div>
             ) : isTotalElementsZero ? (
                 <div className="empty-state">
-                    <div className="empty-icon"><i className="fas fa-car-crash"></i></div>
+                    <div className="empty-icon">
+                        <i className="fas fa-car-side"></i>
+                    </div>
                     <h3>{t.noBookingsTitle}</h3>
                     <p>{t.noBookingsDesc}</p>
                     <button 
                         onClick={() => navigate('/vehicles')} 
-                        className="checkOut-btn-premium" 
-                        style={{width: 'auto', marginTop: '1.5rem'}}
+                        className="checkOut-btn-premium empty-action-btn"
                         disabled={isActionPending}
                     >
-                        {t.btnExplore}
+                        <span>{t.btnExplore}</span>
+                        <i className="fas fa-arrow-right"></i>
                     </button>
                 </div>
             ) : (
@@ -206,11 +213,14 @@ const MyReservationPage = () => {
                             const currentLocale = lang === 'gr' ? 'el-GR' : 'en-GB';
 
                             return (
-                                <div key={res.id} className="res-card">
+                                <div key={res.id} className={`res-card status-border-${res.status.toLowerCase()}`}>
+                                    <div className="res-card-accent"></div>
                                     <div className="res-meta-section">
                                         <div className="res-vehicle-block">
-                                            <i className="fas fa-car car-placeholder-icon"></i>
-                                            <div>
+                                            <div className="car-icon-wrapper">
+                                                <i className="fas fa-car car-placeholder-icon"></i>
+                                            </div>
+                                            <div className="vehicle-details">
                                                 <h4>{res.vehicleBrand} <span>{res.vehicleName}</span></h4>
                                             </div>
                                         </div>
@@ -218,12 +228,17 @@ const MyReservationPage = () => {
                                         <div className="res-timeline-block">
                                             <div className="timeline-item">
                                                 <small>{t.rentalPeriod}</small>
-                                                <p>
-                                                    <i className="far fa-calendar-alt"></i> 
-                                                    {res.period?.start ? new Date(res.period.start).toLocaleDateString(currentLocale, {day:'2-digit', month:'short', year:'numeric'}) : 'N/A'} 
-                                                    <span className="arrow-sep">→</span>
-                                                    {res.period?.end ? new Date(res.period.end).toLocaleDateString(currentLocale, {day:'2-digit', month:'short', year:'numeric'}) : 'N/A'}
-                                                </p>
+                                                <div className="timeline-dates">
+                                                    <span className="date-pill">
+                                                        <i className="far fa-calendar-alt"></i>
+                                                        {res.period?.start ? new Date(res.period.start).toLocaleDateString(currentLocale, {day:'2-digit', month:'short', year:'numeric'}) : 'N/A'}
+                                                    </span>
+                                                    <span className="arrow-sep"><i className="fas fa-long-arrow-alt-right"></i></span>
+                                                    <span className="date-pill">
+                                                        <i className="far fa-calendar-check"></i>
+                                                        {res.period?.end ? new Date(res.period.end).toLocaleDateString(currentLocale, {day:'2-digit', month:'short', year:'numeric'}) : 'N/A'}
+                                                    </span>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -232,6 +247,7 @@ const MyReservationPage = () => {
                                         <div className="res-pricing-status">
                                             <div className="status-badge-wrapper">
                                                 <span className={`status-badge ${res.status.toLowerCase().replace(/\s+/g, '_')}`}>
+                                                    <span className="status-dot"></span>
                                                     {lang === 'gr' && t[res.status.toLowerCase()] ? t[res.status.toLowerCase()] : res.status.replace('_', ' ')}
                                                 </span>
                                                 {status === 'PENDING' && (
@@ -248,6 +264,17 @@ const MyReservationPage = () => {
                                         </div>
 
                                         <div className="res-actions">
+                                            {status === 'PENDING' && !isExpired && (
+                                                <button 
+                                                    onClick={() => handleCheckOut(res)} 
+                                                    className="checkOut-btn-premium"
+                                                    disabled={isActionPending}
+                                                >
+                                                    <span>{t.btnCheckout}</span>
+                                                    <i className="fas fa-credit-card"></i>
+                                                </button>
+                                            )}
+
                                             {status !== 'CANCELED' && status !== 'CONFIRMED' && !isExpired && (
                                                 <button 
                                                     onClick={() => handleCancel(res.id)} 
@@ -257,20 +284,11 @@ const MyReservationPage = () => {
                                                     {cancelMutation.isPending ? t.btnProcessing : t.btnCancel}
                                                 </button>
                                             )}
-
-                                            {status === 'PENDING' && !isExpired && (
-                                                <button 
-                                                    onClick={() => handleCheckOut(res)} 
-                                                    className="checkOut-btn-premium"
-                                                    disabled={isActionPending}
-                                                >
-                                                    {t.btnCheckout} <i className="fas fa-credit-card"></i>
-                                                </button>
-                                            )}
                                         </div>
                                     </div>
                                 </div>
-                            );})}
+                            );
+                        })}
                     </div>
 
                     {totalPages > 1 && (
@@ -282,7 +300,9 @@ const MyReservationPage = () => {
                             >
                                 <i className="fas fa-chevron-left"></i> {t.btnPrevious}
                             </button>
-                            <span className="page-info">{currentPage} / {totalPages}</span>
+                            <span className="page-info">
+                                <span className="current-page">{currentPage}</span> / {totalPages}
+                            </span>
                             <button 
                                 className="page-btn"
                                 onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}

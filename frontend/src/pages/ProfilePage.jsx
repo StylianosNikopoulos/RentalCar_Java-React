@@ -66,6 +66,7 @@ const ProfilePage = () => {
         };
         if (authData) fetchUserData();
     }, [authData, t]);
+
     const handleUpdate = async (e) => {
         e.preventDefault();
         if (isSubmitting) return;
@@ -114,7 +115,7 @@ const ProfilePage = () => {
             text: t.swalDeleteText,
             icon: 'warning',
             iconColor: '#ff4d00',
-            background: '#151515',
+            background: '#121212',
             showCancelButton: true,
             confirmButtonText: t.swalConfirmBtn,
             cancelButtonText: t.swalCancelBtn,
@@ -150,23 +151,36 @@ const ProfilePage = () => {
     return (
         <div className="profile-container">
             <header className="profile-header">
+                <span className="profile-badge">DRIVER DASHBOARD</span>
                 <h1>{t.title}</h1>
                 <p>{t.subtitle}</p>
             </header>
 
             {loading ? (
-                <div className="loader-container" style={{ minHeight: '300px' }}>
+                <div className="loader-container">
                     <div className="loader"></div>
-                    <span style={{color: '#888', fontSize: '0.8rem', fontWeight: '800', letterSpacing: '2px', marginTop: '15px'}}>{t.fetching}</span>
+                    <span className="loader-text">{t.fetching}</span>
                 </div>
             ) : (
                 <div className="profile-grid">
                     <aside className="profile-card">
-                        <div className="avatar-circle">
-                            {fullUser?.firstName?.charAt(0).toUpperCase()}
+                        <div className="profile-card-accent"></div>
+                        
+                        <div className="avatar-wrapper">
+                            <div className="avatar-circle">
+                                {fullUser?.firstName?.charAt(0).toUpperCase()}
+                            </div>
+                            <span className="status-indicator-dot" title="Active Account"></span>
                         </div>
+
                         <h3>{fullUser?.firstName} {fullUser?.lastName}</h3>
-                        <span className="role-badge">{fullUser?.role || 'CUSTOMER'}</span>
+                        
+                        <div className="role-badge-wrapper">
+                            <span className="role-badge">
+                                <i className="fas fa-user-shield"></i>
+                                {fullUser?.role || 'CUSTOMER'}
+                            </span>
+                        </div>
                         
                         <div className="profile-card-actions">
                             <button 
@@ -175,9 +189,9 @@ const ProfilePage = () => {
                                 disabled={isSubmitting}
                             >
                                 {isEditing ? (
-                                    <><i className="fas fa-times"></i> {t.btnDiscard}</>
+                                    <><span>{t.btnDiscard}</span><i className="fas fa-times"></i></>
                                 ) : (
-                                    <><i className="far fa-edit"></i> {t.btnModify}</>
+                                    <><span>{t.btnModify}</span><i className="far fa-edit"></i></>
                                 )}
                             </button>
                         </div>
@@ -186,85 +200,127 @@ const ProfilePage = () => {
                     <main className="info-section">
                         {!isEditing ? (
                             <div className="info-display">
-                                <div className="info-group">
-                                    <label className="info-label"><i className="far fa-envelope"></i> {t.emailLabel}</label>
-                                    <span className="info-value">{fullUser?.email}</span>
+                                <div className="info-section-title">
+                                    <i className="fas fa-id-badge"></i>
+                                    <h3>PERSONAL INFORMATION</h3>
                                 </div>
-                                <div className="info-row-grid">
+
+                                <div className="info-card-grid">
+                                    <div className="info-group full-width">
+                                        <label className="info-label"><i className="far fa-envelope"></i> {t.emailLabel}</label>
+                                        <div className="info-value-box">
+                                            <span>{fullUser?.email}</span>
+                                            <i className="fas fa-check-circle verified-icon"></i>
+                                        </div>
+                                    </div>
+
                                     <div className="info-group">
                                         <label className="info-label"><i className="far fa-user"></i> {t.firstNameLabel}</label>
-                                        <span className="info-value">{fullUser?.firstName}</span>
+                                        <div className="info-value-box">
+                                            <span>{fullUser?.firstName}</span>
+                                        </div>
                                     </div>
+
                                     <div className="info-group">
                                         <label className="info-label"><i className="far fa-user"></i> {t.lastNameLabel}</label>
-                                        <span className="info-value">{fullUser?.lastName}</span>
+                                        <div className="info-value-box">
+                                            <span>{fullUser?.lastName}</span>
+                                        </div>
                                     </div>
-                                </div>
-                                <div className="info-group">
-                                    <label className="info-label"><i className="fas fa-mobile-alt"></i> {t.phoneLabel}</label>
-                                    <span className="info-value">{fullUser?.phoneNumber || t.notProvided}</span>
-                                </div>
-                                <div className="info-group">
-                                    <label className="info-label"><i className="far fa-map"></i> {t.addressLabel}</label>
-                                    <span className="info-value">{fullUser?.address || t.notProvided}</span>
-                                </div>
-                                <div className="info-group">
-                                    <label className="info-label"><i className="fas fa-id-card"></i> {t.licenseLabel}</label>
-                                    <span className="info-value">
-                                        {fullUser?.driverLicenseNumber ? `${t.licenseCategory} ${fullUser.driverLicenseNumber}` : t.notProvided}
-                                    </span>
+
+                                    <div className="info-group">
+                                        <label className="info-label"><i className="fas fa-mobile-alt"></i> {t.phoneLabel}</label>
+                                        <div className="info-value-box">
+                                            <span>{fullUser?.phoneNumber || t.notProvided}</span>
+                                        </div>
+                                    </div>
+
+                                    <div className="info-group">
+                                        <label className="info-label"><i className="fas fa-id-card"></i> {t.licenseLabel}</label>
+                                        <div className="info-value-box highlight-box">
+                                            <span>
+                                                {fullUser?.driverLicenseNumber ? `${t.licenseCategory} ${fullUser.driverLicenseNumber}` : t.notProvided}
+                                            </span>
+                                            {fullUser?.driverLicenseNumber && <i className="fas fa-car-side"></i>}
+                                        </div>
+                                    </div>
+
+                                    <div className="info-group full-width">
+                                        <label className="info-label"><i className="far fa-map"></i> {t.addressLabel}</label>
+                                        <div className="info-value-box">
+                                            <span>{fullUser?.address || t.notProvided}</span>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         ) : (
                             <form onSubmit={handleUpdate} className="edit-form">
+                                <div className="info-section-title">
+                                    <i className="fas fa-user-edit"></i>
+                                    <h3>EDIT PROFILE DATA</h3>
+                                </div>
+
                                 <div className="form-row-grid">
                                     <div className="form-group">
                                         <label>{t.firstNameLabel}</label>
-                                        <input 
-                                            type="text" 
-                                            value={editData.firstName}
-                                            onChange={(e) => setEditData({...editData, firstName: e.target.value})}
-                                            required
-                                            disabled={isSubmitting}
-                                        />
+                                        <div className="input-with-icon">
+                                            <i className="far fa-user"></i>
+                                            <input 
+                                                type="text" 
+                                                value={editData.firstName}
+                                                onChange={(e) => setEditData({...editData, firstName: e.target.value})}
+                                                required
+                                                disabled={isSubmitting}
+                                            />
+                                        </div>
                                     </div>
                                     <div className="form-group">
                                         <label>{t.lastNameLabel}</label>
-                                        <input 
-                                            type="text" 
-                                            value={editData.lastName}
-                                            onChange={(e) => setEditData({...editData, lastName: e.target.value})}
-                                            required
-                                            disabled={isSubmitting}
-                                        />
+                                        <div className="input-with-icon">
+                                            <i className="far fa-user"></i>
+                                            <input 
+                                                type="text" 
+                                                value={editData.lastName}
+                                                onChange={(e) => setEditData({...editData, lastName: e.target.value})}
+                                                required
+                                                disabled={isSubmitting}
+                                            />
+                                        </div>
                                     </div>
                                 </div>
 
                                 <div className="form-group">
                                     <label>{t.phoneLabel}</label>
-                                    <input 
-                                        type="text" 
-                                        placeholder="6912345678"
-                                        value={editData.phoneNumber}
-                                        onChange={(e) => setEditData({...editData, phoneNumber: e.target.value})}
-                                        disabled={isSubmitting}
-                                    />
+                                    <div className="input-with-icon">
+                                        <i className="fas fa-mobile-alt"></i>
+                                        <input 
+                                            type="text" 
+                                            placeholder="6912345678"
+                                            value={editData.phoneNumber}
+                                            onChange={(e) => setEditData({...editData, phoneNumber: e.target.value})}
+                                            disabled={isSubmitting}
+                                        />
+                                    </div>
                                 </div>
 
                                 <div className="form-group">
                                     <label>{t.addressLabel}</label>
-                                    <input 
-                                        type="text" 
-                                        placeholder="Leof. Vas. Georgiou 42, Thessaloniki, 54640"
-                                        value={editData.address}
-                                        onChange={(e) => setEditData({...editData, address: e.target.value})}
-                                        disabled={isSubmitting}
-                                    />
+                                    <div className="input-with-icon">
+                                        <i className="far fa-map"></i>
+                                        <input 
+                                            type="text" 
+                                            placeholder="Leof. Vas. Georgiou 42, Thessaloniki, 54640"
+                                            value={editData.address}
+                                            onChange={(e) => setEditData({...editData, address: e.target.value})}
+                                            disabled={isSubmitting}
+                                        />
+                                    </div>
                                 </div>
 
                                 <div className="form-group">
                                     <label>{t.licenseFormLabel}</label>
                                     <div className="select-wrapper">
+                                        <i className="fas fa-id-card select-icon"></i>
                                         <select 
                                             className="profile-select"
                                             value={editData.driverLicenseNumber}
@@ -285,43 +341,67 @@ const ProfilePage = () => {
                                     className="confirm-glow-btn submit-profile-btn"
                                     disabled={isSubmitting}
                                 >
-                                    {isSubmitting ? '...' : <>{t.btnSave} <i className="fas fa-check"></i></>}
+                                    {isSubmitting ? (
+                                        <span>PROCESSING...</span>
+                                    ) : (
+                                        <>
+                                            <span>{t.btnSave}</span>
+                                            <i className="fas fa-check"></i>
+                                        </>
+                                    )}
                                 </button>
                             </form>
                         )}
 
                         <section className="danger-zone">
                             <div className="danger-zone-header">
-                                <i className="fas fa-shield-alt danger-icon"></i>
-                                <h4>{t.securityTitle}</h4>
+                                <div className="danger-icon-wrapper">
+                                    <i className="fas fa-shield-alt danger-icon"></i>
+                                </div>
+                                <div>
+                                    <h4>{t.securityTitle}</h4>
+                                    <span className="danger-subtext">Manage password resets & account privacy</span>
+                                </div>
                             </div>
                             
                             <div className="danger-actions-block">
-                                <button 
-                                    className="security-action-btn" 
-                                    onClick={handleRequestReset}
-                                    disabled={isSubmitting}
-                                >
-                                    <i className="fas fa-key"></i> {isSubmitting ? "..." : t.btnResetPassword}
-                                </button>
+                                <div className="security-item">
+                                    <div className="security-info">
+                                        <strong>Password Reset</strong>
+                                        <p>Send a secure reset link to your registered email</p>
+                                    </div>
+                                    <button 
+                                        className="security-action-btn" 
+                                        onClick={handleRequestReset}
+                                        disabled={isSubmitting}
+                                    >
+                                        <i className="fas fa-key"></i> 
+                                        <span>{isSubmitting ? "..." : t.btnResetPassword}</span>
+                                    </button>
+                                </div>
                                 
                                 <div className="termination-separator"></div>
 
                                 {fullUser?.role !== 'ADMIN' ? (
                                     <div className="account-delete-block">
-                                        <p>{t.deleteWarning}</p>
+                                        <div className="delete-info">
+                                            <strong>Account Deletion</strong>
+                                            <p>{t.deleteWarning}</p>
+                                        </div>
                                         <button 
                                             className="delete-btn" 
                                             onClick={handleDeleteAccount}
                                             disabled={isSubmitting}
                                         >
-                                            {isSubmitting ? "..." : t.btnTerminate}
+                                            <span>{isSubmitting ? "..." : t.btnTerminate}</span>
+                                            <i className="fas fa-trash-alt"></i>
                                         </button>
                                     </div>
                                 ) : (
-                                    <p className="admin-notice">
-                                        <i className="fas fa-info-circle"></i> {t.adminNotice}
-                                    </p>
+                                    <div className="admin-notice-box">
+                                        <i className="fas fa-user-shield"></i>
+                                        <p className="admin-notice">{t.adminNotice}</p>
+                                    </div>
                                 )}
                             </div>
                         </section>

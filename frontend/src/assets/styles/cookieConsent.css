@@ -1,3 +1,4 @@
+/* Fixed Banner */
 .cookie-banner {
     position: fixed;
     bottom: 24px;
@@ -19,23 +20,27 @@
     max-height: 250px;
 }
 
+/* Banner Visible */
 .cookie-banner.show {
     opacity: 1;
     transform: translateY(0) scale(1);
 }
 
+/* Banner Expanded */
 .cookie-banner.expanded {
     max-width: 550px;
     max-height: 80vh;
     overflow-y: auto;
 }
 
+/* Content Flex */
 .cookie-content {
     display: flex;
     flex-direction: column;
     gap: 20px;
 }
 
+/* Section Headings */
 .cookie-text-section h4, .cookie-pref-header h4 {
     margin: 0;
     font-size: 1.1rem;
@@ -46,11 +51,13 @@
     gap: 8px;
 }
 
+/* Cookie Icon */
 .cookie-icon {
     color: #ff4d00;
     font-size: 1.2rem;
 }
 
+/* Section Paragraphs */
 .cookie-text-section p, .cookie-pref-header p {
     margin: 10px 0 0 0;
     font-size: 0.88rem;
@@ -58,6 +65,7 @@
     color: #b0b0b0;
 }
 
+/* Action Group */
 .cookie-actions, .cookie-pref-footer {
     display: flex;
     gap: 12px;
@@ -65,6 +73,7 @@
     align-items: center;
 }
 
+/* Base Button */
 .cookie-btn {
     flex: 1;
     padding: 11px 16px;
@@ -78,6 +87,7 @@
     text-align: center;
 }
 
+/* Accept Button */
 .cookie-accept {
     background: #ff4d00;
     border: 1px solid #ff4d00;
@@ -85,6 +95,7 @@
     box-shadow: 0 4px 12px rgba(255, 77, 0, 0.25);
 }
 
+/* Accept Hover */
 .cookie-accept:hover {
     background: #e04400;
     border-color: #e04400;
@@ -92,18 +103,21 @@
     box-shadow: 0 6px 18px rgba(255, 77, 0, 0.4);
 }
 
+/* Reject Button */
 .cookie-reject {
     background: rgba(255, 255, 255, 0.04);
     border: 1px solid rgba(255, 255, 255, 0.12);
     color: #cccccc;
 }
 
+/* Reject Hover */
 .cookie-reject:hover {
     background: rgba(255, 255, 255, 0.08);
     border-color: rgba(255, 255, 255, 0.25);
     color: #ffffff;
 }
 
+/* Text Link */
 .cookie-link {
     background: transparent;
     border: none;
@@ -116,16 +130,19 @@
     text-decoration: underline;
 }
 
+/* Link Hover */
 .cookie-link:hover {
     color: #ffffff;
 }
 
+/* Preferences Wrapper */
 .cookie-preferences-wrapper {
     display: flex;
     flex-direction: column;
     gap: 20px;
 }
 
+/* Categories List */
 .cookie-categories-list {
     display: flex;
     flex-direction: column;
@@ -135,15 +152,18 @@
     padding-right: 6px;
 }
 
+/* Scrollbar Track */
 .cookie-categories-list::-webkit-scrollbar {
     width: 4px;
 }
 
+/* Scrollbar Thumb */
 .cookie-categories-list::-webkit-scrollbar-thumb {
     background: rgba(255, 255, 255, 0.1);
     border-radius: 2px;
 }
 
+/* Category Item */
 .cookie-cat-item {
     display: flex;
     justify-content: space-between;
@@ -153,11 +173,13 @@
     border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
 
+/* Last Item */
 .cookie-cat-item:last-child {
     border-bottom: none;
     padding-bottom: 0;
 }
 
+/* Category Heading */
 .cookie-cat-info h5 {
     margin: 0;
     font-size: 0.95rem;
@@ -165,6 +187,7 @@
     color: #ffffff;
 }
 
+/* Category Description */
 .cookie-cat-info p {
     margin: 6px 0 0 0;
     font-size: 0.8rem;
@@ -173,6 +196,7 @@
     color: #888888;
 }
 
+/* Always Badge */
 .cookie-badge-always {
     font-size: 0.75rem;
     font-weight: 700;
@@ -183,6 +207,7 @@
     white-space: nowrap;
 }
 
+/* Toggle Switch */
 .cookie-switch {
     position: relative;
     display: inline-block;
@@ -191,12 +216,14 @@
     flex-shrink: 0;
 }
 
+/* Hidden Checkbox */
 .cookie-switch input {
     opacity: 0;
     width: 0;
     height: 0;
 }
 
+/* Switch Track */
 .cookie-slider {
     position: absolute;
     cursor: pointer;
@@ -209,6 +236,7 @@
     border-radius: 34px;
 }
 
+/* Switch Knob */
 .cookie-slider:before {
     position: absolute;
     content: "";
@@ -221,24 +249,30 @@
     border-radius: 50%;
 }
 
+/* Active Track */
 input:checked + .cookie-slider {
     background-color: #ff4d00;
 }
 
+/* Active Knob */
 input:checked + .cookie-slider:before {
     transform: translateX(18px);
 }
 
+/* Mobile Media */
 @media (max-width: 576px) {
+    /* Mobile Banner */
     .cookie-banner {
         bottom: 16px;
         left: 16px;
         right: 16px;
         width: calc(100% - 32px);
     }
+    /* Mobile Actions */
     .cookie-actions {
         flex-direction: column-reverse;
     }
+    /* Mobile Button */
     .cookie-btn {
         width: 100%;
         max-width: none;

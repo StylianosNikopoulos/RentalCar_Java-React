@@ -87,6 +87,7 @@ const Home = () => {
                                     placeholderText={t.placeholderDate}
                                     className="custom-home-datepicker" 
                                     dateFormat="dd MMM yyyy"
+                                    popperPlacement="bottom-start"
                                 />
                             </div>
                         </div>
@@ -106,11 +107,9 @@ const Home = () => {
                 </div>
 
                 {loading ? (
-                    <div className="loader-container" style={{ minHeight: '350px', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+                    <div className="loader-container">
                         <div className="loader"></div>
-                        <span style={{ color: '#888', fontSize: '0.8rem', fontWeight: '800', letterSpacing: '2px', marginTop: '15px' }}>
-                            {t.fetching}
-                        </span>
+                        <span className="loader-text">{t.fetching}</span>
                     </div>
                 ) : (
                     <div className="home-vehicle-grid">
@@ -121,6 +120,7 @@ const Home = () => {
                                         src={car.images && car.images.length > 0 ? car.images[0].url : 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=2070'} 
                                         alt={`${car.brand} ${car.model}`} 
                                     />
+                                    {car.category && <span className="home-car-tag">{car.category}</span>}
                                 </div>
 
                                 <div className="home-car-info">
@@ -156,14 +156,6 @@ const Home = () => {
                 </div>
 
                 <div className="features-grid">
-                    <div className="feature-card">
-                        <div className="feature-icon">
-                            <i className="fas fa-shield-alt"></i>
-                        </div>
-                        <h3>{t.feat1Title}</h3>
-                        <p>{t.feat1Desc}</p>
-                    </div>
-
                     <div className="feature-card">
                         <div className="feature-icon">
                             <i className="fas fa-road"></i>

@@ -1,3 +1,4 @@
+/* Overlay Base */
 .swal-fix-overlay {
     position: fixed !important;
     top: 0 !important;
@@ -11,6 +12,7 @@
     z-index: 9999 !important;
 }
 
+/* Popup Container */
 .swal-custom-popup {
     background: #151515 !important;
     border: 1px solid #333 !important;
@@ -18,9 +20,9 @@
     width: 90% !important;
     max-width: 400px !important;
     padding: 2rem !important;
-    margin: auto !important;
 }
 
+/* Popup Title */
 .swal-custom-title {
     color: #fff !important;
     font-size: 1.4rem !important;
@@ -28,17 +30,20 @@
     text-transform: uppercase;
 }
 
+/* Popup Message */
 .swal-custom-html {
     color: #888 !important;
     margin: 1rem 0 2rem 0 !important;
 }
 
+/* Actions Container */
 .swal-custom-actions {
     display: flex !important;
     gap: 10px !important;
     width: 100% !important;
 }
 
+/* Base Button */
 .swal-btn {
     flex: 1;
     padding: 12px !important;
@@ -48,16 +53,27 @@
     cursor: pointer;
 }
 
-.swal-btn-confirm { background: #ff4d00 !important; color: white !important; }
-.swal-btn-cancel { background: #333 !important; color: white !important; }
+/* Confirm Button */
+.swal-btn-confirm {
+    background: #ff4d00 !important;
+    color: #ffffff !important;
+}
 
+/* Cancel Button */
+.swal-btn-cancel {
+    background: #333333 !important;
+    color: #ffffff !important;
+}
+
+/* Lock Scroll */
+body.swal2-shown:not(.swal2-no-backdrop):not(.swal2-toast-shown) {
+    overflow: hidden !important;
+}
+
+/* Mobile Media */
 @media (max-width: 480px) {
+    /* Mobile Actions */
     .swal-custom-actions {
         flex-direction: column !important;
     }
-    .swal-btn { width: 100% !important; }
-}
-
-body.swal2-shown:not(.swal2-no-backdrop):not(.swal2-toast-shown) {
-    overflow: hidden !important;
 }
