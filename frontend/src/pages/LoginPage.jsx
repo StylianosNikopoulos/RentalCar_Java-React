@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useAuth } from '../hooks/useAuth';
 import toast from 'react-hot-toast';
 import { useNavigate, Link } from 'react-router-dom';
@@ -7,6 +7,11 @@ import { translations } from '../i18n/translations';
 import '../assets/styles/auth.css';
 
 const LoginPage = () => {
+
+    useEffect(() => {
+        document.title = 'RentalCar | Sign In';
+    }, []);
+
     const { lang } = useLang();
     const t = translations[lang].login;
 

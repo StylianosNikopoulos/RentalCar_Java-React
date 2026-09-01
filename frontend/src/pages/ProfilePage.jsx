@@ -11,6 +11,11 @@ import Swal from 'sweetalert2';
 import authService from '../services/authService';
 
 const ProfilePage = () => {
+
+    useEffect(() => {
+        document.title = 'RentalCar | Profile Page';
+    }, []);
+
     const { lang } = useLang();
     const t = translations[lang].profile;
 

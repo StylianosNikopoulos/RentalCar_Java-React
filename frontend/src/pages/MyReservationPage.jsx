@@ -65,6 +65,11 @@ const ReservationTimer = ({ createdAt, onExpire }) => {
 };
 
 const MyReservationPage = () => {
+
+    useEffect(() => {
+        document.title = 'RentalCar | My Reservations';
+    }, []);
+
     const { lang } = useLang();
     const t = translations[lang].myReservations;
 

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSearchParams, useNavigate, Link } from 'react-router-dom';
 import authService from '../services/authService';
 import toast from 'react-hot-toast';
@@ -7,6 +7,11 @@ import { translations } from '../i18n/translations';
 import '../assets/styles/auth.css';
 
 const ResetPassword = () => {
+    
+    useEffect(() => {
+        document.title = 'RentalCar | Reset Password';
+    }, []);
+
     const { lang } = useLang();
     const t = translations[lang].resetPassword;
 
