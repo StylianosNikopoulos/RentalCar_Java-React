@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import VehiclesTab from '../components/admin/VehiclesTab';
 import UsersTab from '../components/admin/UsersTab';
 import ReservationsTab from '../components/admin/ReservationsTab';
@@ -8,6 +8,11 @@ import '../assets/styles/admin.css';
 import '../assets/styles/swal-custom.css';
 
 const AdminPage = () => {
+
+    useEffect(() => {
+        document.title = 'RentalCar | Admin Panel';
+    }, []);
+
     const { lang } = useLang();
     const t = translations[lang].admin;
     const [activeTab, setActiveTab] = useState('vehicles');

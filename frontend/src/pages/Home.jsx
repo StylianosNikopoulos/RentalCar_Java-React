@@ -9,6 +9,11 @@ import { translations } from '../i18n/translations';
 import '../assets/styles/home.css';
 
 const Home = () => {
+    
+    useEffect(() => {
+        document.title = 'RentalCar | Home';
+    }, []);
+
     const { lang } = useLang();
     const t = translations[lang].home;
 

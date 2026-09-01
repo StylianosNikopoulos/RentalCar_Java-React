@@ -7,6 +7,11 @@ import { translations } from '../i18n/translations';
 import '../assets/styles/vehicles.css'; 
 
 const VehiclesPage = () => {
+   
+    useEffect(() => {
+        document.title = 'RentalCar | Vehicles';
+    }, []);
+
     const { lang } = useLang();
     const t = translations[lang].vehicles;
 

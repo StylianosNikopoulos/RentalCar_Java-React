@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom'; 
 import { useAuth } from '../hooks/useAuth';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
@@ -18,6 +18,11 @@ import 'swiper/css/pagination';
 import 'swiper/css/thumbs';
 
 const VehicleDetailsPage = () => {
+
+    useEffect(() => {
+        document.title = 'RentalCar | Vehicle Details';
+    }, []);
+
     const { lang } = useLang();
     const t = translations[lang]?.details || {};
 

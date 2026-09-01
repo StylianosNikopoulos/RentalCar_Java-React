@@ -13,6 +13,10 @@ const AboutPage = () => {
     window.scrollTo(0, 0);
   }, []);
 
+  useEffect(() => {
+      document.title = 'RentalCar | About Us';
+  }, []);
+
   return (
     <div className="about-container">
 

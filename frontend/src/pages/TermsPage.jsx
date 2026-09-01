@@ -1,9 +1,14 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useLang } from '../context/LangContext';
 import { translations } from '../i18n/translations';
 import '../assets/styles/terms.css';
 
 const TermsPage = () => {
+
+  useEffect(() => {
+      document.title = 'RentalCar | Terms & Conditions';
+  }, []);
+
   const { lang } = useLang();
   const t = translations[lang].terms;
 
