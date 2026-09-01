@@ -1,5 +1,7 @@
+/* Google Fonts */
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap');
 
+/* Color Variables */
 :root {
     --primary: #ff4d00;
     --primary-hover: #ff6a26;
@@ -13,12 +15,15 @@
     --font-main: 'Plus Jakarta Sans', sans-serif;
 }
 
+/* Global Reset */
 body {
     background-color: var(--bg-dark);
     color: var(--text-main);
     font-family: var(--font-main);
+    overflow-x: hidden;
 }
 
+/* Page Wrapper */
 .details-container {
     max-width: 1440px;
     margin: 0 auto;
@@ -27,15 +32,18 @@ body {
     animation: fadeIn 0.6s ease-out;
 }
 
+/* Fade Animation */
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(15px); }
     to { opacity: 1; transform: translateY(0); }
 }
 
+/* Top Bar */
 .details-top-bar {
     margin-bottom: 2rem;
 }
 
+/* Back Link */
 .back-link {
     background: rgba(255, 255, 255, 0.03);
     border: 1px solid var(--glass-border);
@@ -60,18 +68,21 @@ body {
     transform: translateX(-4px);
 }
 
+/* Page Header */
 .details-header {
     margin-bottom: 2.5rem;
     border-bottom: 1px solid var(--glass-border);
     padding-bottom: 1.8rem;
 }
 
+/* Header Flex */
 .header-main {
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
 }
 
+/* Brand Subtitle */
 .brand-subtitle {
     display: block;
     font-size: 0.8rem;
@@ -82,6 +93,7 @@ body {
     margin-bottom: 0.4rem;
 }
 
+/* Vehicle Title */
 .details-header h1 {
     font-size: clamp(2.2rem, 4.5vw, 3.8rem);
     font-weight: 900;
@@ -96,6 +108,7 @@ body {
     -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.85);
 }
 
+/* Price Box */
 .price-tag {
     text-align: right;
     background: var(--card-bg);
@@ -110,6 +123,7 @@ body {
     transform: translateY(-2px);
 }
 
+/* Price Flex */
 .price-wrapper {
     display: flex;
     align-items: flex-start;
@@ -139,6 +153,7 @@ body {
     letter-spacing: 1px;
 }
 
+/* Main Grid */
 .details-grid-v2 {
     display: grid;
     grid-template-columns: 1.25fr 0.75fr;
@@ -146,10 +161,12 @@ body {
     align-items: start;
 }
 
+/* Gallery Container */
 .vehicle-gallery-wrapper {
     margin-bottom: 2.5rem;
 }
 
+/* Main Swiper */
 .main-vehicle-swiper {
     width: 100%;
     height: 480px;
@@ -170,6 +187,7 @@ body {
     transform: scale(1.03);
 }
 
+/* Swiper Controls */
 .main-vehicle-swiper .swiper-button-next,
 .main-vehicle-swiper .swiper-button-prev {
     color: #fff;
@@ -195,6 +213,7 @@ body {
     transform: scale(1.1);
 }
 
+/* Pagination Dots */
 .main-vehicle-swiper .swiper-pagination-bullet {
     background: #fff;
     opacity: 0.4;
@@ -207,6 +226,7 @@ body {
     border-radius: 6px;
 }
 
+/* Thumbnails Swiper */
 .thumbs-vehicle-swiper {
     margin-top: 14px;
 }
@@ -222,6 +242,7 @@ body {
     opacity: 1;
 }
 
+/* Thumbnail Box */
 .thumb-img-box {
     width: 100%;
     height: 100%;
@@ -241,6 +262,7 @@ body {
     object-fit: cover;
 }
 
+/* Features Container */
 .real-car-features {
     background: var(--card-bg);
     border-radius: 24px;
@@ -257,12 +279,14 @@ body {
     margin: 0 0 1.5rem 0;
 }
 
+/* Features Grid */
 .features-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 1rem;
 }
 
+/* Feature Item */
 .feature-item {
     display: flex;
     align-items: center;
@@ -290,8 +314,10 @@ body {
     align-items: center;
     justify-content: center;
     border-radius: 12px;
+    flex-shrink: 0;
 }
 
+/* Feature Details */
 .feature-meta span {
     display: block;
     font-size: 0.75rem;
@@ -308,11 +334,13 @@ body {
     font-weight: 800;
 }
 
+/* Sidebar Container */
 .booking-sidebar {
     position: sticky;
     top: 2rem;
 }
 
+/* Booking Box */
 .booking-card {
     background: var(--card-bg);
     padding: 2.2rem;
@@ -323,6 +351,7 @@ body {
     overflow: hidden;
 }
 
+/* Card Title */
 .card-header h3 {
     font-size: 1.4rem;
     font-weight: 900;
@@ -337,6 +366,7 @@ body {
     margin-bottom: 1.5rem;
 }
 
+/* Form Group */
 .form-group label {
     font-size: 0.75rem;
     text-transform: uppercase;
@@ -353,6 +383,7 @@ body {
     color: var(--primary);
 }
 
+/* Datepicker Box */
 .inline-datepicker-wrapper {
     width: 100%;
     display: flex;
@@ -363,8 +394,10 @@ body {
     border: 1px solid var(--glass-border);
     margin-bottom: 1.5rem;
     box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.8);
+    box-sizing: border-box;
 }
 
+/* Calendar Base */
 .react-datepicker {
     font-family: var(--font-main) !important;
     background-color: transparent !important;
@@ -442,6 +475,7 @@ body {
     border-width: 2px 2px 0 0 !important;
 }
 
+/* Invoice Box */
 .invoice-breakdown {
     padding: 1.4rem;
     background: rgba(255, 255, 255, 0.02);
@@ -458,6 +492,7 @@ body {
     letter-spacing: 1px;
 }
 
+/* Invoice Row */
 .invoice-row {
     display: flex;
     justify-content: space-between;
@@ -467,6 +502,7 @@ body {
     font-weight: 600;
 }
 
+/* Badge Element */
 .free-badge {
     color: #00ff88;
     font-weight: 800;
@@ -476,6 +512,7 @@ body {
     border-radius: 6px;
 }
 
+/* Total Price */
 .invoice-total {
     display: flex;
     justify-content: space-between;
@@ -497,10 +534,12 @@ body {
     font-weight: 900;
 }
 
+/* Checkbox Wrapper */
 .terms-checkbox-group {
     margin: 22px 0;
 }
 
+/* Checkbox Container */
 .checkbox-container {
     display: flex;
     align-items: flex-start;
@@ -517,6 +556,7 @@ body {
     opacity: 0;
 }
 
+/* Custom Checkmark */
 .checkmark {
     position: absolute;
     top: 2px;
@@ -561,6 +601,7 @@ body {
     font-weight: 700;
 }
 
+/* Confirm Button */
 .confirm-glow-btn {
     width: 100%;
     padding: 1.1rem;
@@ -591,10 +632,12 @@ body {
     box-shadow: none;
 }
 
+/* Submitting State */
 .booking-card.submitting {
     pointer-events: none;
 }
 
+/* Loading Overlay */
 .booking-overlay {
     position: absolute;
     inset: 0;
@@ -607,6 +650,7 @@ body {
     backdrop-filter: blur(4px);
 }
 
+/* Spinner Icon */
 .mini-loader {
     width: 36px;
     height: 36px;
@@ -616,6 +660,7 @@ body {
     animation: spin 0.8s linear infinite;
 }
 
+/* Full Loader */
 .loader-container {
     min-height: 80vh;
     display: flex;
@@ -624,6 +669,7 @@ body {
     align-items: center;
 }
 
+/* Luxury Spinner */
 .luxury-spinner {
     width: 45px;
     height: 45px;
@@ -633,6 +679,7 @@ body {
     animation: spin 0.9s linear infinite;
 }
 
+/* Loader Text */
 .loader-text {
     color: var(--text-muted);
     font-size: 0.8rem;
@@ -641,6 +688,7 @@ body {
     margin-top: 15px;
 }
 
+/* Error Container */
 .error-message {
     min-height: 80vh;
     display: flex;
@@ -649,6 +697,7 @@ body {
     align-items: center;
 }
 
+/* Back Button */
 .back-btn {
     padding: 10px 24px;
     background: #fff;
@@ -660,14 +709,21 @@ body {
     margin-top: 1rem;
 }
 
+/* Keyframe Rotation */
 @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
 }
 
+/* Tablet Media */
 @media (max-width: 1024px) {
+    .details-container {
+        padding: 2rem 4% 4rem;
+    }
+
     .details-grid-v2 {
         grid-template-columns: 1fr;
+        gap: 2rem;
     }
     
     .booking-sidebar {
@@ -681,21 +737,112 @@ body {
     .header-main {
         flex-direction: column;
         align-items: flex-start;
-        gap: 1rem;
+        gap: 1.2rem;
+    }
+
+    .price-tag {
+        text-align: left;
+        width: auto;
+        display: inline-block;
+    }
+
+    .price-wrapper {
+        justify-content: flex-start;
     }
 }
 
+/* Mobile Media */
 @media (max-width: 600px) {
-    .features-grid {
-        grid-template-columns: 1fr;
+    .details-container {
+        padding: 1.25rem 1rem 3rem;
+    }
+
+    .details-header {
+        margin-bottom: 1.5rem;
+        padding-bottom: 1.2rem;
+    }
+
+    .details-header h1 {
+        font-size: 1.8rem;
+    }
+
+    .price-tag {
+        padding: 10px 18px;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .price-tag .amount {
+        font-size: 2.2rem;
     }
 
     .main-vehicle-swiper {
-        height: 280px;
+        height: 250px;
+        border-radius: 16px;
     }
 
-    .react-datepicker__day-name, .react-datepicker__day {
-        width: 32px !important;
-        line-height: 32px !important;
+    .main-vehicle-swiper .swiper-button-next,
+    .main-vehicle-swiper .swiper-button-prev {
+        width: 36px;
+        height: 36px;
+    }
+
+    .main-vehicle-swiper .swiper-button-next:after,
+    .main-vehicle-swiper .swiper-button-prev:after {
+        font-size: 0.85rem;
+    }
+
+    .thumbs-vehicle-swiper .swiper-slide {
+        height: 65px;
+    }
+
+    .real-car-features {
+        padding: 1.25rem;
+        border-radius: 18px;
+    }
+
+    .features-grid {
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+    }
+
+    .feature-item {
+        padding: 0.9rem 1rem;
+        border-radius: 14px;
+    }
+
+    .booking-card {
+        padding: 1.25rem;
+        border-radius: 20px;
+    }
+
+    .inline-datepicker-wrapper {
+        padding: 8px 4px;
+        border-radius: 14px;
+    }
+
+    .react-datepicker__month-container {
+        padding: 0;
+    }
+
+    .react-datepicker__day-name, 
+    .react-datepicker__day {
+        width: 28px !important;
+        line-height: 28px !important;
+        font-size: 0.75rem !important;
+        margin: 1px !important;
+    }
+
+    .react-datepicker__current-month {
+        font-size: 0.85rem !important;
+        margin-bottom: 6px;
+    }
+
+    .invoice-breakdown {
+        padding: 1rem;
+    }
+
+    .invoice-total strong {
+        font-size: 1.4rem;
     }
 }

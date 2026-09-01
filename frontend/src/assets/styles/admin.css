@@ -25,6 +25,7 @@
         radial-gradient(circle at 90% 80%, rgba(0, 153, 255, 0.02) 0%, transparent 40%);
     color: #FFFFFF;
     font-family: 'Outfit', sans-serif;
+    overflow-x: hidden;
 }
 
 /* Sidebar Navigation */
@@ -39,6 +40,7 @@
     height: 100vh;
     z-index: 100;
     box-shadow: 10px 0 30px rgba(0, 0, 0, 0.30);
+    flex-shrink: 0;
 }
 
 /* Header Section */
@@ -447,6 +449,7 @@ tr.row-out-of-service:hover {
     align-items: center;
     justify-content: center;
     z-index: 1000;
+    padding: 20px;
     animation: fadeInModal 0.3s ease;
 }
 
@@ -456,11 +459,12 @@ tr.row-out-of-service:hover {
     padding: 40px;
     border-radius: 24px;
     width: 650px;
-    max-width: 90%;
+    max-width: 100%;
     border: 1px solid var(--glass-border);
     box-shadow: 0 30px 70px rgba(0, 0, 0, 0.80);
     max-height: 85vh;
     overflow-y: auto;
+    box-sizing: border-box;
 }
 
 /* Modal Title */
@@ -608,6 +612,7 @@ tr.row-out-of-service:hover {
 .admin-form-group input, 
 .admin-select {
     flex: 1;
+    width: 100%;
     background: #070707;
     border: 1px solid var(--glass-border);
     padding: 14px 18px;
@@ -617,6 +622,7 @@ tr.row-out-of-service:hover {
     outline: none;
     font-family: inherit;
     transition: all 0.3s ease;
+    box-sizing: border-box;
 }
 
 /* Input Focus */
@@ -658,6 +664,7 @@ tr.row-out-of-service:hover {
 .select-wrapper {
     position: relative;
     flex: 1;
+    width: 100%;
 }
 
 /* Dropdown Arrow */
@@ -671,7 +678,7 @@ tr.row-out-of-service:hover {
     color: #555555;
 }
 
-/* Modal */
+/* Modal Actions */
 .modal-actions {
     margin-top: 25px;
     display: flex;
@@ -679,6 +686,7 @@ tr.row-out-of-service:hover {
     gap: 12px;
 }
 
+/* Cancel Button */
 .btn-cancel {
     padding: 10px 20px;
     border-radius: 6px;
@@ -713,105 +721,114 @@ tr.row-out-of-service:hover {
     to { opacity: 1; }
 }
 
-/* Large Screens */
+/* Desktop Media */
 @media (max-width: 1024px) {
-    /* Collapse Sidebar */
     .admin-sidebar { 
         width: 80px; 
     }
     
-    /* Hide Text */
     .sidebar-header span, 
     .sidebar-nav button span { 
         display: none; 
     }
     
-    /* Center Nav */
     .sidebar-nav button { 
         justify-content: center; 
         padding: 18px 5px; 
     }
     
-    /* Mobile Padding */
     .admin-topbar { 
         padding: 20px 30px; 
     }
     
-    /* Content Padding */
     .admin-content { 
         padding: 30px; 
     }
 }
 
-/* Tablet Screens */
+/* Tablet Media */
 @media (max-width: 768px) {
-    /* Stack Layout */
     .admin-container { 
         flex-direction: column; 
     }
     
-    /* Top Navigation */
     .admin-sidebar {
         width: 100%;
         height: auto;
         position: relative;
         border-right: none;
         border-bottom: 1px solid var(--glass-border);
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.30);
     }
 
-    /* Hide Header */
     .sidebar-header { 
         display: none; 
     }
     
-    /* Horizontal Nav */
     .sidebar-nav { 
         flex-direction: row; 
         justify-content: space-around; 
-        padding: 10px; 
+        padding: 10px;
+        overflow-x: auto;
+    }
+
+    .sidebar-nav button.active::before {
+        left: 25%;
+        top: auto;
+        bottom: 0;
+        height: 3px;
+        width: 50%;
+        border-radius: 3px 3px 0 0;
     }
     
-    /* Table Scroll */
     .admin-section {
         width: 100%;
         overflow-x: auto;
         -webkit-overflow-scrolling: touch;
     }
 
-    /* Minimum Width */
     .admin-table { 
-        min-width: 750px; 
+        min-width: 700px; 
     }
     
-    /* Center Header */
     .admin-topbar { 
-        padding: 20px; 
+        padding: 18px 20px; 
         text-align: center; 
         justify-content: center; 
     }
+
+    .admin-modal {
+        padding: 25px 20px;
+    }
+
+    .image-controls {
+        opacity: 1;
+        background: rgba(0, 0, 0, 0.40);
+    }
 }
 
-/* Mobile Screens */
+/* Mobile Media */
 @media (max-width: 480px) {
-    /* Mobile Spacing */
     .admin-content { 
-        padding: 20px 15px; 
+        padding: 20px 12px; 
     }
     
-    /* Stack Form */
+    .admin-topbar h2 {
+        font-size: 1.25rem;
+    }
+
     .admin-form-group { 
         flex-direction: column; 
-        gap: 15px; 
+        gap: 12px; 
+        margin-bottom: 15px;
     }
     
-    /* Stack Actions */
     .actions-cell { 
         flex-direction: column; 
         gap: 8px; 
         width: 100%; 
     }
     
-    /* Full Button */
     .btn-update, 
     .btn-delete, 
     .status-btn,
@@ -819,5 +836,22 @@ tr.row-out-of-service:hover {
         width: 100%; 
         justify-content: center; 
         text-align: center;
+        box-sizing: border-box;
+    }
+
+    .image-grid-upload {
+        grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+        gap: 10px;
+        padding: 12px;
+    }
+
+    .modal-actions {
+        flex-direction: column-reverse;
+        gap: 10px;
+    }
+
+    .btn-cancel,
+    .modal-actions button {
+        width: 100%;
     }
 }
