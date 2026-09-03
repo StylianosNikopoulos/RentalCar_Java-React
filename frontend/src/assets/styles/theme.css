@@ -1,0 +1,641 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700;800;900&display=swap');
+
+:root {
+    --font-greek: 'Noto Sans', sans-serif;
+    --theme-page-bg: #050507;
+    --theme-surface: #0c0d10;
+    --theme-surface-raised: #12141a;
+    --theme-text: #ffffff;
+    --theme-muted: #8e93a0;
+    --theme-border: rgba(255, 255, 255, 0.08);
+    --theme-input: rgba(0, 0, 0, 0.5);
+}
+
+:root[data-lang='gr'] body,
+:root[data-lang='gr'] body button,
+:root[data-lang='gr'] body input,
+:root[data-lang='gr'] body select,
+:root[data-lang='gr'] body textarea,
+:root[data-lang='gr'] body h1,
+:root[data-lang='gr'] body h2,
+:root[data-lang='gr'] body h3,
+:root[data-lang='gr'] body h4,
+:root[data-lang='gr'] body h5,
+:root[data-lang='gr'] body h6,
+:root[data-lang='gr'] body p,
+:root[data-lang='gr'] body a,
+:root[data-lang='gr'] body span,
+:root[data-lang='gr'] body label,
+:root[data-lang='gr'] body strong {
+    font-family: var(--font-greek) !important;
+}
+
+:root[data-theme='light'] {
+    --theme-page-bg: #f4f6f8;
+    --theme-surface: #ffffff;
+    --theme-surface-raised: #eef1f4;
+    --theme-text: #17202a;
+    --theme-muted: #65717d;
+    --theme-border: rgba(23, 32, 42, 0.12);
+    --theme-input: #f6f8fa;
+}
+
+html,
+body,
+#root {
+    background: var(--theme-page-bg);
+    color: var(--theme-text);
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+body {
+    color-scheme: dark;
+}
+
+:root[data-theme='light'] body {
+    color-scheme: light;
+}
+
+:root[data-theme='light'] .navbar {
+    background: rgba(255, 255, 255, 0.88);
+    border-bottom-color: rgba(23, 32, 42, 0.1);
+    box-shadow: 0 8px 24px rgba(31, 41, 55, 0.06);
+}
+
+:root[data-theme='light'] .nav-logo,
+:root[data-theme='light'] .nav-links a:hover,
+:root[data-theme='light'] .nav-links a.active:not(.register-nav-btn) {
+    color: #17202a;
+}
+
+:root[data-theme='light'] .nav-links a,
+:root[data-theme='light'] .welcome-msg,
+:root[data-theme='light'] .lang-dropdown-btn,
+:root[data-theme='light'] .theme-toggle-btn {
+    color: #65717d;
+}
+
+:root[data-theme='light'] .lang-dropdown-btn,
+:root[data-theme='light'] .theme-toggle-btn {
+    background: #f2f5f7;
+    border-color: rgba(23, 32, 42, 0.12);
+}
+
+:root[data-theme='light'] .lang-dropdown-btn:hover,
+:root[data-theme='light'] .theme-toggle-btn:hover {
+    background: #e8edf1;
+    color: #17202a;
+}
+
+:root[data-theme='light'] .lang-dropdown-menu {
+    background: #ffffff;
+    border-color: rgba(23, 32, 42, 0.12);
+    box-shadow: 0 18px 40px rgba(31, 41, 55, 0.14);
+}
+
+:root[data-theme='light'] .lang-dropdown-item {
+    color: #65717d;
+}
+
+:root[data-theme='light'] .lang-dropdown-item:hover {
+    background: #f2f5f7;
+    color: #17202a;
+}
+
+:root[data-theme='light'] .mobile-menu-btn .bar {
+    background-color: #17202a;
+}
+
+:root[data-theme='light'] .footer-root,
+:root[data-theme='light'] .booking-steps-section,
+:root[data-theme='light'] .features-section {
+    background: #e9edf1 !important;
+    border-color: rgba(23, 32, 42, 0.1) !important;
+}
+
+:root[data-theme='light'] .hero {
+    background:
+        linear-gradient(90deg, rgba(244, 246, 248, 0.97) 0%, rgba(244, 246, 248, 0.88) 34%, rgba(244, 246, 248, 0.22) 76%, rgba(244, 246, 248, 0.34) 100%),
+        linear-gradient(180deg, rgba(244, 246, 248, 0.08) 35%, rgba(244, 246, 248, 0.9) 100%),
+        url('https://images.unsplash.com/photo-1511919884226-fd3cad34687c?q=80&w=2070&auto=format&fit=crop') 62% center/cover no-repeat;
+}
+
+:root[data-theme='light'] .hero h1,
+:root[data-theme='light'] .hero .field-inputs input,
+:root[data-theme='light'] .custom-home-datepicker {
+    color: #17202a !important;
+}
+
+:root[data-theme='light'] .text-outline {
+    -webkit-text-stroke-color: #17202a;
+}
+
+:root[data-theme='light'] .search-widget-v2 {
+    background: rgba(255, 255, 255, 0.9);
+    border-color: rgba(23, 32, 42, 0.14);
+    box-shadow: 0 20px 50px rgba(31, 41, 55, 0.12);
+}
+
+:root[data-theme='light'] .hero p {
+    color: #65717d;
+}
+
+:root[data-theme='light'] .hero-trust-row {
+    color: #17202a;
+}
+
+:root[data-theme='light'] .hero-trust-row span {
+    border-color: rgba(23, 32, 42, 0.12);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.96), rgba(239, 244, 248, 0.92));
+    box-shadow: 0 10px 24px rgba(31, 41, 55, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+:root[data-theme='light'] .hero-trust-row span:hover {
+    border-color: rgba(255, 77, 0, 0.45);
+    box-shadow: 0 14px 28px rgba(31, 41, 55, 0.14), 0 0 18px rgba(255, 77, 0, 0.1);
+}
+
+:root[data-theme='light'] .footer-main-logo,
+:root[data-theme='light'] .footer-nav-column h4,
+:root[data-theme='light'] .section-header-v2 h2,
+:root[data-theme='light'] .booking-steps-intro h2,
+:root[data-theme='light'] .feature-card h3,
+:root[data-theme='light'] .booking-step-card h3,
+:root[data-theme='light'] .home-car-info h3,
+:root[data-theme='light'] .vehicles-header h1,
+:root[data-theme='light'] .details-header h1,
+:root[data-theme='light'] .auth-card h2 {
+    color: #17202a;
+}
+
+:root[data-theme='light'] .footer-brand-tagline,
+:root[data-theme='light'] .footer-links-list a,
+:root[data-theme='light'] .footer-copyright,
+:root[data-theme='light'] .section-header-v2 p,
+:root[data-theme='light'] .booking-steps-intro p,
+:root[data-theme='light'] .booking-step-card p,
+:root[data-theme='light'] .feature-card p,
+:root[data-theme='light'] .fleet-intro,
+:root[data-theme='light'] .auth-card p.auth-subtitle,
+:root[data-theme='light'] .auth-security-note {
+    color: #65717d;
+}
+
+:root[data-theme='light'] .about-container,
+:root[data-theme='light'] .terms-container {
+    background: #f4f6f8;
+    background-image:
+        radial-gradient(circle at 50% -20%, rgba(255, 77, 0, 0.08) 0%, transparent 50%),
+        radial-gradient(circle at 10% 80%, rgba(0, 153, 255, 0.04) 0%, transparent 40%);
+}
+
+:root[data-theme='light'] .portfolio-alert,
+:root[data-theme='light'] .terms-content,
+:root[data-theme='light'] .about-card {
+    background: rgba(255, 255, 255, 0.9);
+    border-color: rgba(23, 32, 42, 0.12);
+    box-shadow: 0 16px 35px rgba(31, 41, 55, 0.08);
+}
+
+:root[data-theme='light'] .alert-text h4,
+:root[data-theme='light'] .alert-text strong,
+:root[data-theme='light'] .section-header h2,
+:root[data-theme='light'] .about-card h3,
+:root[data-theme='light'] .about-card strong,
+:root[data-theme='light'] .terms-header h1 {
+    color: #17202a;
+}
+
+:root[data-theme='light'] .alert-text p,
+:root[data-theme='light'] .about-card p,
+:root[data-theme='light'] .about-cta-section p,
+:root[data-theme='light'] .terms-section p,
+:root[data-theme='light'] .terms-section li {
+    color: #65717d;
+}
+
+:root[data-theme='light'] .about-card:hover {
+    background: #ffffff;
+    border-color: rgba(255, 77, 0, 0.35);
+}
+
+:root[data-theme='light'] .about-cta-section {
+    border-top-color: rgba(23, 32, 42, 0.12);
+}
+
+:root[data-theme='light'] .terms-section {
+    border-bottom-color: rgba(23, 32, 42, 0.12);
+}
+
+:root[data-theme='light'] .home-vehicle-card,
+:root[data-theme='light'] .feature-card,
+:root[data-theme='light'] .booking-step-card,
+:root[data-theme='light'] .auth-card,
+:root[data-theme='light'] .price-tag,
+:root[data-theme='light'] .filters-bar,
+:root[data-theme='light'] .availability-info-banner {
+    background: #ffffff;
+    border-color: rgba(23, 32, 42, 0.12);
+    box-shadow: 0 16px 35px rgba(31, 41, 55, 0.08);
+}
+
+:root[data-theme='light'] .home-vehicle-card:hover,
+:root[data-theme='light'] .feature-card:hover {
+    background: #ffffff;
+    border-color: rgba(255, 77, 0, 0.4);
+}
+
+:root[data-theme='light'] .home-vehicle-card,
+:root[data-theme='light'] .home-vehicle-card:hover {
+    background: #ffffff;
+    border-color: rgba(23, 32, 42, 0.12);
+    box-shadow: 0 16px 35px rgba(31, 41, 55, 0.08);
+}
+
+:root[data-theme='light'] .home-vehicle-card:hover {
+    border-color: rgba(255, 77, 0, 0.42);
+    box-shadow: 0 22px 44px rgba(31, 41, 55, 0.14), 0 0 26px rgba(255, 77, 0, 0.12);
+}
+
+:root[data-theme='light'] .home-car-info h3,
+:root[data-theme='light'] .home-price strong,
+:root[data-theme='light'] .home-view-deal-btn {
+    color: #17202a;
+}
+
+:root[data-theme='light'] .home-car-info h3 span {
+    -webkit-text-stroke-color: rgba(23, 32, 42, 0.65);
+}
+
+:root[data-theme='light'] .home-car-tag {
+    background: rgba(255, 255, 255, 0.94);
+    border-color: rgba(23, 32, 42, 0.14);
+    color: #17202a;
+    box-shadow: 0 4px 12px rgba(31, 41, 55, 0.1);
+}
+
+:root[data-theme='light'] .home-car-price-row {
+    border-top-color: rgba(23, 32, 42, 0.12);
+}
+
+:root[data-theme='light'] .home-view-deal-btn {
+    background: #f2f5f7;
+    border-color: rgba(23, 32, 42, 0.14);
+}
+
+:root[data-theme='light'] .home-vehicle-card:hover .home-view-deal-btn {
+    background: var(--primary);
+    border-color: var(--primary);
+    color: #ffffff;
+}
+
+:root[data-theme='light'] .booking-step-card,
+:root[data-theme='light'] .booking-step-card:hover,
+:root[data-theme='light'] .booking-step-card:focus-within {
+    background: #ffffff;
+    border-color: rgba(23, 32, 42, 0.12);
+    box-shadow: 0 16px 35px rgba(31, 41, 55, 0.08);
+}
+
+:root[data-theme='light'] .booking-step-card:hover,
+:root[data-theme='light'] .booking-step-card:focus-within {
+    background: linear-gradient(145deg, #ffffff, #fff7f3);
+    border-color: rgba(255, 77, 0, 0.45);
+    box-shadow: 0 22px 44px rgba(31, 41, 55, 0.14), 0 0 26px rgba(255, 77, 0, 0.12);
+}
+
+:root[data-theme='light'] .booking-step-card:hover > i,
+:root[data-theme='light'] .booking-step-card:focus-within > i {
+    color: #ffffff;
+}
+
+:root[data-theme='light'] .search-input,
+:root[data-theme='light'] .form-group input {
+    background: var(--theme-input);
+    border-color: rgba(23, 32, 42, 0.14);
+    color: #17202a;
+}
+
+:root[data-theme='light'] .search-input:focus,
+:root[data-theme='light'] .form-group input:focus {
+    background: #ffffff;
+}
+
+:root[data-theme='light'] .search-input::placeholder,
+:root[data-theme='light'] .form-group input::placeholder {
+    color: #8a949e;
+}
+
+:root[data-theme='light'] .availability-text,
+:root[data-theme='light'] .availability-text strong,
+:root[data-theme='light'] .clear-dates-btn,
+:root[data-theme='light'] .price-tag .amount {
+    color: #17202a;
+}
+
+:root[data-theme='light'] .vehicles-page,
+:root[data-theme='light'] .details-container,
+:root[data-theme='light'] .auth-container {
+    background: #f4f6f8 !important;
+}
+
+:root[data-theme='light'] .auth-container {
+    background:
+        radial-gradient(circle at 50% 20%, rgba(255, 77, 0, 0.08) 0%, transparent 60%),
+        #f4f6f8 !important;
+}
+
+:root[data-theme='light'] .details-header,
+:root[data-theme='light'] .details-grid-v2 > *,
+:root[data-theme='light'] .back-link {
+    border-color: rgba(23, 32, 42, 0.12);
+}
+
+:root[data-theme='light'] .back-link {
+    background: #ffffff;
+    color: #65717d;
+}
+
+:root[data-theme='light'] .back-link:hover {
+    background: #eef1f4;
+    color: #17202a;
+}
+
+/* Fleet cards and controls */
+:root[data-theme='light'] .type-tag {
+    background: rgba(255, 255, 255, 0.94);
+    border-color: rgba(23, 32, 42, 0.14);
+    color: #17202a;
+    box-shadow: 0 4px 12px rgba(31, 41, 55, 0.1);
+}
+
+:root[data-theme='light'] .vehicle-item,
+:root[data-theme='light'] .vehicle-item:hover,
+:root[data-theme='light'] .page-btn,
+:root[data-theme='light'] .empty-state {
+    background: #ffffff;
+    color: #17202a;
+    border-color: rgba(23, 32, 42, 0.12);
+}
+
+:root[data-theme='light'] .car-name,
+:root[data-theme='light'] .car-price-tag .price-value,
+:root[data-theme='light'] .rent-btn-minimal,
+:root[data-theme='light'] .page-btn,
+:root[data-theme='light'] .no-results,
+:root[data-theme='light'] .empty-state h3 {
+    color: #17202a;
+}
+
+:root[data-theme='light'] .car-name span,
+:root[data-theme='light'] .details-header h1 .model-accent,
+:root[data-theme='light'] .vehicle-details h4 span {
+    -webkit-text-stroke-color: rgba(23, 32, 42, 0.65);
+}
+
+:root[data-theme='light'] .car-year,
+:root[data-theme='light'] .clear-dates-btn,
+:root[data-theme='light'] .sort-select,
+:root[data-theme='light'] .date-pill,
+:root[data-theme='light'] .cancel-btn-premium,
+:root[data-theme='light'] .discard-btn,
+:root[data-theme='light'] .security-action-btn {
+    background: #f2f5f7;
+    color: #3f4b56;
+    border-color: rgba(23, 32, 42, 0.14);
+}
+
+:root[data-theme='light'] .search-input,
+:root[data-theme='light'] .sort-select,
+:root[data-theme='light'] .profile-select,
+:root[data-theme='light'] .input-with-icon input,
+:root[data-theme='light'] .info-value-box {
+    background: #f7f9fa;
+    color: #17202a;
+    border-color: rgba(23, 32, 42, 0.14);
+}
+
+:root[data-theme='light'] .search-input:focus,
+:root[data-theme='light'] .sort-select:focus,
+:root[data-theme='light'] .input-with-icon input:focus,
+:root[data-theme='light'] .profile-select:focus {
+    background: #ffffff;
+}
+
+:root[data-theme='light'] .rent-btn-minimal:hover,
+:root[data-theme='light'] .vehicle-item:hover .rent-btn-minimal {
+    color: #ffffff;
+}
+
+:root[data-theme='light'] .card-mini-specs,
+:root[data-theme='light'] .rent-btn-minimal {
+    border-color: rgba(23, 32, 42, 0.12);
+}
+
+/* Vehicle details and booking */
+:root[data-theme='light'] .real-car-features,
+:root[data-theme='light'] .booking-card,
+:root[data-theme='light'] .feature-item,
+:root[data-theme='light'] .invoice-breakdown {
+    background: #ffffff;
+    border-color: rgba(23, 32, 42, 0.12);
+    color: #17202a;
+}
+
+:root[data-theme='light'] .real-car-features h2,
+:root[data-theme='light'] .feature-meta strong,
+:root[data-theme='light'] .invoice-total strong,
+:root[data-theme='light'] .invoice-total span,
+:root[data-theme='light'] .form-group label,
+:root[data-theme='light'] .card-header h3 {
+    color: #17202a;
+}
+
+:root[data-theme='light'] .feature-item:hover {
+    background: #f7f9fa;
+}
+
+:root[data-theme='light'] .inline-datepicker-wrapper {
+    background: #f2f5f7;
+    border-color: rgba(23, 32, 42, 0.14);
+    box-shadow: inset 0 2px 10px rgba(31, 41, 55, 0.08);
+}
+
+:root[data-theme='light'] .react-datepicker,
+:root[data-theme='light'] .react-datepicker .react-datepicker__month-container,
+:root[data-theme='light'] .react-datepicker .react-datepicker__month,
+:root[data-theme='light'] .react-datepicker .react-datepicker__header {
+    background: #ffffff !important;
+    color: #17202a !important;
+}
+
+:root[data-theme='light'] .react-datepicker .react-datepicker__header {
+    border-bottom-color: rgba(23, 32, 42, 0.12) !important;
+}
+
+:root[data-theme='light'] .react-datepicker .react-datepicker__current-month,
+:root[data-theme='light'] .react-datepicker .react-datepicker__day-name,
+:root[data-theme='light'] .react-datepicker .react-datepicker__day {
+    color: #17202a !important;
+}
+
+:root[data-theme='light'] .react-datepicker .react-datepicker__day-name {
+    color: #65717d !important;
+}
+
+:root[data-theme='light'] .react-datepicker .react-datepicker__day:not(.react-datepicker__day--disabled):hover {
+    background: #fff0e9 !important;
+    color: #17202a !important;
+}
+
+:root[data-theme='light'] .react-datepicker .react-datepicker__day--selected,
+:root[data-theme='light'] .react-datepicker .react-datepicker__day--in-range,
+:root[data-theme='light'] .react-datepicker .react-datepicker__day--in-selecting-range,
+:root[data-theme='light'] .react-datepicker .react-datepicker__day--range-start,
+:root[data-theme='light'] .react-datepicker .react-datepicker__day--range-end {
+    background: var(--primary) !important;
+    color: #ffffff !important;
+}
+
+:root[data-theme='light'] .react-datepicker .react-datepicker__day--disabled {
+    color: #a8b0b7 !important;
+    opacity: 1 !important;
+}
+
+:root[data-theme='light'] .react-datepicker .react-datepicker__navigation-icon::before {
+    border-color: #17202a !important;
+}
+
+:root[data-theme='light'] .react-datepicker .react-datepicker__navigation:hover *::before {
+    border-color: var(--primary) !important;
+}
+
+:root[data-theme='light'] .checkbox-text a {
+    color: #17202a;
+}
+
+:root[data-theme='light'] .invoice-total,
+:root[data-theme='light'] .invoice-breakdown,
+:root[data-theme='light'] .terms-checkbox-group {
+    border-color: rgba(23, 32, 42, 0.12);
+}
+
+/* Reservations */
+:root[data-theme='light'] .reservations-container,
+:root[data-theme='light'] .profile-container {
+    background: #f4f6f8;
+}
+
+:root[data-theme='light'] .reservations-header h2,
+:root[data-theme='light'] .profile-header h1,
+:root[data-theme='light'] .vehicle-details h4,
+:root[data-theme='light'] .res-total-price strong,
+:root[data-theme='light'] .current-page {
+    color: #17202a;
+}
+
+:root[data-theme='light'] .res-card,
+:root[data-theme='light'] .empty-state,
+:root[data-theme='light'] .profile-card,
+:root[data-theme='light'] .info-display,
+:root[data-theme='light'] .edit-form,
+:root[data-theme='light'] .danger-zone {
+    background: #ffffff;
+    border-color: rgba(23, 32, 42, 0.12);
+    box-shadow: 0 16px 35px rgba(31, 41, 55, 0.08);
+}
+
+:root[data-theme='light'] .car-icon-wrapper,
+:root[data-theme='light'] .status-badge,
+:root[data-theme='light'] .role-badge {
+    background: #f2f5f7;
+    border-color: rgba(23, 32, 42, 0.12);
+}
+
+:root[data-theme='light'] .date-pill {
+    color: #3f4b56;
+}
+
+:root[data-theme='light'] .res-card:hover {
+    box-shadow: 0 20px 42px rgba(31, 41, 55, 0.12), 0 0 24px rgba(255, 77, 0, 0.12);
+}
+
+/* Profile fields and account actions */
+:root[data-theme='light'] .profile-card h3,
+:root[data-theme='light'] .info-section-title h3,
+:root[data-theme='light'] .danger-zone-header h4,
+:root[data-theme='light'] .security-info strong,
+:root[data-theme='light'] .delete-info strong {
+    color: #17202a;
+}
+
+:root[data-theme='light'] .highlight-box {
+    background: rgba(255, 77, 0, 0.06);
+}
+
+:root[data-theme='light'] .profile-select option {
+    background: #ffffff;
+    color: #17202a;
+}
+
+/* Cookie notice, missing pages, and dialogs */
+:root[data-theme='light'] .cookie-consent,
+:root[data-theme='light'] .not-found-container {
+    background: #ffffff;
+    color: #17202a;
+    border-color: rgba(23, 32, 42, 0.12);
+    box-shadow: 0 16px 35px rgba(31, 41, 55, 0.12);
+}
+
+:root[data-theme='light'] .swal2-popup {
+    background: #ffffff !important;
+    color: #17202a !important;
+}
+
+/* Admin workspace */
+:root[data-theme='light'] .admin-container {
+    background: #f4f6f8;
+    color: #17202a;
+}
+
+:root[data-theme='light'] .admin-sidebar,
+:root[data-theme='light'] .admin-topbar,
+:root[data-theme='light'] .admin-table tbody tr,
+:root[data-theme='light'] .admin-modal-content,
+:root[data-theme='light'] .admin-card {
+    background: #ffffff;
+    color: #17202a;
+    border-color: rgba(23, 32, 42, 0.12);
+}
+
+:root[data-theme='light'] .sidebar-header,
+:root[data-theme='light'] .admin-topbar h2,
+:root[data-theme='light'] .admin-table td,
+:root[data-theme='light'] .admin-modal-content h3,
+:root[data-theme='light'] .admin-card h3 {
+    color: #17202a;
+}
+
+:root[data-theme='light'] .sidebar-nav button:hover,
+:root[data-theme='light'] .admin-table tbody tr:hover {
+    color: #17202a;
+    background: #f2f5f7;
+}
+
+:root[data-theme='light'] .sidebar-nav button.active {
+    color: #17202a;
+    background: linear-gradient(90deg, rgba(255, 77, 0, 0.12), rgba(255, 77, 0, 0.03));
+}
+
+:root[data-theme='light'] .sidebar-nav button,
+:root[data-theme='light'] .admin-table th {
+    color: #65717d;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html,
+    body,
+    #root {
+        transition: none;
+    }
+}

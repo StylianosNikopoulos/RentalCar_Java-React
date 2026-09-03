@@ -73,12 +73,23 @@ const VehiclesPage = () => {
         navigate(`/vehicle/${carId}${searchPath}`);
     };
 
+    const handleCardKeyDown = (event, carId) => {
+        if (event.key === 'Enter' || event.key === ' ') {
+            event.preventDefault();
+            handleCardClick(carId);
+        }
+    };
+
     if (isError) return <div className="error-message">{t.errorMsg}</div>;
 
     return (
         <div className="vehicles-page">
             <div className="vehicles-header">
+                <span className="fleet-eyebrow">{t.fleetSearch}</span>
                 <h1>{t.pageTitle}</h1>
+                <p className="fleet-intro">
+                    {selectedStart && selectedEnd ? t.introWithDates : t.introWithoutDates}
+                </p>
 
                 {selectedStart && selectedEnd && (
                     <div className="availability-info-banner">
@@ -138,7 +149,15 @@ const VehiclesPage = () => {
                 <>
                     <div className="vehicle-grid">
                         {currentItems.map(car => (
-                            <div key={car.id} className="vehicle-item" onClick={() => handleCardClick(car.id)}>
+                            <article
+                                key={car.id}
+                                className="vehicle-item"
+                                onClick={() => handleCardClick(car.id)}
+                                onKeyDown={(event) => handleCardKeyDown(event, car.id)}
+                                role="link"
+                                tabIndex={0}
+                                aria-label={`View details for ${car.brand} ${car.model}`}
+                            >
                                 <div className="vehicle-img-wrapper">
                                     <img 
                                         src={
@@ -149,7 +168,7 @@ const VehiclesPage = () => {
                                         alt={`${car.brand} ${car.model}`} 
                                         className="vehicle-img" 
                                     />
-                                    <span className="type-tag">{car.brand}</span>
+                                    <span className="type-tag"><i className="fas fa-check-circle"></i> Available now</span>
                                 </div>
                                 
                                 <div className="vehicle-card-body">
@@ -160,7 +179,7 @@ const VehiclesPage = () => {
 
                                     <div className="card-mini-specs">
                                         <span><i className="fas fa-gas-pump"></i> {car.fuelType}</span>
-                                        <span><i className="fas fa-id-card"></i> {car.licensePlate}</span>
+                                        <span><i className="fas fa-calendar-alt"></i> {car.year}</span>
                                     </div>
 
                                     <div className="card-pricing-footer">
@@ -177,10 +196,10 @@ const VehiclesPage = () => {
                                         )}
                                     </div>
                                 </div>
-                                <button className="rent-btn-minimal">
-                                    {t.btnViewDeal} <i className="fas fa-arrow-right"></i>
-                                </button>
-                            </div>
+                                    <button className="rent-btn-minimal" type="button" tabIndex={-1}>
+                                        View rental details <i className="fas fa-arrow-right"></i>
+                                    </button>
+                            </article>
                         ))}
                     </div>
 

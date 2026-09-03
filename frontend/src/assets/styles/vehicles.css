@@ -46,6 +46,23 @@ body {
     margin-bottom: 2rem;
 }
 
+.fleet-eyebrow {
+    display: inline-block;
+    margin-bottom: 0.7rem;
+    color: var(--primary);
+    font-size: 0.72rem;
+    font-weight: 900;
+    letter-spacing: 0.16em;
+}
+
+.fleet-intro {
+    max-width: 620px;
+    margin: -1rem auto 2rem;
+    color: var(--text-muted);
+    font-size: 0.96rem;
+    line-height: 1.6;
+}
+
 .availability-info-banner {
     background: rgba(255, 77, 0, 0.06);
     border: 1px solid rgba(255, 77, 0, 0.25);
@@ -247,6 +264,16 @@ body {
     color: #ffffff;
     border: 1px solid var(--glass-border);
     letter-spacing: 1px;
+}
+
+.vehicle-item:focus-visible {
+    outline: 3px solid rgba(255, 77, 0, 0.8);
+    outline-offset: 4px;
+}
+
+.type-tag i {
+    color: #4ade80;
+    margin-right: 0.3rem;
 }
 
 .vehicle-card-body {

@@ -16,6 +16,10 @@ const Footer = () => {
                         <Link to="/" className="footer-main-logo">
                             RENTAL<span>CAR</span>
                         </Link>
+                        <p className="footer-brand-tagline">
+                            {t.tagline}
+                        </p>
+                        <span className="footer-trust-note"><i className="fas fa-shield-alt"></i> {t.trustNote}</span>
                     </div>
 
                     <div className="footer-nav-column">

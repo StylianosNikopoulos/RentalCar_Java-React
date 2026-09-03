@@ -48,7 +48,7 @@ const VehicleModal = ({ vehicleToEdit, onClose }) => {
     const handlePlateChange = (e) => {
         const value = e.target.value.toUpperCase();
         setVehicleForm(prev => ({ ...prev, licensePlate: value }));
-        setPlateError(value && !/^[A-Z]{3}-\d{4}$/.test(value) ? 'Format: ABC-1234' : '');
+        setPlateError(value && !/^[A-Z]{3}-\d{4}$/.test(value) ? t.plateFormat : '');
     };
 
     const handleImagesChange = (e) => {
@@ -173,17 +173,17 @@ const VehicleModal = ({ vehicleToEdit, onClose }) => {
                         <input type="number" placeholder={t.placeholderYear} value={vehicleForm.year} onChange={e => setVehicleForm({...vehicleForm, year: e.target.value})} />
                         <div className="select-wrapper">
                             <select className="admin-select" required value={vehicleForm.fuelType} onChange={e => setVehicleForm({...vehicleForm, fuelType: e.target.value})}>
-                                <option value="" disabled>{t.selectFuelType || "Select Fuel Type"}</option>
-                                <option value="GASOLINE">{t.fuelGasoline || "Gasoline"}</option>
-                                <option value="DIESEL">{t.fuelDiesel || "Diesel"}</option>
-                                <option value="ELECTRIC">{t.fuelElectric || "Electric"}</option>
-                                <option value="HYBRID">{t.fuelHybrid || "Hybrid"}</option>
+                                <option value="" disabled>{t.placeholderFuel}</option>
+                                <option value="GASOLINE">{t.fuelGasoline}</option>
+                                <option value="DIESEL">{t.fuelDiesel}</option>
+                                <option value="ELECTRIC">{t.fuelElectric}</option>
+                                <option value="HYBRID">{t.fuelHybrid}</option>
                             </select>
                         </div>
                     </div>
 
                     <div className="modal-actions" style={{ marginTop: '20px', display: 'flex', gap: '10px', justifyContent: 'flex-end' }}>
-                        <button type="button" className="btn-cancel" onClick={onClose}>{t.btnCancel || "Cancel"}</button>
+                        <button type="button" className="btn-cancel" onClick={onClose}>{t.btnCancel}</button>
                         <button type="submit" className="add-btn" disabled={isSubmitting}>
                             {isSubmitting ? t.btnSaving || "Saving..." : isEditMode ? t.btnUpdate : t.btnAdd || "Save"}
                         </button>
