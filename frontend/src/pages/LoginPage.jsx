@@ -49,6 +49,7 @@ const LoginPage = () => {
     return (
         <div className="auth-container">
             <div className="auth-card">
+                <span className="auth-eyebrow"><i className="fas fa-key"></i> CUSTOMER PORTAL</span>
                 <h2>{t.title}</h2>
                 <p className="auth-subtitle">{t.subtitle || (lang === 'en' ? 'Welcome back! Please enter your details.' : 'Καλώς ήρθατε! Παρακαλώ εισάγετε τα στοιχεία σας.')}</p>
                 
@@ -103,6 +104,7 @@ const LoginPage = () => {
                 ) : (
                     <Link to="/register" className="auth-link">{t.registerLink}</Link>
                 )}
+                <p className="auth-security-note"><i className="fas fa-lock"></i> Your account and payment details stay protected.</p>
             </div>
         </div>
     );

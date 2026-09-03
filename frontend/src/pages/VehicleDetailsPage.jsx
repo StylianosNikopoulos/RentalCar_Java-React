@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate, Link } from 'react-router-dom'; 
+import { useParams, useNavigate, Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import DatePicker from 'react-datepicker';
@@ -28,6 +28,7 @@ const VehicleDetailsPage = () => {
 
     const { id } = useParams();
     const navigate = useNavigate();
+    const location = useLocation();
     const queryClient = useQueryClient();
     const { user } = useAuth();
     
@@ -36,6 +37,17 @@ const VehicleDetailsPage = () => {
     const [acceptedTerms, setAcceptedTerms] = useState(false);
     const [thumbsSwiper, setThumbsSwiper] = useState(null);
     const [isActionPending, setIsActionPending] = useState(false);
+
+    useEffect(() => {
+        const params = new URLSearchParams(location.search);
+        const start = params.get('start');
+        const end = params.get('end');
+
+        if (start && end) {
+            setStartDate(new Date(`${start}T10:00:00`));
+            setEndDate(new Date(`${end}T10:00:00`));
+        }
+    }, [location.search]);
 
     const { data: vehicle, isLoading: vehicleLoading } = useQuery({
         queryKey: ['vehicle', id],
@@ -59,7 +71,6 @@ const VehicleDetailsPage = () => {
                 return null;
             }).filter(Boolean);
         },
-        refetchInterval: 10000,
         enabled: !isActionPending
     });
 
@@ -115,7 +126,7 @@ const VehicleDetailsPage = () => {
         return (
             <div className="loader-container">
                 <div className="luxury-spinner"></div>
-                <span className="loader-text">{t.fetching || 'LOADING DETAILS...'}</span>
+                <span className="loader-text">{t.fetching || t.loadingDetails}</span>
             </div>
         );
     }
@@ -123,9 +134,9 @@ const VehicleDetailsPage = () => {
     if (!vehicle) {
         return (
             <div className="error-message">
-                <h2>VEHICLE NOT FOUND</h2>
-                <button onClick={() => navigate('/vehicles')} className="back-btn">
-                    EXPLORE FLEET
+                    <h2>{t.errorNotFound}</h2>
+                    <button onClick={() => navigate('/vehicles')} className="back-btn">
+                    {t.exploreFleet}
                 </button>
             </div>
         );
@@ -136,12 +147,13 @@ const VehicleDetailsPage = () => {
         : [{ url: 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=2070' }];
 
     const rentalDays = startDate && endDate ? Math.max(1, Math.ceil((endDate - startDate) / (1000 * 60 * 60 * 24))) : 0;
+    const estimatedTotal = rentalDays * Number(vehicle.dailyPrice || 0);
 
     return (
         <div className="details-container">
             <div className="details-top-bar">
                 <button onClick={() => navigate(-1)} className="back-link">
-                    <i className="fas fa-arrow-left"></i> FLEET OVERVIEW
+                    <i className="fas fa-arrow-left"></i> {t.fleetOverview}
                 </button>
             </div>
 
@@ -153,10 +165,10 @@ const VehicleDetailsPage = () => {
                     </div>
                     <div className="price-tag">
                         <div className="price-wrapper">
-                            <span className="currency">$</span>
+                            <span className="currency">€</span>
                             <span className="amount">{vehicle.dailyPrice}</span>
                         </div>
-                        <span className="per-day">/ {t.perDay || 'per day'}</span>
+                        <span className="per-day">/ {t.perDay}</span>
                     </div>
                 </div>
             </div>
@@ -203,33 +215,33 @@ const VehicleDetailsPage = () => {
                     </div>
 
                     <div className="real-car-features">
-                        <h2>{t.specifications || 'VEHICLE SPECIFICATIONS'}</h2>
+                        <h2>{t.specifications}</h2>
                         <div className="features-grid">
                             <div className="feature-item">
                                 <i className="fas fa-gas-pump"></i>
                                 <div className="feature-meta">
-                                    <span>{t.fuelType || 'Fuel System'}</span>
+                                    <span>{t.fuelType}</span>
                                     <strong>{vehicle.fuelType}</strong>
                                 </div>
                             </div>
                             <div className="feature-item">
                                 <i className="fas fa-calendar-alt"></i>
                                 <div className="feature-meta">
-                                    <span>{t.yearModel || 'Model Year'}</span>
+                                    <span>{t.yearModel}</span>
                                     <strong>{vehicle.year}</strong>
                                 </div>
                             </div>
                             <div className="feature-item">
                                 <i className="fas fa-car-side"></i>
                                 <div className="feature-meta">
-                                    <span>{t.modelLabel || 'Edition'}</span>
+                                    <span>{t.modelLabel}</span>
                                     <strong>{vehicle.model}</strong>
                                 </div>
                             </div>
                             <div className="feature-item">
                                 <i className="fas fa-id-card"></i>
                                 <div className="feature-meta">
-                                    <span>{t.licensePlate || 'Registration'}</span>
+                                    <span>{t.licensePlate}</span>
                                     <strong>{vehicle.licensePlate}</strong>
                                 </div>
                             </div>
@@ -245,13 +257,14 @@ const VehicleDetailsPage = () => {
                             </div>
                         )}
                         <div className="card-header">
-                            <h3>{t.sidebarTitle || 'RESERVE VEHICLE'}</h3>
-                            <p>{t.sidebarSubtitle || 'Select dates to configure pricing'}</p>
+                            <span className="booking-step">STEP 1 OF 2</span>
+                            <h3>{t.sidebarTitle}</h3>
+                            <p>{t.chooseDates}</p>
                         </div>
                         
                         <form onSubmit={handleBooking}>
                             <div className="form-group date-picker-group">
-                                <label><i className="far fa-calendar-alt"></i> {t.datesLabel || 'Rental Interval'}</label>
+                                <label><i className="far fa-calendar-alt"></i> {t.rentalInterval}</label>
                                 <div className="inline-datepicker-wrapper">
                                     <DatePicker
                                         inline
@@ -271,22 +284,22 @@ const VehicleDetailsPage = () => {
                             </div>
 
                             <div className="invoice-breakdown">
-                                <h4>{t.invoiceTitle || 'PRICE BREAKDOWN'}</h4>
+                                <h4>{t.priceBreakdown}</h4>
                                 <div className="invoice-row">
-                                    <span>Daily Rate</span>
-                                    <span>${vehicle.dailyPrice}</span>
+                                    <span>{t.dailyRate}</span>
+                                    <span>€{vehicle.dailyPrice}</span>
                                 </div>
                                 <div className="invoice-row">
-                                    <span>Duration</span>
-                                    <span>{rentalDays} {rentalDays === 1 ? 'Day' : 'Days'}</span>
+                                    <span>{t.duration}</span>
+                                    <span>{rentalDays} {rentalDays === 1 ? t.daySingle : t.dayPlural}</span>
                                 </div>
                                 <div className="invoice-row">
-                                    <span>Insurance & Fees</span>
-                                    <span className="free-badge">INCLUDED</span>
+                                    <span>{t.rentalProtection}</span>
+                                    <span className="free-badge">{t.included}</span>
                                 </div>
                                 <div className="invoice-total">
-                                    <span>{t.totalAmount || 'Estimated Total'}</span>
-                                    <strong>${(rentalDays * vehicle.dailyPrice).toFixed(2)}</strong>
+                                    <span>{t.estimatedTotal}</span>
+                                    <strong>{rentalDays ? `€${estimatedTotal.toFixed(2)}` : t.selectDates}</strong>
                                 </div>
                             </div>
 
@@ -300,7 +313,7 @@ const VehicleDetailsPage = () => {
                                     />
                                     <span className="checkmark"></span>
                                     <span className="checkbox-text">
-                                        {t.termsCheckboxText || 'I agree to the'} <Link to="/terms" target="_blank">{t.termsLinkText || 'Terms & Conditions'}</Link>
+                                        {t.agreeTo} <Link to="/terms" target="_blank">{t.termsConditions}</Link>
                                     </span>
                                 </label>
                             </div>
@@ -311,9 +324,10 @@ const VehicleDetailsPage = () => {
                                 disabled={bookingMutation.isPending || isActionPending}
                             >
                                 {bookingMutation.isPending || isActionPending 
-                                    ? (t.btnProcessing || 'PROCESSING...') 
-                                    : (user ? (t.btnReserve || 'CONFIRM RESERVATION') : (t.btnLoginToBook || 'LOG IN TO BOOK'))}
+                                    ? t.btnProcessing
+                                    : (user ? t.btnReserve : t.btnLoginToBook)}
                             </button>
+                            <p className="booking-note"><i className="fas fa-lock"></i> {t.bookingNote}</p>
                         </form>
                     </div>
                 </div>

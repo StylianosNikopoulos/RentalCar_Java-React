@@ -156,7 +156,7 @@ const ProfilePage = () => {
     return (
         <div className="profile-container">
             <header className="profile-header">
-                <span className="profile-badge">DRIVER DASHBOARD</span>
+                <span className="profile-badge">{t.dashboardBadge}</span>
                 <h1>{t.title}</h1>
                 <p>{t.subtitle}</p>
             </header>
@@ -175,7 +175,7 @@ const ProfilePage = () => {
                             <div className="avatar-circle">
                                 {fullUser?.firstName?.charAt(0).toUpperCase()}
                             </div>
-                            <span className="status-indicator-dot" title="Active Account"></span>
+                            <span className="status-indicator-dot" title={t.activeAccount}></span>
                         </div>
 
                         <h3>{fullUser?.firstName} {fullUser?.lastName}</h3>
@@ -207,7 +207,7 @@ const ProfilePage = () => {
                             <div className="info-display">
                                 <div className="info-section-title">
                                     <i className="fas fa-id-badge"></i>
-                                    <h3>PERSONAL INFORMATION</h3>
+                                    <h3>{t.personalInformation}</h3>
                                 </div>
 
                                 <div className="info-card-grid">
@@ -262,7 +262,7 @@ const ProfilePage = () => {
                             <form onSubmit={handleUpdate} className="edit-form">
                                 <div className="info-section-title">
                                     <i className="fas fa-user-edit"></i>
-                                    <h3>EDIT PROFILE DATA</h3>
+                                    <h3>{t.editProfileData}</h3>
                                 </div>
 
                                 <div className="form-row-grid">
@@ -347,7 +347,7 @@ const ProfilePage = () => {
                                     disabled={isSubmitting}
                                 >
                                     {isSubmitting ? (
-                                        <span>PROCESSING...</span>
+                                        <span>{t.processing}</span>
                                     ) : (
                                         <>
                                             <span>{t.btnSave}</span>
@@ -365,15 +365,15 @@ const ProfilePage = () => {
                                 </div>
                                 <div>
                                     <h4>{t.securityTitle}</h4>
-                                    <span className="danger-subtext">Manage password resets & account privacy</span>
+                                    <span className="danger-subtext">{t.securityDescription}</span>
                                 </div>
                             </div>
                             
                             <div className="danger-actions-block">
                                 <div className="security-item">
                                     <div className="security-info">
-                                        <strong>Password Reset</strong>
-                                        <p>Send a secure reset link to your registered email</p>
+                                        <strong>{t.passwordResetTitle}</strong>
+                                        <p>{t.passwordResetDescription}</p>
                                     </div>
                                     <button 
                                         className="security-action-btn" 
@@ -390,7 +390,7 @@ const ProfilePage = () => {
                                 {fullUser?.role !== 'ADMIN' ? (
                                     <div className="account-delete-block">
                                         <div className="delete-info">
-                                            <strong>Account Deletion</strong>
+                                            <strong>{t.accountDeletionTitle}</strong>
                                             <p>{t.deleteWarning}</p>
                                         </div>
                                         <button 
