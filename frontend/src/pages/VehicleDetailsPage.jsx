@@ -6,6 +6,7 @@ import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 import vehicleService from '../services/vehicleService';
 import reservationService from '../services/reservationService';
+import paymentService from '../services/paymentService';
 import toast from 'react-hot-toast';
 import { useLang } from '../context/LangContext';
 import { translations } from '../i18n/translations';
@@ -77,10 +78,24 @@ const VehicleDetailsPage = () => {
     const bookingMutation = useMutation({
         mutationFn: (bookingData) => reservationService.createReservation(bookingData),
         onMutate: () => setIsActionPending(true),
-        onSuccess: () => {
-            toast.success(t.toastBookingSuccess || 'Reservation submitted successfully!');
+        onSuccess: async (reservation) => {
             queryClient.invalidateQueries({ queryKey: ['vehicle-reservations', id] });
-            setTimeout(() => navigate('/reservations'), 1200);
+
+            try {
+                const payment = await paymentService.initiatePayment(reservation.id);
+                if (payment?.url) {
+                    window.location.href = payment.url;
+                    return;
+                }
+                throw new Error('Payment URL not found');
+            } catch (error) {
+                setIsActionPending(false);
+                const message = error.response?.data?.message || '';
+                toast.error(message.includes('Stripe Session Creation Failed')
+                    ? t.stripeSessionError
+                    : (message || t.toastPaymentInitError || 'Payment could not be started'));
+                navigate('/reservations');
+            }
         },
         onError: (error) => {
             setIsActionPending(false);
@@ -238,13 +253,6 @@ const VehicleDetailsPage = () => {
                                     <strong>{vehicle.model}</strong>
                                 </div>
                             </div>
-                            <div className="feature-item">
-                                <i className="fas fa-id-card"></i>
-                                <div className="feature-meta">
-                                    <span>{t.licensePlate}</span>
-                                    <strong>{vehicle.licensePlate}</strong>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -257,7 +265,7 @@ const VehicleDetailsPage = () => {
                             </div>
                         )}
                         <div className="card-header">
-                            <span className="booking-step">STEP 1 OF 2</span>
+                                    <span className="booking-step">{t.bookingStep}</span>
                             <h3>{t.sidebarTitle}</h3>
                             <p>{t.chooseDates}</p>
                         </div>

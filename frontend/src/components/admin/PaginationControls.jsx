@@ -7,7 +7,7 @@ const PaginationControls = ({ currentPage, totalPages, onPageChange }) => {
     const t = translations[lang].admin;
 
     return (
-        <div className="pagination" style={{ marginTop: '20px', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '15px' }}>
+        <div className="pagination admin-pagination">
             <button 
                 onClick={() => onPageChange(prev => Math.max(prev - 1, 1))} 
                 disabled={currentPage === 1} 
@@ -15,8 +15,8 @@ const PaginationControls = ({ currentPage, totalPages, onPageChange }) => {
             >
                 <i className="fas fa-chevron-left"></i> {t.btnPrevious}
             </button>
-            <span className="page-info" style={{ color: '#aaa', fontSize: '0.9rem' }}>
-                PAGE {currentPage} OF {totalPages}
+            <span className="page-info">
+                {t.page} {currentPage} {t.of} {totalPages}
             </span>
             <button 
                 onClick={() => onPageChange(prev => Math.min(prev + 1, totalPages))} 

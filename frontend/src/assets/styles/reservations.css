@@ -115,6 +115,7 @@ body {
 .status-border-pending .res-card-accent { background: var(--status-pending); }
 .status-border-confirmed .res-card-accent { background: var(--status-confirmed); }
 .status-border-canceled .res-card-accent { background: var(--status-canceled); }
+.status-border-completed .res-card-accent { background: var(--status-confirmed); }
 
 .res-meta-section {
     display: flex;
@@ -243,6 +244,9 @@ body {
 
 .status-badge.canceled { color: var(--status-canceled); border-color: rgba(255, 51, 85, 0.3); }
 .status-badge.canceled .status-dot { background: var(--status-canceled); box-shadow: 0 0 8px var(--status-canceled); }
+
+.status-badge.completed { color: var(--status-confirmed); border-color: rgba(0, 255, 136, 0.3); }
+.status-badge.completed .status-dot { background: var(--status-confirmed); box-shadow: 0 0 8px var(--status-confirmed); }
 
 .res-timer {
     font-size: 0.8rem;
@@ -514,4 +518,18 @@ body {
         transform: rotate(90deg);
         margin: -4px 0 -4px 12px;
     }
+}
+
+.pending-payment-note {
+    max-width: 230px;
+    margin: 0;
+    color: var(--text-muted);
+    font-size: 0.72rem;
+    line-height: 1.45;
+    text-align: right;
+}
+
+.pending-payment-note i {
+    color: var(--status-pending);
+    margin-right: 4px;
 }

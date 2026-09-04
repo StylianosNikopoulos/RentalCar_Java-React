@@ -54,9 +54,9 @@ const RegisterPage = () => {
     return (
         <div className="auth-container">
             <div className="auth-card">
-                <span className="auth-eyebrow"><i className="fas fa-car-side"></i> START YOUR JOURNEY</span>
+                <span className="auth-eyebrow"><i className="fas fa-car-side"></i> {t.eyebrow}</span>
                 <h2>{t.title}</h2>
-                <p className="auth-subtitle">Create an account to reserve faster and manage every trip in one place.</p>
+                <p className="auth-subtitle">{t.subtitle}</p>
                 <form onSubmit={handleSubmit}>
                     <div className="auth-row-grid">
                         <div className="form-group">
@@ -116,7 +116,7 @@ const RegisterPage = () => {
                         className="auth-button" 
                         disabled={isSubmitting}
                     >
-                        {isSubmitting ? '...' : t.button} <i className="fas fa-user-plus"></i>
+                        {isSubmitting ? t.processing : t.button} <i className="fas fa-user-plus"></i>
                     </button>
                 </form>
                 {isSubmitting ? (
@@ -124,7 +124,7 @@ const RegisterPage = () => {
                 ) : (
                     <Link to="/login" className="auth-link">{t.link}</Link>
                 )}
-                <p className="auth-security-note"><i className="fas fa-shield-alt"></i> {t.securityNote}</p>
+                 <p className="auth-security-note"><i className="fas fa-shield-alt"></i> {t.securityNote}</p>
             </div>
         </div>
     );

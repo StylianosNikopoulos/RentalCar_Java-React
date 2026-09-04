@@ -49,9 +49,9 @@ const LoginPage = () => {
     return (
         <div className="auth-container">
             <div className="auth-card">
-                <span className="auth-eyebrow"><i className="fas fa-key"></i> CUSTOMER PORTAL</span>
+                <span className="auth-eyebrow"><i className="fas fa-key"></i> {t.eyebrow}</span>
                 <h2>{t.title}</h2>
-                <p className="auth-subtitle">{t.subtitle || (lang === 'en' ? 'Welcome back! Please enter your details.' : 'Καλώς ήρθατε! Παρακαλώ εισάγετε τα στοιχεία σας.')}</p>
+                <p className="auth-subtitle">{t.subtitle}</p>
                 
                 <form onSubmit={handleSubmit}>
                     <div className="form-group">
@@ -95,7 +95,7 @@ const LoginPage = () => {
                         className="auth-button" 
                         disabled={isSubmitting}
                     >
-                        {isSubmitting ? '...' : t.btnSubmit} <i className="fas fa-arrow-right"></i>
+                        {isSubmitting ? t.processing : t.btnSubmit} <i className="fas fa-arrow-right"></i>
                     </button>
                 </form>
 
@@ -104,7 +104,7 @@ const LoginPage = () => {
                 ) : (
                     <Link to="/register" className="auth-link">{t.registerLink}</Link>
                 )}
-                <p className="auth-security-note"><i className="fas fa-lock"></i> Your account and payment details stay protected.</p>
+                <p className="auth-security-note"><i className="fas fa-lock"></i> {t.securityNote}</p>
             </div>
         </div>
     );

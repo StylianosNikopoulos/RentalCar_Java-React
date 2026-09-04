@@ -98,6 +98,16 @@ const MyReservationPage = () => {
     const totalPages = reservationResponse.page?.totalPages || 1;
     const isTotalElementsZero = reservationResponse.page?.totalElements === 0;
 
+    const statusLabel = (status) => {
+        const labels = {
+            PENDING: t.pendingStatus,
+            CONFIRMED: t.confirmedStatus,
+            CANCELED: t.canceledStatus,
+            COMPLETED: t.completedStatus
+        };
+        return labels[status] || status.replace(/_/g, ' ');
+    };
+
     const cancelMutation = useMutation({
         mutationFn: (id) => reservationService.cancelReservation(id),
         onMutate: () => {
@@ -176,7 +186,10 @@ const MyReservationPage = () => {
         } catch (error) {
             setIsActionPending(false);
             toast.dismiss(loadingToast);
-            toast.error(error.response?.data?.message || t.toastPaymentInitError);
+            const message = error.response?.data?.message || '';
+            toast.error(message.includes('Stripe Session Creation Failed')
+                ? t.stripeSessionError
+                : (message || t.toastPaymentInitError));
         }
     };
 
@@ -253,8 +266,8 @@ const MyReservationPage = () => {
                                             <div className="status-badge-wrapper">
                                                 <span className={`status-badge ${res.status.toLowerCase().replace(/\s+/g, '_')}`}>
                                                     <span className="status-dot"></span>
-                                                    {lang === 'gr' && t[res.status.toLowerCase()] ? t[res.status.toLowerCase()] : res.status.replace('_', ' ')}
-                                                </span>
+                                                     {statusLabel(status)}
+                                                 </span>
                                                 {status === 'PENDING' && (
                                                     <ReservationTimer 
                                                         createdAt={res.createdAt} 
@@ -262,10 +275,15 @@ const MyReservationPage = () => {
                                                     />
                                                 )}
                                             </div>
-                                            <div className="res-total-price">
+                                             <div className="res-total-price">
                                                 <span>{t.totalAmount}</span>
                                                 <strong>€{res.totalAmount?.toFixed(2)}</strong>
-                                            </div>
+                                             </div>
+                                             {status === 'PENDING' && !isExpired && (
+                                                 <p className="pending-payment-note">
+                                                     <i className="fas fa-info-circle"></i> {t.pendingDescription}
+                                                 </p>
+                                             )}
                                         </div>
 
                                         <div className="res-actions">
