@@ -90,7 +90,7 @@ public class VehicleServiceImpl implements VehicleService {
 
     @Override
     @Transactional
-    public void deleteVehicle(UUID id) {
+    public void markVehicleOutOfService(UUID id) {
         Vehicle vehicle = vehicleRepository.findById(id)
                 .orElseThrow(() -> new VehicleNotFoundException(id));
 

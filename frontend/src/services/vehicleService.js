@@ -67,8 +67,8 @@ const vehicleService = {
         return response.data;
     },
 
-    deleteVehicle: async (id) => {
-        await api.delete(`/admin/vehicles/${id}`);
+    markVehicleOutOfService: async (id) => {
+        await api.patch(`/admin/vehicles/${id}/out-of-service`);
     },
 
     restoreVehicle: async (id) => {

@@ -46,9 +46,9 @@ public class AdminVehicleController {
         return ResponseEntity.ok(updatedVehicle != null ? vehicleRestMapper.toResponse(updatedVehicle) : null);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteVehicle(@PathVariable UUID id) {
-        vehicleService.deleteVehicle(id);
+    @PatchMapping("/{id}/out-of-service")
+    public ResponseEntity<Void> markVehicleOutOfService(@PathVariable UUID id) {
+        vehicleService.markVehicleOutOfService(id);
         return ResponseEntity.noContent().build();
     }
 

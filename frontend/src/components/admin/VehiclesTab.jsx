@@ -36,7 +36,7 @@ const VehiclesTab = () => {
     const totalVehiclePages = vehicleResponse.page?.totalPages || 1;
 
     const oosMutation = useMutation({
-        mutationFn: (id) => vehicleService.deleteVehicle(id),
+        mutationFn: (id) => vehicleService.markVehicleOutOfService(id),
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['admin-vehicles'] });
             toast.success(t.toastVehOos);
