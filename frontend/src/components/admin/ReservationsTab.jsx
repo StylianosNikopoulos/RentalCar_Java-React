@@ -13,6 +13,7 @@ const ReservationsTab = () => {
     const t = translations[lang].admin;
 
     const [reservationPage, setReservationPage] = useState(1);
+    const [selectedReservation, setSelectedReservation] = useState(null);
     const itemsPerPage = 9;
 
     useEffect(() => {
@@ -41,6 +42,12 @@ const ReservationsTab = () => {
             COMPLETED: t.statusCompleted
         };
         return labels[status] || status || t.statusUnknown;
+    };
+
+    const paymentLabel = (status) => {
+        if (status === 'PENDING') return t.paymentAwaiting;
+        if (status === 'CANCELED') return t.paymentCanceled;
+        return t.paymentCompleted;
     };
 
     const cancelResMutation = useMutation({
@@ -103,8 +110,6 @@ const ReservationsTab = () => {
                             <tr>
                                 <th>{t.tableUserEmail}</th>
                                 <th>{t.tableVehicle}</th>
-                                <th>{t.tableFrom}</th>
-                                <th>{t.tableUntil}</th>
                                 <th>{t.tableStatus}</th>
                                 <th>{t.tableActions}</th>
                             </tr>
@@ -114,8 +119,6 @@ const ReservationsTab = () => {
                                 <tr key={res.id}>
                                     <td>{res.email}</td>
                                     <td>{res.vehicleBrand} {res.vehicleName}</td>
-                                    <td>{new Date(res.period.start).toLocaleDateString()}</td>
-                                    <td>{new Date(res.period.end).toLocaleDateString()}</td>
                                     <td>
                                         <span className={`status-badge status-${res.status ? res.status.toLowerCase() : ''}`}>
                                             {statusLabel(res.status)}
@@ -123,6 +126,9 @@ const ReservationsTab = () => {
                                     </td>
                                     <td>
                                         <div className="actions-cell">
+                                            <button className="status-btn details-btn" onClick={() => setSelectedReservation(res)}>
+                                                <i className="fas fa-eye"></i> {t.btnDetails}
+                                            </button>
                                             {res.status === 'PENDING' && (
                                                 <button className="status-btn pick-up" onClick={() => handleCancelReservation(res.id)}>
                                                     <i className="fas fa-times"></i> {t.btnCancel}
@@ -138,7 +144,7 @@ const ReservationsTab = () => {
                                     </td>
                                 </tr>
                             )) : (
-                                <tr><td colSpan="6" style={{textAlign: 'center', color: '#666', padding: '30px'}}>{t.noReservations}</td></tr>
+                                <tr><td colSpan="4" style={{textAlign: 'center', color: '#666', padding: '30px'}}>{t.noReservations}</td></tr>
                             )}
                         </tbody>
                     </table>
@@ -148,6 +154,29 @@ const ReservationsTab = () => {
                         totalPages={totalReservationPages} 
                         onPageChange={setReservationPage} 
                     />
+
+                    {selectedReservation && (
+                        <div className="modal-overlay details-modal-overlay" onClick={() => setSelectedReservation(null)}>
+                            <div className="admin-modal reservation-details-modal" onClick={(event) => event.stopPropagation()}>
+                                <div className="modal-heading-row">
+                                    <h3>{t.reservationDetails}</h3>
+                                    <button className="modal-close-btn" onClick={() => setSelectedReservation(null)} aria-label={t.btnClose}>
+                                        <span aria-hidden="true">×</span>
+                                    </button>
+                                </div>
+                                <div className="reservation-details-grid">
+                                    <div><span>{t.tableUserEmail}</span><strong>{selectedReservation.email}</strong></div>
+                                    <div><span>{t.tableVehicle}</span><strong>{selectedReservation.vehicleBrand} {selectedReservation.vehicleName}</strong></div>
+                                    <div><span>{t.tableFrom}</span><strong>{new Date(selectedReservation.period.start).toLocaleDateString()}</strong></div>
+                                    <div><span>{t.tableUntil}</span><strong>{new Date(selectedReservation.period.end).toLocaleDateString()}</strong></div>
+                                    <div><span>{t.tableAmount}</span><strong>€{Number(selectedReservation.totalAmount || 0).toFixed(2)}</strong></div>
+                                    <div><span>{t.tablePayment}</span><strong>{paymentLabel(selectedReservation.status)}</strong></div>
+                                    <div><span>{t.tableStatus}</span><strong>{statusLabel(selectedReservation.status)}</strong></div>
+                                    <div><span>{t.tableCreated}</span><strong>{selectedReservation.createdAt ? new Date(selectedReservation.createdAt).toLocaleString(lang === 'gr' ? 'el-GR' : 'en-GB') : '-'}</strong></div>
+                                </div>
+                            </div>
+                        </div>
+                    )}
                 </>
             )}
         </div>

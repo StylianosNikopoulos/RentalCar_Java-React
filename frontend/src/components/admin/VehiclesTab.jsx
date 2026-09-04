@@ -17,6 +17,7 @@ const VehiclesTab = () => {
     const [vehiclePage, setVehiclePage] = useState(1);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedVehicle, setSelectedVehicle] = useState(null);
+    const [selectedVehicleDetails, setSelectedVehicleDetails] = useState(null);
     const itemsPerPage = 9;
 
     useEffect(() => {
@@ -116,20 +117,16 @@ const VehiclesTab = () => {
                         <thead>
                             <tr>
                                 <th>{t.tableVehicle}</th>
-                                <th>{t.tablePlate}</th>
-                                <th>{t.tablePrice}</th>
                                 <th>{t.tableStatus}</th>
                                 <th>{t.tableActions}</th>
                             </tr>
                         </thead>
                         <tbody>
                             {currentVehicles.map(car => {
-                                const isOos = car.status === 'OUT_OF_SERVICE';
+                                        const isOos = car.status === 'OUT_OF_SERVICE';
                                 return (
                                     <tr key={car.id} className={isOos ? 'row-out-of-service' : ''}>
                                         <td><strong>{car.brand}</strong> {car.model}</td>
-                                        <td>{car.licensePlate}</td>
-                                        <td>€{car.dailyPrice}</td>
                                         <td>
                                             <span className={`status-badge ${isOos ? 'status-oos' : 'status-active'}`}>
                                                 <i className={`fas ${isOos ? 'fa-ban' : 'fa-check-circle'}`}></i>
@@ -137,6 +134,9 @@ const VehiclesTab = () => {
                                             </span>
                                         </td>
                                         <td className="actions-cell">
+                                            <button className="status-btn details-btn" onClick={() => setSelectedVehicleDetails(car)}>
+                                                <i className="fas fa-eye"></i> {t.btnDetails}
+                                            </button>
                                             <button className="btn-update" onClick={() => openUpdateModal(car)}>
                                                 <i className="fas fa-edit"></i> {t.btnUpdate}
                                             </button>
@@ -167,6 +167,27 @@ const VehiclesTab = () => {
                     vehicleToEdit={selectedVehicle} 
                     onClose={() => setIsModalOpen(false)} 
                 />
+            )}
+
+            {selectedVehicleDetails && (
+                <div className="modal-overlay details-modal-overlay" onClick={() => setSelectedVehicleDetails(null)}>
+                    <div className="admin-modal reservation-details-modal" onClick={(event) => event.stopPropagation()}>
+                        <div className="modal-heading-row">
+                            <h3>{t.vehicleDetails}</h3>
+                            <button className="modal-close-btn" onClick={() => setSelectedVehicleDetails(null)} aria-label={t.btnClose}>
+                                <span aria-hidden="true">×</span>
+                            </button>
+                        </div>
+                        <div className="reservation-details-grid">
+                            <div><span>{t.tableVehicle}</span><strong>{selectedVehicleDetails.brand} {selectedVehicleDetails.model}</strong></div>
+                            <div><span>{t.tablePlate}</span><strong>{selectedVehicleDetails.licensePlate}</strong></div>
+                            <div><span>{t.tablePrice}</span><strong>€{selectedVehicleDetails.dailyPrice} / {t.daySingle}</strong></div>
+                            <div><span>{t.placeholderYear}</span><strong>{selectedVehicleDetails.year}</strong></div>
+                            <div><span>{t.placeholderFuel}</span><strong>{selectedVehicleDetails.fuelType}</strong></div>
+                            <div><span>{t.tableStatus}</span><strong>{selectedVehicleDetails.status === 'OUT_OF_SERVICE' ? t.btnOutOfService : activeTranslation}</strong></div>
+                        </div>
+                    </div>
+                </div>
             )}
         </div>
     );

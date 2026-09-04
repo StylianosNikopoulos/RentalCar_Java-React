@@ -13,6 +13,7 @@ const UsersTab = () => {
     const t = translations[lang].admin;
 
     const [userPage, setUserPage] = useState(1);
+    const [selectedUser, setSelectedUser] = useState(null);
     const itemsPerPage = 9;
 
     useEffect(() => {
@@ -76,7 +77,6 @@ const UsersTab = () => {
                         <thead>
                             <tr>
                                 <th>{t.tableName}</th>
-                                <th>{t.tableEmail}</th>
                                 <th>{t.tableRole}</th>
                                 <th>{t.tableActions}</th>
                             </tr>
@@ -93,7 +93,6 @@ const UsersTab = () => {
                                 return (
                                     <tr key={user.id} className={isDeleted ? 'row-out-of-service' : ''}>
                                         <td>{user.firstName} {user.lastName}</td>
-                                        <td>{user.email}</td>
                                         <td>
                                             <span className={`role-badge ${user.role ? user.role.toLowerCase() : ''}`}>
                                                 {user.role}
@@ -101,6 +100,9 @@ const UsersTab = () => {
                                         </td>
                                         <td>
                                             <div className="actions-cell">
+                                                <button className="status-btn details-btn" onClick={() => setSelectedUser(user)}>
+                                                    <i className="fas fa-eye"></i> {t.btnDetails}
+                                                </button>
                                                 {user.role !== 'ADMIN' && !isDeleted && (
                                                     <button className="btn-delete" onClick={() => handleDeleteUser(user.id)}>
                                                         <i className="fas fa-trash"></i> {t.btnDelete}
@@ -125,6 +127,28 @@ const UsersTab = () => {
                         totalPages={totalUserPages} 
                         onPageChange={setUserPage} 
                     />
+
+                    {selectedUser && (
+                        <div className="modal-overlay details-modal-overlay" onClick={() => setSelectedUser(null)}>
+                            <div className="admin-modal reservation-details-modal" onClick={(event) => event.stopPropagation()}>
+                                <div className="modal-heading-row">
+                                    <h3>{t.userDetails}</h3>
+                                    <button className="modal-close-btn" onClick={() => setSelectedUser(null)} aria-label={t.btnClose}>
+                                        <span aria-hidden="true">×</span>
+                                    </button>
+                                </div>
+                                <div className="reservation-details-grid">
+                                    <div><span>{t.tableName}</span><strong>{selectedUser.firstName} {selectedUser.lastName}</strong></div>
+                                    <div><span>{t.tableEmail}</span><strong>{selectedUser.email}</strong></div>
+                                    <div><span>{t.tableRole}</span><strong>{selectedUser.role}</strong></div>
+                                    <div><span>{t.phoneNumber}</span><strong>{selectedUser.phoneNumber || '-'}</strong></div>
+                                    <div><span>{t.address}</span><strong>{selectedUser.address || '-'}</strong></div>
+                                    <div><span>{t.driverLicenseNumber}</span><strong>{selectedUser.driverLicenseNumber || '-'}</strong></div>
+                                    <div><span>{t.tableStatus}</span><strong>{selectedUser.deleted || selectedUser.isDeleted || selectedUser.status === 'DELETED' || selectedUser.active === false || selectedUser.email?.startsWith('deleted_') || selectedUser.firstName === 'Deleted User' ? t.badgeDeleted || 'DELETED' : t.activeStatus}</strong></div>
+                                </div>
+                            </div>
+                        </div>
+                    )}
                 </>
             )}
         </div>

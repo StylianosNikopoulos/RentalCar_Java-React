@@ -632,6 +632,84 @@ body {
     color: #65717d;
 }
 
+:root[data-theme='light'] .details-btn {
+    background: #eef2f5;
+    color: #17202a;
+    border-color: rgba(23, 32, 42, 0.22);
+}
+
+:root[data-theme='light'] .details-btn:hover {
+    background: #dfe6eb;
+    color: #17202a;
+    border-color: rgba(23, 32, 42, 0.35);
+}
+
+:root[data-theme='light'] .admin-modal {
+    background: #ffffff;
+    color: #17202a;
+    border-color: rgba(23, 32, 42, 0.12);
+    box-shadow: 0 30px 70px rgba(31, 41, 55, 0.20);
+}
+
+:root[data-theme='light'] .admin-modal h3,
+:root[data-theme='light'] .reservation-details-grid strong {
+    color: #17202a;
+}
+
+:root[data-theme='light'] .reservation-details-grid div {
+    background: #f6f8fa;
+    border-color: rgba(23, 32, 42, 0.12);
+}
+
+:root[data-theme='light'] .reservation-details-grid span {
+    color: #65717d;
+}
+
+:root[data-theme='light'] .modal-heading-row {
+    background: #ffffff;
+    border-color: rgba(23, 32, 42, 0.12);
+}
+
+:root[data-theme='light'] .modal-close-btn {
+    background: #eef2f5;
+    color: #17202a;
+    border-color: rgba(23, 32, 42, 0.22);
+}
+
+:root[data-theme='light'] .modal-close-btn:hover {
+    background: #dfe6eb;
+    color: #17202a;
+    border-color: rgba(23, 32, 42, 0.35);
+}
+
+:root[data-theme='light'] .admin-form-group input,
+:root[data-theme='light'] .admin-select,
+:root[data-theme='light'] .image-grid-upload {
+    background: #f6f8fa;
+    color: #17202a;
+    border-color: rgba(23, 32, 42, 0.16);
+}
+
+:root[data-theme='light'] .admin-form-group input::placeholder {
+    color: #65717d;
+}
+
+:root[data-theme='light'] .admin-form-group input:focus,
+:root[data-theme='light'] .admin-select:focus {
+    background: #ffffff;
+}
+
+:root[data-theme='light'] .add-more-photos {
+    color: #65717d;
+    border-color: rgba(23, 32, 42, 0.22);
+}
+
+:root[data-theme='light'] .btn-cancel {
+    background: #ffffff;
+    color: #17202a;
+    border-color: rgba(23, 32, 42, 0.22);
+}
+
 @media (prefers-reduced-motion: reduce) {
     html,
     body,
