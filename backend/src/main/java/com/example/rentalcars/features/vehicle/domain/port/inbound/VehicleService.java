@@ -14,7 +14,7 @@ public interface VehicleService {
     Vehicle getVehicleById(UUID id);
     Vehicle updateVehicle(UUID id, VehicleRequest request);
     Vehicle getVehicleByIdWithLock(UUID id);
-    void deleteVehicle(UUID id);
+    void markVehicleOutOfService(UUID id);
     Page<Vehicle> getAvailableVehicles(LocalDateTime start, LocalDateTime end, String search, Pageable pageable);
     void updateVehicleStatus(UUID vehicleId, VehicleStatus newStatus);
     Vehicle restoreVehicle(UUID id);
