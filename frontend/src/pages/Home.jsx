@@ -40,14 +40,21 @@ const Home = () => {
         fetchVehicles();
     }, []);
 
+    const formatDateForSearch = (date) => {
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
+    };
+
     const handleSearch = () => {
         if (!startDate || !endDate) {
             toast.error(t.toastDatesError);
             return;
         }
 
-        const sDate = startDate.toISOString().split('T')[0];
-        const eDate = endDate.toISOString().split('T')[0];
+        const sDate = formatDateForSearch(startDate);
+        const eDate = formatDateForSearch(endDate);
 
         navigate(`/vehicles?start=${sDate}&end=${eDate}`);
     };
@@ -70,13 +77,13 @@ const Home = () => {
                             <i className="fas fa-map-marker-alt field-icon"></i>
                             <div className="field-inputs">
                                 <label>{t.locationLabel}</label>
-                                <input type="text" value={t.locationValue} readOnly />
+                                <input type="text" value={t.locationValue} readOnly aria-label={t.locationLabel} />
                             </div>
                         </div>
 
                         <div className="search-field">
                             <i className="far fa-calendar-alt field-icon"></i>
-                            <div className="field-inputs">
+                            <div className="field-inputs date-field-inputs">
                                 <label>{t.timelineLabel}</label>
                                 <DatePicker
                                     selectsRange={true}
@@ -90,9 +97,10 @@ const Home = () => {
                                     minDate={new Date()}
                                     isClearable={true}
                                     placeholderText={t.placeholderDate}
-                                    className="custom-home-datepicker" 
+                                    className="custom-home-datepicker"
                                     dateFormat="dd MMM yyyy"
                                     popperPlacement="bottom-start"
+                                    aria-label={t.timelineLabel}
                                 />
                             </div>
                         </div>
@@ -100,6 +108,12 @@ const Home = () => {
                         <button className="search-btn-v2" onClick={handleSearch}>
                             {t.searchBtn} <i className="fas fa-arrow-right"></i>
                         </button>
+                    </div>
+
+                    <div className="hero-trust-row" aria-label={t.trustLabel}>
+                        <span><i className="fas fa-shield-alt"></i> {t.secureCheckout}</span>
+                        <span><i className="fas fa-calendar-check"></i> {t.liveAvailability}</span>
+                        <span><i className="fas fa-clock"></i> {t.freeCancellation}</span>
                     </div>
                 </div>
             </header>
@@ -133,13 +147,13 @@ const Home = () => {
 
                                     <div className="home-car-specs-row">
                                         <span><i className="fas fa-gas-pump"></i> {car.fuelType}</span>
-                                        <span><i className="fas fa-cog"></i> {car.licensePlate}</span>
+                                        <span><i className="fas fa-calendar-alt"></i> {car.year}</span>
                                     </div>
 
                                     <div className="home-car-price-row">
                                         <div className="home-price">
                                             <strong>€{car.dailyPrice}</strong>
-                                            <span>/ {lang === 'en' ? 'day' : 'ημέρα'}</span>
+                                            <span>/ {t.day}</span>
                                         </div>
 
                                         <button className="home-view-deal-btn">
@@ -176,6 +190,34 @@ const Home = () => {
                         <h3>{t.feat3Title}</h3>
                         <p>{t.feat3Desc}</p>
                     </div>
+                </div>
+            </section>
+
+            <section className="booking-steps-section">
+                <div className="booking-steps-intro">
+                    <span>{t.bookingStepsLabel}</span>
+                    <h2>{t.bookingStepsTitle}</h2>
+                    <p>{t.bookingStepsDesc}</p>
+                </div>
+                <div className="booking-steps-grid">
+                    <article className="booking-step-card">
+                        <span className="step-number">01</span>
+                        <i className="far fa-calendar-alt"></i>
+                        <h3>{t.bookingStep1Title}</h3>
+                        <p>{t.bookingStep1Desc}</p>
+                    </article>
+                    <article className="booking-step-card">
+                        <span className="step-number">02</span>
+                        <i className="fas fa-car-side"></i>
+                        <h3>{t.bookingStep2Title}</h3>
+                        <p>{t.bookingStep2Desc}</p>
+                    </article>
+                    <article className="booking-step-card">
+                        <span className="step-number">03</span>
+                        <i className="fas fa-credit-card"></i>
+                        <h3>{t.bookingStep3Title}</h3>
+                        <p>{t.bookingStep3Desc}</p>
+                    </article>
                 </div>
             </section>
         </div>

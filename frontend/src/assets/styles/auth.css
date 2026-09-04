@@ -76,6 +76,18 @@
     text-align: center;
 }
 
+.auth-eyebrow {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--primary);
+    font-size: 0.68rem;
+    font-weight: 900;
+    letter-spacing: 0.14em;
+    margin-bottom: 0.9rem;
+}
+
 .auth-card p.auth-subtitle {
     text-align: center;
     color: var(--text-muted);
@@ -250,6 +262,19 @@ input:-webkit-autofill:focus {
     opacity: 0.4;
     cursor: not-allowed;
     pointer-events: none;
+}
+
+.auth-security-note {
+    color: var(--text-muted);
+    font-size: 0.72rem;
+    line-height: 1.5;
+    margin: 1.4rem 0 0;
+    text-align: center;
+}
+
+.auth-security-note i {
+    color: #4ade80;
+    margin-right: 0.35rem;
 }
 
 /* Mobile Responsive */

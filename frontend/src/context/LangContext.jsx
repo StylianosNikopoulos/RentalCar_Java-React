@@ -34,6 +34,8 @@ export const LangProvider = ({ children }) => {
 
     useEffect(() => {
         localStorage.setItem('app_lang', lang);
+        document.documentElement.lang = lang === 'gr' ? 'el' : 'en';
+        document.documentElement.dataset.lang = lang;
     }, [lang]);
 
     const toggleLang = () => {
