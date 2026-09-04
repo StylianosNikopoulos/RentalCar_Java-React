@@ -32,6 +32,17 @@ const ReservationsTab = () => {
     const currentReservations = reservationResponse.content || [];
     const totalReservationPages = reservationResponse.page?.totalPages || 1;
 
+    const statusLabel = (status) => {
+        const labels = {
+            PENDING: t.statusPending,
+            CONFIRMED: t.statusConfirmed,
+            ACTIVE: t.statusActive,
+            CANCELED: t.statusCanceled,
+            COMPLETED: t.statusCompleted
+        };
+        return labels[status] || status || t.statusUnknown;
+    };
+
     const cancelResMutation = useMutation({
         mutationFn: (id) => reservationService.cancelReservation(id),
         onSuccess: () => {
@@ -107,7 +118,7 @@ const ReservationsTab = () => {
                                     <td>{new Date(res.period.end).toLocaleDateString()}</td>
                                     <td>
                                         <span className={`status-badge status-${res.status ? res.status.toLowerCase() : ''}`}>
-                                            {res.status}
+                                            {statusLabel(res.status)}
                                         </span>
                                     </td>
                                     <td>

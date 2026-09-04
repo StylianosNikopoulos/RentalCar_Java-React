@@ -185,7 +185,7 @@ const VehicleModal = ({ vehicleToEdit, onClose }) => {
                     <div className="modal-actions" style={{ marginTop: '20px', display: 'flex', gap: '10px', justifyContent: 'flex-end' }}>
                         <button type="button" className="btn-cancel" onClick={onClose}>{t.btnCancel}</button>
                         <button type="submit" className="add-btn" disabled={isSubmitting}>
-                            {isSubmitting ? t.btnSaving || "Saving..." : isEditMode ? t.btnUpdate : t.btnAdd || "Save"}
+                            {isSubmitting ? t.btnSaving || "Saving..." : isEditMode ? t.btnUpdate : t.btnSave}
                         </button>
                     </div>
                 </form>

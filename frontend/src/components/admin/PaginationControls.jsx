@@ -16,7 +16,7 @@ const PaginationControls = ({ currentPage, totalPages, onPageChange }) => {
                 <i className="fas fa-chevron-left"></i> {t.btnPrevious}
             </button>
             <span className="page-info" style={{ color: '#aaa', fontSize: '0.9rem' }}>
-                PAGE {currentPage} OF {totalPages}
+                {t.page} {currentPage} {t.of} {totalPages}
             </span>
             <button 
                 onClick={() => onPageChange(prev => Math.min(prev + 1, totalPages))} 

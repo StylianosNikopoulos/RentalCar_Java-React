@@ -40,7 +40,7 @@ const AdminPage = () => {
             <main className="admin-main">
                 <header className="admin-topbar">
                     <h2>
-                        {activeTab === 'vehicles' ? t.tabVehicles.toUpperCase() : activeTab === 'users' ? t.tabUsers.toUpperCase() : t.tabReservations.toUpperCase()}
+                        {activeTab === 'vehicles' ? t.tabVehicles : activeTab === 'users' ? t.tabUsers : t.tabReservations}
                     </h2>
                 </header>
 

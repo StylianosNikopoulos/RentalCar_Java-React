@@ -18,8 +18,11 @@ const VehiclesPage = () => {
     const navigate = useNavigate();
     const location = useLocation(); 
     
-    const [searchTerm, setSearchTerm] = useState("");
-    const [sortOrder, setSortOrder] = useState("default"); 
+    const queryParams = new URLSearchParams(location.search);
+    const selectedStart = queryParams.get('start');
+    const selectedEnd = queryParams.get('end');
+    const [searchTerm, setSearchTerm] = useState(queryParams.get('search') || "");
+    const [sortOrder, setSortOrder] = useState(queryParams.get('sort') || "default");
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 9;
 
@@ -30,15 +33,27 @@ const VehiclesPage = () => {
         });
     }, [currentPage]);
 
-    const queryParams = new URLSearchParams(location.search);
-    const selectedStart = queryParams.get('start');
-    const selectedEnd = queryParams.get('end');
+    useEffect(() => {
+        const params = new URLSearchParams(location.search);
+        setSearchTerm(params.get('search') || '');
+        setSortOrder(params.get('sort') || 'default');
+        setCurrentPage(1);
+    }, [location.search]);
+
+    const updateFiltersInUrl = (nextSearch, nextSort) => {
+        const params = new URLSearchParams(location.search);
+        if (nextSearch) params.set('search', nextSearch);
+        else params.delete('search');
+        if (nextSort && nextSort !== 'default') params.set('sort', nextSort);
+        else params.delete('sort');
+        navigate(`/vehicles?${params.toString()}`, { replace: true });
+    };
 
     const rentalDays = selectedStart && selectedEnd 
         ? Math.max(1, Math.ceil((new Date(selectedEnd) - new Date(selectedStart)) / (1000 * 60 * 60 * 24)))
         : 0;
 
-    const { data: responseData = {}, isLoading, isError } = useQuery({
+    const { data: responseData = {}, isLoading, isError, refetch } = useQuery({
         queryKey: ['vehicles', selectedStart, selectedEnd, currentPage, sortOrder, searchTerm], 
         queryFn: async () => {
             if (selectedStart && selectedEnd) {
@@ -54,8 +69,7 @@ const VehiclesPage = () => {
     const totalPages = responseData.page?.totalPages || 1;
 
     const handleSearch = (e) => {
-        setSearchTerm(e.target.value);
-        setCurrentPage(1); 
+        updateFiltersInUrl(e.target.value, sortOrder);
     };
 
     const formatDate = (dateString) => {
@@ -80,7 +94,17 @@ const VehiclesPage = () => {
         }
     };
 
-    if (isError) return <div className="error-message">{t.errorMsg}</div>;
+    if (isError) {
+        return (
+            <div className="error-message">
+                <div>
+                    <i className="fas fa-cloud-exclamation"></i>
+                    <p>{t.errorMsg}</p>
+                    <button className="clear-dates-btn" onClick={() => refetch()}>{t.retry}</button>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className="vehicles-page">
@@ -122,10 +146,7 @@ const VehiclesPage = () => {
                         <select 
                             className="sort-select" 
                             value={sortOrder}
-                            onChange={(e) => {
-                                setSortOrder(e.target.value);
-                                setCurrentPage(1);
-                            }}
+                             onChange={(e) => updateFiltersInUrl(searchTerm, e.target.value)}
                         >
                             <option value="default">{t.sortFeatured}</option>
                             <option value="low">{t.sortLowHigh}</option>
@@ -143,7 +164,11 @@ const VehiclesPage = () => {
             ) : currentItems.length === 0 ? (
                 <div className="no-results">
                     <i className="fas fa-search"></i>
-                    {t.noResults}
+                    <h3>{selectedStart && selectedEnd ? t.noAvailabilityTitle : t.noResultsTitle}</h3>
+                    <p>{selectedStart && selectedEnd ? t.noAvailability : t.noResults}</p>
+                    <button className="clear-dates-btn" onClick={() => navigate('/vehicles')}>
+                        {selectedStart && selectedEnd ? t.changeDates : t.clearSearch}
+                    </button>
                 </div>
             ) : (
                 <>
@@ -156,7 +181,7 @@ const VehiclesPage = () => {
                                 onKeyDown={(event) => handleCardKeyDown(event, car.id)}
                                 role="link"
                                 tabIndex={0}
-                                aria-label={`View details for ${car.brand} ${car.model}`}
+                                 aria-label={`${t.viewDetailsFor} ${car.brand} ${car.model}`}
                             >
                                 <div className="vehicle-img-wrapper">
                                     <img 
@@ -168,7 +193,7 @@ const VehiclesPage = () => {
                                         alt={`${car.brand} ${car.model}`} 
                                         className="vehicle-img" 
                                     />
-                                    <span className="type-tag"><i className="fas fa-check-circle"></i> Available now</span>
+                                    <span className="type-tag"><i className="fas fa-check-circle"></i> {t.availableNow}</span>
                                 </div>
                                 
                                 <div className="vehicle-card-body">
@@ -197,7 +222,7 @@ const VehiclesPage = () => {
                                     </div>
                                 </div>
                                     <button className="rent-btn-minimal" type="button" tabIndex={-1}>
-                                        View rental details <i className="fas fa-arrow-right"></i>
+                                        {t.viewRentalDetails} <i className="fas fa-arrow-right"></i>
                                     </button>
                             </article>
                         ))}
@@ -212,7 +237,7 @@ const VehiclesPage = () => {
                             >
                                 <i className="fas fa-chevron-left"></i> {t.btnPrevious}
                             </button>
-                            <span className="page-info">PAGE {currentPage} OF {totalPages}</span>
+                            <span className="page-info">{t.page} {currentPage} {t.of} {totalPages}</span>
                             <button 
                                 onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))} 
                                 disabled={currentPage === totalPages} 
