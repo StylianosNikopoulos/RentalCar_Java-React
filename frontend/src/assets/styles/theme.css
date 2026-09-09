@@ -1187,6 +1187,11 @@ textarea:focus-visible {
     background: rgba(23, 32, 42, 0.38);
 }
 
+:root[data-theme='light'] .details-modal-overlay {
+    align-items: flex-start;
+    overflow: auto;
+}
+
 :root[data-theme='light'] .modal-heading-row {
     background: #ffffff;
 }

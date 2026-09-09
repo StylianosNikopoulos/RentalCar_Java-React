@@ -467,14 +467,18 @@ tr.row-out-of-service:hover {
     align-items: center;
     justify-content: center;
     z-index: 1000;
-    padding: 20px;
+    padding: 24px;
     animation: fadeInModal 0.3s ease;
     overflow-y: auto;
+    overscroll-behavior: contain;
+    min-height: 100dvh;
 }
 
 .details-modal-overlay {
     align-items: flex-start;
-    padding-top: 8vh;
+    padding-top: 24px;
+    padding-bottom: 24px;
+    overflow: auto;
 }
 
 /* Modal Window */
@@ -882,9 +886,11 @@ tr.row-out-of-service:hover {
 
 .reservation-details-modal {
     width: 720px;
-    min-height: 360px;
+    min-height: 0;
     height: auto;
+    max-height: none;
     overflow: visible;
+    flex: 0 0 auto;
 }
 
 .modal-heading-row {
@@ -967,12 +973,14 @@ tr.row-out-of-service:hover {
     }
 
     .modal-overlay {
-        align-items: flex-start;
+        align-items: center;
         padding: 4px 12px 12px;
     }
 
     .details-modal-overlay {
-        padding-top: 4px;
+        padding-top: 12px;
+        padding-bottom: 12px;
+        overflow: auto;
     }
 
     .admin-modal,
@@ -980,7 +988,7 @@ tr.row-out-of-service:hover {
         width: 100%;
         max-width: 100%;
         height: auto;
-        max-height: none;
+        max-height: calc(100vh - 24px);
         margin: 0;
         padding: 24px 18px;
         border-radius: 18px;
@@ -988,7 +996,9 @@ tr.row-out-of-service:hover {
 
     .reservation-details-modal {
         min-height: 0;
+        max-height: none;
         overflow: visible;
+        flex: 0 0 auto;
     }
 
     .modal-heading-row {
