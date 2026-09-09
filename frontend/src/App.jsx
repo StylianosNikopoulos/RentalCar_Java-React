@@ -43,7 +43,7 @@ function App() {
       <Router>
         <ScrollToTop /> 
         <Toaster position="top-center" toastOptions={{
-            style: { background: '#151515', color: '#fff', border: '1px solid #333' },
+            style: { background: 'var(--theme-surface-raised)', color: 'var(--theme-text)', border: '1px solid var(--theme-border)' },
             success: { iconTheme: { primary: '#ff4d00', secondary: '#fff' } }
         }} />
         

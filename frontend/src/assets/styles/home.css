@@ -51,9 +51,18 @@ html, body {
     display: flex;
     align-items: center;
     position: relative;
-    background: 
-        linear-gradient(90deg, rgba(5, 5, 7, 0.96) 0%, rgba(5, 5, 7, 0.78) 35%, rgba(5, 5, 7, 0.16) 75%, rgba(5, 5, 7, 0.42) 100%),
-        linear-gradient(180deg, rgba(5, 5, 7, 0.16) 35%, rgba(5, 5, 7, 0.9) 100%),
+    overflow: hidden;
+    background: var(--bg-dark);
+}
+
+.hero::after {
+    content: '';
+    position: absolute;
+    inset: 0 0 0 38%;
+    z-index: 0;
+    background:
+        linear-gradient(90deg, var(--bg-dark) 0%, rgba(5, 5, 7, 0.72) 16%, rgba(5, 5, 7, 0.08) 60%, rgba(5, 5, 7, 0.28) 100%),
+        linear-gradient(180deg, rgba(5, 5, 7, 0.1), rgba(5, 5, 7, 0.72)),
         url('https://images.unsplash.com/photo-1511919884226-fd3cad34687c?q=80&w=2070&auto=format&fit=crop') 62% center/cover no-repeat;
 }
 
@@ -82,17 +91,23 @@ html, body {
 
 .hero h1 {
     font-family: var(--font-heading);
-    font-size: clamp(3.5rem, 8vw, 6.5rem);
-    font-weight: 900;
-    line-height: 0.95;
-    text-transform: uppercase;
-    letter-spacing: -2px;
+    font-size: clamp(3rem, 6.8vw, 5.8rem);
+    font-weight: 800;
+    line-height: 0.98;
+    letter-spacing: -1.5px;
     color: #ffffff;
 }
 
 .text-outline {
-    -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.85);
-    color: transparent;
+    display: inline-block;
+    color: var(--primary);
+    font-family: var(--font-main);
+    font-size: 0.78em;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    line-height: 1.2;
+    margin-top: 0.45rem;
+    text-transform: none;
 }
 
 .hero p {
@@ -667,9 +682,27 @@ html, body {
 
 @media (max-width: 600px) {
     .hero {
-        padding: 6rem 5% 3rem;
+        padding: 6rem 5% 4rem;
         min-height: auto;
-        background-position: 62% center;
+    }
+
+    .hero::after {
+        inset: 48% 0 0;
+        background:
+            linear-gradient(180deg, var(--bg-dark) 0%, rgba(5, 5, 7, 0.08) 42%, rgba(5, 5, 7, 0.78) 100%),
+            url('https://images.unsplash.com/photo-1511919884226-fd3cad34687c?q=80&w=2070&auto=format&fit=crop') 62% center/cover no-repeat;
+    }
+
+    .hero-content {
+        z-index: 1;
+    }
+
+    .hero h1 {
+        font-size: clamp(2.8rem, 13vw, 4.2rem);
+    }
+
+    .hero p {
+        margin: 1.5rem 0 2.5rem;
     }
 
     .featured-fleet-section,
