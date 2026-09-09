@@ -137,7 +137,8 @@ body {
 }
 
 :root[data-theme='light'] .hero p {
-    color: #65717d;
+    color: #34404c;
+    text-shadow: 0 1px 3px rgba(255, 255, 255, 0.75);
 }
 
 :root[data-theme='light'] .hero-trust-row {
