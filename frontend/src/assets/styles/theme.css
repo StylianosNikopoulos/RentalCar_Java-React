@@ -9,6 +9,14 @@
     --theme-muted: #8e93a0;
     --theme-border: rgba(255, 255, 255, 0.08);
     --theme-input: rgba(0, 0, 0, 0.5);
+    --theme-focus-ring: rgba(255, 77, 0, 0.28);
+    --theme-page-bg-alt: #090b0f;
+    --theme-surface-soft: #11141a;
+    --theme-surface-hover: #181c24;
+    --theme-text-strong: #f7f9fb;
+    --theme-text-soft: #b8c0ca;
+    --theme-control-bg: #0d1015;
+    --theme-control-hover: #171b22;
 }
 
 :root[data-lang='gr'] body,
@@ -38,6 +46,14 @@
     --theme-muted: #65717d;
     --theme-border: rgba(23, 32, 42, 0.12);
     --theme-input: #f6f8fa;
+    --theme-focus-ring: rgba(217, 71, 0, 0.22);
+    --theme-page-bg-alt: #eef1f4;
+    --theme-surface-soft: #f7f9fa;
+    --theme-surface-hover: #eef2f5;
+    --theme-text-strong: #17202a;
+    --theme-text-soft: #52606d;
+    --theme-control-bg: #f6f8fa;
+    --theme-control-hover: #e8edf1;
 }
 
 html,
@@ -50,6 +66,27 @@ body,
 
 body {
     color-scheme: dark;
+}
+
+button,
+input,
+select,
+textarea {
+    font: inherit;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+    outline: 3px solid var(--theme-focus-ring);
+    outline-offset: 3px;
+}
+
+::selection {
+    background: var(--primary, #ff4d00);
+    color: #ffffff;
 }
 
 :root[data-theme='light'] body {
@@ -114,10 +151,20 @@ body {
 }
 
 :root[data-theme='light'] .hero {
+    background: var(--theme-page-bg);
+}
+
+:root[data-theme='light'] .hero::after {
     background:
-        linear-gradient(90deg, rgba(244, 246, 248, 0.97) 0%, rgba(244, 246, 248, 0.88) 34%, rgba(244, 246, 248, 0.22) 76%, rgba(244, 246, 248, 0.34) 100%),
-        linear-gradient(180deg, rgba(244, 246, 248, 0.08) 35%, rgba(244, 246, 248, 0.9) 100%),
+        linear-gradient(90deg, var(--theme-page-bg) 0%, rgba(244, 246, 248, 0.78) 16%, rgba(244, 246, 248, 0.08) 60%, rgba(244, 246, 248, 0.28) 100%),
+        linear-gradient(180deg, rgba(244, 246, 248, 0.08), rgba(23, 32, 42, 0.48)),
         url('https://images.unsplash.com/photo-1511919884226-fd3cad34687c?q=80&w=2070&auto=format&fit=crop') 62% center/cover no-repeat;
+}
+
+:root[data-theme='light'] .field-inputs label,
+:root[data-theme='light'] .search-icon,
+:root[data-theme='light'] .date-field-inputs::after {
+    color: #52606d;
 }
 
 :root[data-theme='light'] .hero h1,
@@ -127,7 +174,7 @@ body {
 }
 
 :root[data-theme='light'] .text-outline {
-    -webkit-text-stroke-color: #17202a;
+    color: #d94700;
 }
 
 :root[data-theme='light'] .search-widget-v2 {
@@ -238,6 +285,72 @@ body {
     background: #ffffff;
     border-color: rgba(23, 32, 42, 0.12);
     box-shadow: 0 16px 35px rgba(31, 41, 55, 0.08);
+}
+
+:root[data-theme='light'] .vehicles-page {
+    background: radial-gradient(circle at 50% -10%, rgba(255, 77, 0, 0.06) 0%, #f4f6f8 60%);
+}
+
+:root[data-theme='light'] .vehicle-item,
+:root[data-theme='light'] .no-results {
+    background: #ffffff;
+    border-color: rgba(23, 32, 42, 0.12);
+    box-shadow: 0 16px 35px rgba(31, 41, 55, 0.08);
+}
+
+:root[data-theme='light'] .vehicles-header h1,
+:root[data-theme='light'] .car-name,
+:root[data-theme='light'] .no-results h3,
+:root[data-theme='light'] .car-price-tag .price-value,
+:root[data-theme='light'] .rent-btn-minimal,
+:root[data-theme='light'] .page-btn {
+    color: #17202a;
+}
+
+:root[data-theme='light'] .car-name span {
+    color: transparent;
+    -webkit-text-stroke-color: rgba(23, 32, 42, 0.65);
+}
+
+:root[data-theme='light'] .filters-bar {
+    background: rgba(255, 255, 255, 0.92);
+    border-color: rgba(23, 32, 42, 0.12);
+    box-shadow: 0 16px 35px rgba(31, 41, 55, 0.08);
+}
+
+:root[data-theme='light'] .search-input,
+:root[data-theme='light'] .sort-select {
+    background: #f6f8fa;
+    border-color: rgba(23, 32, 42, 0.14);
+    color: #17202a;
+}
+
+:root[data-theme='light'] .search-input::placeholder {
+    color: #65717d;
+    opacity: 1;
+}
+
+:root[data-theme='light'] .search-input:focus,
+:root[data-theme='light'] .sort-select:focus {
+    background: #ffffff;
+}
+
+:root[data-theme='light'] .availability-info-banner {
+    background: rgba(255, 77, 0, 0.06);
+}
+
+:root[data-theme='light'] .availability-text,
+:root[data-theme='light'] .availability-text strong {
+    color: #17202a;
+}
+
+:root[data-theme='light'] .rent-btn-minimal {
+    border-top-color: rgba(23, 32, 42, 0.12);
+}
+
+:root[data-theme='light'] .page-btn {
+    background: #ffffff;
+    border-color: rgba(23, 32, 42, 0.12);
 }
 
 :root[data-theme='light'] .home-vehicle-card:hover,
@@ -512,7 +625,33 @@ body {
 }
 
 :root[data-theme='light'] .checkbox-text a {
-    color: #17202a;
+    color: #b43a00;
+}
+
+:root[data-theme='light'] .checkbox-container {
+    color: #52606d;
+}
+
+:root[data-theme='light'] .checkbox-container .checkmark {
+    background: #ffffff;
+    border: 2px solid #52606d;
+    box-shadow: 0 0 0 1px rgba(23, 32, 42, 0.08), 0 2px 6px rgba(31, 41, 55, 0.12);
+}
+
+:root[data-theme='light'] .checkbox-container:hover .checkmark {
+    border-color: #b43a00;
+    background: #fff7f3;
+}
+
+:root[data-theme='light'] .checkbox-container input:focus-visible ~ .checkmark {
+    outline: 3px solid var(--theme-focus-ring);
+    outline-offset: 2px;
+}
+
+:root[data-theme='light'] .checkbox-container input:checked ~ .checkmark {
+    background: #d94700;
+    border-color: #d94700;
+    box-shadow: 0 3px 10px rgba(217, 71, 0, 0.28);
 }
 
 :root[data-theme='light'] .invoice-total,
@@ -581,6 +720,7 @@ body {
 
 /* Cookie notice, missing pages, and dialogs */
 :root[data-theme='light'] .cookie-consent,
+:root[data-theme='light'] .cookie-banner,
 :root[data-theme='light'] .not-found-container {
     background: #ffffff;
     color: #17202a;
@@ -588,9 +728,79 @@ body {
     box-shadow: 0 16px 35px rgba(31, 41, 55, 0.12);
 }
 
+:root[data-theme='light'] .cookie-banner {
+    background: #ffffff;
+    border-color: rgba(23, 32, 42, 0.14);
+    box-shadow: 0 24px 55px rgba(31, 41, 55, 0.18), 0 0 1px rgba(255, 77, 0, 0.2);
+}
+
+:root[data-theme='light'] .cookie-text-section h4 {
+    color: #17202a;
+}
+
+:root[data-theme='light'] .cookie-text-section p {
+    color: #52606d;
+}
+
+:root[data-theme='light'] .cookie-actions .btn-secondary {
+    background: #f2f5f7;
+    border-color: rgba(23, 32, 42, 0.16);
+    color: #3f4b56;
+}
+
+:root[data-theme='light'] .cookie-actions .btn-secondary:hover {
+    background: #e8edf1;
+    border-color: rgba(23, 32, 42, 0.25);
+    color: #17202a;
+}
+
 :root[data-theme='light'] .swal2-popup {
     background: #ffffff !important;
     color: #17202a !important;
+}
+
+:root[data-theme='light'] .swal-custom-popup {
+    background: #ffffff !important;
+    border-color: rgba(23, 32, 42, 0.14) !important;
+}
+
+:root[data-theme='light'] .swal-custom-title {
+    color: #17202a !important;
+}
+
+:root[data-theme='light'] .swal-custom-html {
+    color: #52606d !important;
+}
+
+:root[data-theme='light'] .swal-btn-cancel {
+    background: #e8edf1 !important;
+    color: #17202a !important;
+}
+
+:root[data-theme='light'] .swal-btn-confirm:hover {
+    background: #e95712 !important;
+}
+
+:root[data-theme='light'] .swal-btn-cancel:hover {
+    background: #d8e0e6 !important;
+    color: #17202a !important;
+}
+
+:root[data-theme='light'] .notfound-container {
+    background: #f4f6f8;
+}
+
+:root[data-theme='light'] .notfound-code {
+    color: #17202a;
+    text-shadow: 4px 4px 0 #dfe6eb;
+}
+
+:root[data-theme='light'] .notfound-title {
+    color: #17202a;
+}
+
+:root[data-theme='light'] .notfound-text {
+    color: #65717d;
 }
 
 /* Admin workspace */
@@ -631,6 +841,10 @@ body {
 :root[data-theme='light'] .sidebar-nav button,
 :root[data-theme='light'] .admin-table th {
     color: #65717d;
+}
+
+:root[data-theme='light'] .hero::after {
+    opacity: 0.9;
 }
 
 :root[data-theme='light'] .details-btn {
@@ -711,10 +925,296 @@ body {
     border-color: rgba(23, 32, 42, 0.22);
 }
 
+:root[data-theme='light'] .status-confirmed,
+:root[data-theme='light'] .payment-confirmed,
+:root[data-theme='light'] .payment-active,
+:root[data-theme='light'] .payment-completed {
+    color: #087f4e;
+}
+
+:root[data-theme='light'] .status-pending,
+:root[data-theme='light'] .payment-pending {
+    color: #956200;
+}
+
+:root[data-theme='light'] .status-canceled,
+:root[data-theme='light'] .payment-canceled {
+    color: #b4233f;
+}
+
 @media (prefers-reduced-motion: reduce) {
     html,
     body,
     #root {
         transition: none;
+    }
+}
+
+/* Final cross-page color harmonization */
+:root:not([data-theme='light']) body,
+:root:not([data-theme='light']) .home-page,
+:root:not([data-theme='light']) .vehicles-page,
+:root:not([data-theme='light']) .details-container,
+:root:not([data-theme='light']) .profile-container,
+:root:not([data-theme='light']) .reservations-container,
+:root:not([data-theme='light']) .about-container,
+:root:not([data-theme='light']) .terms-container,
+:root:not([data-theme='light']) .auth-container,
+:root:not([data-theme='light']) .admin-container {
+    color: var(--theme-text-strong);
+}
+
+:root:not([data-theme='light']) .vehicles-page,
+:root:not([data-theme='light']) .details-container,
+:root:not([data-theme='light']) .profile-container,
+:root:not([data-theme='light']) .reservations-container,
+:root:not([data-theme='light']) .about-container,
+:root:not([data-theme='light']) .terms-container,
+:root:not([data-theme='light']) .auth-container {
+    background-color: var(--theme-page-bg);
+}
+
+:root:not([data-theme='light']) .home-vehicle-card,
+:root:not([data-theme='light']) .vehicle-item,
+:root:not([data-theme='light']) .profile-card,
+:root:not([data-theme='light']) .info-display,
+:root:not([data-theme='light']) .edit-form,
+:root:not([data-theme='light']) .res-card,
+:root:not([data-theme='light']) .real-car-features,
+:root:not([data-theme='light']) .booking-card,
+:root:not([data-theme='light']) .auth-card,
+:root:not([data-theme='light']) .about-card,
+:root:not([data-theme='light']) .terms-content,
+:root:not([data-theme='light']) .portfolio-alert,
+:root:not([data-theme='light']) .admin-card,
+:root:not([data-theme='light']) .admin-modal,
+:root:not([data-theme='light']) .admin-table tbody tr {
+    background-color: var(--theme-surface);
+    border-color: var(--theme-border);
+}
+
+:root:not([data-theme='light']) .home-vehicle-card:hover,
+:root:not([data-theme='light']) .vehicle-item:hover,
+:root:not([data-theme='light']) .about-card:hover,
+:root:not([data-theme='light']) .feature-item:hover,
+:root:not([data-theme='light']) .admin-table tbody tr:hover {
+    background-color: var(--theme-surface-hover);
+}
+
+:root:not([data-theme='light']) .search-input,
+:root:not([data-theme='light']) .sort-select,
+:root:not([data-theme='light']) .form-group input,
+:root:not([data-theme='light']) .input-with-icon input,
+:root:not([data-theme='light']) .profile-select,
+:root:not([data-theme='light']) .info-value-box,
+:root:not([data-theme='light']) .admin-form-group input,
+:root:not([data-theme='light']) .admin-select,
+:root:not([data-theme='light']) .image-grid-upload {
+    background: var(--theme-control-bg);
+    border-color: var(--theme-border);
+    color: var(--theme-text-strong);
+}
+
+:root:not([data-theme='light']) .search-input:focus,
+:root:not([data-theme='light']) .sort-select:focus,
+:root:not([data-theme='light']) .form-group input:focus,
+:root:not([data-theme='light']) .input-with-icon input:focus,
+:root:not([data-theme='light']) .profile-select:focus,
+:root:not([data-theme='light']) .admin-form-group input:focus,
+:root:not([data-theme='light']) .admin-select:focus {
+    background: var(--theme-control-hover);
+}
+
+:root:not([data-theme='light']) .footer-root,
+:root:not([data-theme='light']) .booking-steps-section,
+:root:not([data-theme='light']) .features-section {
+    background: var(--theme-page-bg-alt) !important;
+    border-color: var(--theme-border) !important;
+}
+
+:root:not([data-theme='light']) .footer-brand-tagline,
+:root:not([data-theme='light']) .footer-links-list a,
+:root:not([data-theme='light']) .footer-copyright,
+:root:not([data-theme='light']) .section-header-v2 p,
+:root:not([data-theme='light']) .booking-steps-intro p,
+:root:not([data-theme='light']) .feature-card p,
+:root:not([data-theme='light']) .booking-step-card p,
+:root:not([data-theme='light']) .fleet-intro,
+:root:not([data-theme='light']) .text-muted,
+:root:not([data-theme='light']) .terms-section p,
+:root:not([data-theme='light']) .terms-section li {
+    color: var(--theme-text-soft);
+}
+
+:root[data-theme='light'] .home-vehicle-card,
+:root[data-theme='light'] .vehicle-item,
+:root[data-theme='light'] .profile-card,
+:root[data-theme='light'] .info-display,
+:root[data-theme='light'] .edit-form,
+:root[data-theme='light'] .res-card,
+:root[data-theme='light'] .real-car-features,
+:root[data-theme='light'] .booking-card,
+:root[data-theme='light'] .auth-card,
+:root[data-theme='light'] .about-card,
+:root[data-theme='light'] .terms-content,
+:root[data-theme='light'] .portfolio-alert,
+:root[data-theme='light'] .admin-card,
+:root[data-theme='light'] .admin-modal,
+:root[data-theme='light'] .admin-table tbody tr {
+    background-color: var(--theme-surface);
+    border-color: var(--theme-border);
+}
+
+:root[data-theme='light'] .home-vehicle-card:hover,
+:root[data-theme='light'] .vehicle-item:hover,
+:root[data-theme='light'] .about-card:hover,
+:root[data-theme='light'] .feature-item:hover,
+:root[data-theme='light'] .admin-table tbody tr:hover {
+    background-color: var(--theme-surface-hover);
+}
+
+:root[data-theme='light'] .search-input,
+:root[data-theme='light'] .sort-select,
+:root[data-theme='light'] .form-group input,
+:root[data-theme='light'] .input-with-icon input,
+:root[data-theme='light'] .profile-select,
+:root[data-theme='light'] .info-value-box,
+:root[data-theme='light'] .admin-form-group input,
+:root[data-theme='light'] .admin-select,
+:root[data-theme='light'] .image-grid-upload {
+    background: var(--theme-control-bg);
+    border-color: var(--theme-border);
+    color: var(--theme-text-strong);
+}
+
+:root[data-theme='light'] .search-input:focus,
+:root[data-theme='light'] .sort-select:focus,
+:root[data-theme='light'] .form-group input:focus,
+:root[data-theme='light'] .input-with-icon input:focus,
+:root[data-theme='light'] .profile-select:focus,
+:root[data-theme='light'] .admin-form-group input:focus,
+:root[data-theme='light'] .admin-select:focus {
+    background: #ffffff;
+}
+
+:root[data-theme='light'] .footer-root,
+:root[data-theme='light'] .booking-steps-section,
+:root[data-theme='light'] .features-section {
+    background: var(--theme-page-bg-alt) !important;
+    border-color: var(--theme-border) !important;
+}
+
+:root[data-theme='light'] .footer-brand-tagline,
+:root[data-theme='light'] .footer-links-list a,
+:root[data-theme='light'] .footer-copyright,
+:root[data-theme='light'] .section-header-v2 p,
+:root[data-theme='light'] .booking-steps-intro p,
+:root[data-theme='light'] .feature-card p,
+:root[data-theme='light'] .booking-step-card p,
+:root[data-theme='light'] .fleet-intro,
+:root[data-theme='light'] .terms-section p,
+:root[data-theme='light'] .terms-section li {
+    color: var(--theme-text-soft);
+}
+
+:root[data-theme='light'] .footer-links-list a:hover,
+:root[data-theme='light'] .footer-social-links a:hover {
+    color: #c43d00;
+}
+
+:root[data-theme='light'] .admin-table th,
+:root[data-theme='light'] .sidebar-nav button,
+:root[data-theme='light'] .info-label,
+:root[data-theme='light'] .form-group label,
+:root[data-theme='light'] .feature-meta span,
+:root[data-theme='light'] .card-header p {
+    color: #52606d;
+}
+
+:root[data-theme='light'] .inline-datepicker-wrapper {
+    background: #eef2f5;
+    box-shadow: inset 0 2px 10px rgba(31, 41, 55, 0.08);
+}
+
+:root[data-theme='light'] .booking-overlay {
+    background: rgba(255, 255, 255, 0.88);
+}
+
+:root[data-theme='light'] .back-btn {
+    background: #17202a;
+    color: #ffffff;
+}
+
+:root[data-theme='light'] .confirm-glow-btn:disabled {
+    background: #dfe6eb;
+    color: #7c8792;
+    border-color: rgba(23, 32, 42, 0.12);
+}
+
+:root[data-theme='light'] .details-container .main-vehicle-swiper,
+:root[data-theme='light'] .details-container .thumb-img-box {
+    border-color: var(--theme-border);
+}
+
+:root[data-theme='light'] .details-container .main-vehicle-swiper .swiper-button-next,
+:root[data-theme='light'] .details-container .main-vehicle-swiper .swiper-button-prev {
+    background: rgba(23, 32, 42, 0.72);
+    border-color: rgba(255, 255, 255, 0.34);
+    color: #ffffff;
+}
+
+:root[data-theme='light'] .details-container .main-vehicle-swiper .swiper-button-next:hover,
+:root[data-theme='light'] .details-container .main-vehicle-swiper .swiper-button-prev:hover {
+    background: var(--primary);
+    border-color: var(--primary);
+}
+
+:root[data-theme='light'] .details-container .react-datepicker__day--disabled {
+    color: #a8b0b7 !important;
+    opacity: 1;
+}
+
+:root[data-theme='light'] .details-container .free-badge {
+    color: #087f4e;
+    background: rgba(8, 127, 78, 0.1);
+}
+
+:root[data-theme='light'] .admin-sidebar {
+    box-shadow: 10px 0 30px rgba(31, 41, 55, 0.08);
+}
+
+:root[data-theme='light'] .modal-overlay {
+    background: rgba(23, 32, 42, 0.38);
+}
+
+:root[data-theme='light'] .details-modal-overlay {
+    align-items: flex-start;
+    overflow: auto;
+}
+
+:root[data-theme='light'] .modal-heading-row {
+    background: #ffffff;
+}
+
+:root[data-theme='light'] .image-controls {
+    background: rgba(23, 32, 42, 0.6);
+}
+
+:root[data-theme='light'] .error-text {
+    color: #b4233f;
+}
+
+:root[data-theme='light'] .input-error {
+    border-color: #b4233f !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
     }
 }

@@ -51,6 +51,7 @@
     text-transform: uppercase;
     border: none !important;
     cursor: pointer;
+    transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
 }
 
 /* Confirm Button */
@@ -59,10 +60,32 @@
     color: #ffffff !important;
 }
 
+.swal-btn-confirm:hover {
+    background: #ff6a26 !important;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(255, 77, 0, 0.35);
+}
+
 /* Cancel Button */
 .swal-btn-cancel {
     background: #333333 !important;
     color: #ffffff !important;
+}
+
+.swal-btn-cancel:hover {
+    background: #4a4a4a !important;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+}
+
+.swal-btn:active {
+    transform: translateY(0);
+    box-shadow: none;
+}
+
+.swal-btn:focus-visible {
+    outline: 3px solid rgba(255, 120, 70, 0.55);
+    outline-offset: 3px;
 }
 
 /* Lock Scroll */
