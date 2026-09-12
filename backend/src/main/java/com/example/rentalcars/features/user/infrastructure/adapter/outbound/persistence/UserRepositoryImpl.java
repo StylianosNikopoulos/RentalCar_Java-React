@@ -40,7 +40,7 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public Page<User> findAll(Pageable pageable) {
-        return jpaRepository.findAll(pageable)
+        return jpaRepository.findAllOrderedByActiveStatus(pageable)
                 .map(userPersistenceMapper::toDomain);
     }
 

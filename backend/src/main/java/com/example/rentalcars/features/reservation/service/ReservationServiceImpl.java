@@ -67,7 +67,7 @@ public class ReservationServiceImpl implements ReservationService {
 
     @Override
     @Transactional(readOnly = true)
-    public Page<Reservation> getMyReservations(Pageable pageable) {   //TODO PERFORMANCE ISSUE
+    public Page<Reservation> getMyReservations(Pageable pageable) {
         var auth = SecurityContextHolder.getContext().getAuthentication();
         var user = userService.getUserByEmail(auth.getName());
         return reservationRepository.findByUserId(user.getId(), pageable);
@@ -76,20 +76,9 @@ public class ReservationServiceImpl implements ReservationService {
     @Override
     @Transactional(readOnly = true)
     public Page<Reservation> getAllReservations(Pageable pageable) {
-        Page<Reservation> reservations = reservationRepository.findAll(pageable);
-
-        for (Reservation res : reservations.getContent()) {
-            try {
-                var user = userService.getUserById(res.getUserId()); //TODO IMPROVE PERFORMANCE
-                if (user != null) {
-                    res.setEmail(user.getEmail());
-                }
-            } catch (Exception e) {
-                res.setEmail("Unknown User");
-            }
-        }
-        return reservations;
+        return reservationRepository.findAll(pageable);
     }
+
     @Override
     @Transactional(readOnly = true)
     public Reservation getReservationById(UUID id) {

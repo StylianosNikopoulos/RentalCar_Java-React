@@ -20,7 +20,6 @@ public class UserController {
 
     @GetMapping("/me")
     public ResponseEntity<UserResponse> getMyProfile(Principal principal) {
-        System.out.println("Principal Name: " + principal.getName());
         var user = userService.getInternalUserByEmail(principal.getName());
         return ResponseEntity.ok(userMapper.toResponse(user));
     }

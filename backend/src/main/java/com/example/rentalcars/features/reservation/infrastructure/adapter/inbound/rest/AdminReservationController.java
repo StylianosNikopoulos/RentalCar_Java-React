@@ -31,7 +31,7 @@ public class AdminReservationController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<ReservationResponse>> getAllReservations(@PageableDefault(size = 9, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
+    public ResponseEntity<Page<ReservationResponse>> getAllReservations(@PageableDefault(size = 9, direction = Sort.Direction.DESC) Pageable pageable) {
         Page<ReservationResponse> reservations = reservationService.getAllReservations(pageable).map(reservationMapper::toResponse);
         return ResponseEntity.ok(reservations);
     }

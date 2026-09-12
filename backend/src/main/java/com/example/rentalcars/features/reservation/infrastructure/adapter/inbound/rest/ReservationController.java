@@ -26,7 +26,7 @@ public class ReservationController {
     private final ReservationService reservationService;
 
     @GetMapping("/me")
-    public ResponseEntity<Page<ReservationResponse>> getMyReservations(@PageableDefault(size = 3, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
+    public ResponseEntity<Page<ReservationResponse>> getMyReservations(@PageableDefault(size = 3, direction = Sort.Direction.DESC) Pageable pageable) {
         Page<Reservation> reservationsPage = reservationService.getMyReservations(pageable);
         Page<ReservationResponse> responses = reservationsPage.map(restMapper::toResponse);
         return ResponseEntity.ok(responses);
