@@ -28,6 +28,7 @@ public class UserRepositoryImpl implements UserRepository {
         var saved = jpaRepository.save(entity);
         return userPersistenceMapper.toDomain(saved);
     }
+
     @Override
     public Optional<User> findByEmail(String email) {
         return jpaRepository.findByEmail(email).map(userPersistenceMapper::toDomain);
