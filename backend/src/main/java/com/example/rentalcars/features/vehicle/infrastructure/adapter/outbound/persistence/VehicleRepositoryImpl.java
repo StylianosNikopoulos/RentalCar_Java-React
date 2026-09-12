@@ -52,11 +52,6 @@ public class VehicleRepositoryImpl implements VehicleRepository {
     }
 
     @Override
-    public void deleteById(UUID id) {
-        jpaRepository.deleteById(id);
-    }
-
-    @Override
     public Page<Vehicle> findAvailableVehicles(LocalDateTime start, LocalDateTime end, String search, Pageable pageable) {
         Page<VehicleJpaEntity> entities = jpaRepository.findAvailableVehicles(start, end, search, pageable);
         return entities.map(vehiclePersistenceMapper::toDomain);

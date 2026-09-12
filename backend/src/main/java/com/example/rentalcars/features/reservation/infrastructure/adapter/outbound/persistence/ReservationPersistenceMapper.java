@@ -11,6 +11,7 @@ public interface ReservationPersistenceMapper {
     @Mapping(target = "totalAmount.amount", source = "totalAmount")
     @Mapping(target = "totalAmount.currency", constant = "EUR")
     @Mapping(target = "userId", source = "user.id")
+    @Mapping(target = "email", source = "user.email")
     Reservation toDomain(ReservationJpaEntity entity);
 
     @Mapping(target = "user", ignore = true)

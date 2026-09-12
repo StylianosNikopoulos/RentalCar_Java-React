@@ -47,7 +47,7 @@ public class ReservationRepositoryImpl implements ReservationRepository {
 
     @Override
     public Page<Reservation> findAll(Pageable pageable) {
-        return jpaRepository.findAll(pageable).map(reservationMapper::toDomain);
+        return jpaRepository.findAllWithUserOrderedByStatus(pageable).map(reservationMapper::toDomain);
     }
 
     @Override

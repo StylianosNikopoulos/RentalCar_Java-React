@@ -2,8 +2,6 @@ package com.example.rentalcars.features.vehicle.infrastructure.adapter.inbound.r
 
 import com.example.rentalcars.features.vehicle.domain.enums.FuelType;
 import com.example.rentalcars.features.vehicle.domain.enums.VehicleStatus;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import lombok.Builder;
 import lombok.Data;
 import java.math.BigDecimal;
@@ -17,10 +15,8 @@ public class VehicleResponse {
     private String brand;
     private String model;
     private int year;
-    @Enumerated(EnumType.STRING)
     private FuelType fuelType;
     private String licensePlate;
-    @Enumerated(EnumType.STRING)
     private VehicleStatus status;
     private BigDecimal dailyPrice;
     private List<VehicleImageResponse> images;
