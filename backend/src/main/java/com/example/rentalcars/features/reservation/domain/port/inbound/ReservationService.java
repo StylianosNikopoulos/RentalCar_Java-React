@@ -18,7 +18,7 @@ public interface ReservationService {
     void cancelReservationInternal(UUID reservationId);
     Reservation confirmReservation(UUID reservationId);
     void cancelAllActiveReservationsByUserId(UUID userId);
-    void findAllExpiredPending();
-    void findByStatusAndPeriodStartBefore();
-    void findByStatusAndPeriodEndBefore();
+    void cancelExpiredPendingReservations();
+    void startScheduledReservations();
+    void completeFinishedReservations();
 }

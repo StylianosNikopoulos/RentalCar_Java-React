@@ -4,7 +4,6 @@ import com.example.rentalcars.features.reservation.domain.port.inbound.Reservati
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
 @Component
 @RequiredArgsConstructor
@@ -12,20 +11,17 @@ public class ReservationCleanupTask {
     private final ReservationService reservationService;
 
     @Scheduled(fixedRate = 300000)
-    @Transactional
     public void cancelExpiredReservations(){
-        reservationService.findAllExpiredPending();
+        reservationService.cancelExpiredPendingReservations();
     }
 
     @Scheduled(fixedRate = 300000)
-    @Transactional
     public void autoStartReservations() {
-        reservationService.findByStatusAndPeriodStartBefore();
+        reservationService.startScheduledReservations();
     }
 
     @Scheduled(fixedRate = 300000)
-    @Transactional
     public void autoEndReservations() {
-        reservationService.findByStatusAndPeriodEndBefore();
+        reservationService.completeFinishedReservations();
     }
 }

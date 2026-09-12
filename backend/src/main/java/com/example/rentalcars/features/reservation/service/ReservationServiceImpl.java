@@ -80,7 +80,7 @@ public class ReservationServiceImpl implements ReservationService {
 
         for (Reservation res : reservations.getContent()) {
             try {
-                var user = userService.getUserById(res.getUserId());
+                var user = userService.getUserById(res.getUserId()); //TODO IMPROVE PERFORMANCE
                 if (user != null) {
                     res.setEmail(user.getEmail());
                 }
@@ -143,20 +143,20 @@ public class ReservationServiceImpl implements ReservationService {
 
     @Override
     @Transactional
-    public void findAllExpiredPending() {
+    public void cancelExpiredPendingReservations() {
         LocalDateTime threshold = LocalDateTime.now().minusHours(1);
         List<Reservation> expired = reservationRepository.findAllExpiredPending(threshold);
 
         for (Reservation res : expired){
             res.setStatus(ReservationStatus.CANCELED);
-            reservationRepository.save(res);
+            reservationRepository.save(res);  //TODO IMPROVE PERFORMANCE
             log.info("Reservation {} canceled due to payment timeout", res.getId());
         }
     }
 
     @Override
     @Transactional
-    public void findByStatusAndPeriodStartBefore() {
+    public void startScheduledReservations() {
         LocalDateTime now = LocalDateTime.now();
         List<Reservation> toStart = reservationRepository
                 .findByStatusAndPeriodStartBefore(ReservationStatus.CONFIRMED, now);
@@ -171,7 +171,7 @@ public class ReservationServiceImpl implements ReservationService {
 
     @Override
     @Transactional
-    public void findByStatusAndPeriodEndBefore() {
+    public void completeFinishedReservations() {
         LocalDateTime now = LocalDateTime.now();
         List<Reservation> toComplete = reservationRepository.findByStatusAndPeriodEndBefore(
                 ReservationStatus.ACTIVE, now);
