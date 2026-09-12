@@ -30,4 +30,11 @@ public class UserController {
         var updatedUser = userService.update(currentUser.getId(), request);
         return ResponseEntity.ok(userMapper.toResponse(updatedUser));
     }
+
+    @DeleteMapping("/me")
+    public ResponseEntity<Void> deleteMyAccount(Principal principal) {
+        var currentUser = userService.getInternalUserByEmail(principal.getName());
+        userService.delete(currentUser.getId());
+        return ResponseEntity.noContent().build();
+    }
 }

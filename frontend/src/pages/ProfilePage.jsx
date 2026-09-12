@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '../hooks/useAuth';
 import userService from '../services/userService';
+import authService from '../services/authService';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import { useLang } from '../context/LangContext';
 import { translations } from '../i18n/translations';
+import Swal from 'sweetalert2';
 import '../assets/styles/profile.css';
 import '../assets/styles/swal-custom.css';
-import Swal from 'sweetalert2';
-import authService from '../services/authService';
 
 const ProfilePage = () => {
 
@@ -50,23 +50,20 @@ const ProfilePage = () => {
 
     useEffect(() => {
         const fetchUserData = async () => {
-            const userId = authData?.user?.id;
-            if (userId) {
-                try {
-                    const data = await userService.getMyProfile(userId);
-                    setFullUser(data);
-                    setEditData({ 
-                        firstName: data.firstName || '', 
-                        lastName: data.lastName || '',
-                        phoneNumber: data.phoneNumber || '',
-                        address: data.address || '',
-                        driverLicenseNumber: data.driverLicenseNumber || ''
-                    });
-                } catch (error) {
-                    toast.error(t.toastLoadError);
-                } finally {
-                    setLoading(false);
-                }
+            try {
+                const data = await userService.getMyProfile();
+                setFullUser(data);
+                setEditData({ 
+                    firstName: data.firstName || '', 
+                    lastName: data.lastName || '',
+                    phoneNumber: data.phoneNumber || '',
+                    address: data.address || '',
+                    driverLicenseNumber: data.driverLicenseNumber || ''
+                });
+            } catch (error) {
+                toast.error(t.toastLoadError);
+            } finally {
+                setLoading(false);
             }
         };
         if (authData) fetchUserData();
@@ -98,7 +95,7 @@ const ProfilePage = () => {
     };
 
     const handleRequestReset = async () => {
-        if (isSubmitting) return;
+        if (isSubmitting || !fullUser?.email) return;
 
         setIsSubmitting(true);
         const loadingToast = toast.loading(t.toastLoading || "Sending reset link...");
@@ -141,7 +138,7 @@ const ProfilePage = () => {
                 setIsSubmitting(true);
                 const loadingToast = toast.loading("Deleting account...");
                 try {
-                    await userService.deleteUser(fullUser.id);
+                    await userService.deleteMyProfile();
                     toast.success(t.toastDeleteSuccess, { id: loadingToast });
                     logout();
                     navigate('/');

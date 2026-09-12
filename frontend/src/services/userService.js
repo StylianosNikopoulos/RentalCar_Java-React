@@ -12,6 +12,11 @@ const userService = {
         return response.data;
     },
 
+    deleteMyProfile: async () => {
+        const response = await api.delete('/users/me');
+        return response.data;
+    },
+
     // Admin endpoints
     getAllUsers: async (page = 0, size = 9) => {
         const response = await api.get(`/admin/users?page=${page}&size=${size}`); 
