@@ -5,7 +5,6 @@ import com.example.rentalcars.features.auth.domain.exception.EmailAlreadyExistsE
 import com.example.rentalcars.features.auth.domain.exception.InvalidCredentialsException;
 import com.example.rentalcars.features.auth.domain.port.inbound.AuthUseCase;
 import com.example.rentalcars.features.auth.domain.port.outbound.IdentityPort;
-import com.example.rentalcars.features.auth.domain.port.outbound.RefreshTokenRepository;
 import com.example.rentalcars.features.auth.infrastructure.adapter.inbound.rest.dto.AuthResponse;
 import com.example.rentalcars.features.auth.infrastructure.adapter.inbound.rest.dto.LoginRequest;
 import com.example.rentalcars.features.auth.infrastructure.adapter.inbound.rest.dto.RegisterRequest;
@@ -31,8 +30,6 @@ public class AuthService implements AuthUseCase {
     private final IdentityPort identityPort;
     private final UserService userService;
     private final UserRestMapper userRestMapper;
-    private final RefreshTokenRepository refreshTokenRepository;
-    private final RefreshTokenService refreshTokenService;
     private final PasswordEncoder passwordEncoder;
     private final EmailService emailService;
 
@@ -80,23 +77,15 @@ public class AuthService implements AuthUseCase {
 
     @Override
     @Transactional
-    public AuthResponse refreshToken(String tokenValue) {
-        return refreshTokenRepository.findByToken(tokenValue)
-                .map(refreshTokenService::verifyExpiration)
-                .map(token -> {
-                    var user = token.getUser();
+    public AuthResponse refreshTokenByUserId(UUID userId) {
+        User user = userService.getUserById(userId);
+        var token = identityPort.generateTokens(user);
 
-                    // Only one device for now (Single Session Policy)
-                    refreshTokenRepository.deleteByUserId(user.getId());
-                    var newTokens = identityPort.generateTokens(user);
-
-                    return AuthResponse.builder()
-                            .accessToken(newTokens.getAccessToken())
-                            .refreshToken(newTokens.getRefreshToken())
-                            .user(userRestMapper.toResponse(user))
-                            .build();
-                })
-                .orElseThrow(() -> new BusinessException("Token is not saved in database", "INVALID_TOKEN"));
+        return AuthResponse.builder()
+                .accessToken(token.getAccessToken())
+                .refreshToken(token.getRefreshToken())
+                .user(userRestMapper.toResponse(user))
+                .build();
     }
 
     @Override
