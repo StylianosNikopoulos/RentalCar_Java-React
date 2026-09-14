@@ -33,6 +33,12 @@ const authService = {
 
     getCurrentUser: () => {
         return JSON.parse(localStorage.getItem('user'));
+    },
+
+    // Admin endpoints
+    refreshUserTokenByUserId: async (userId) => {
+        const response = await api.post(`/admin/auth/users/${userId}/refresh`);
+        return response.data;
     }
 };
 

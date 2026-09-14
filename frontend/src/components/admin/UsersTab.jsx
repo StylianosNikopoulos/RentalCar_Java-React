@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useQuery, useMutation, useQueryClient, keepPreviousData } from '@tanstack/react-query';
 import userService from '../../services/userService';
+import authService from '../../services/authService';
 import toast from 'react-hot-toast';
 import Swal from 'sweetalert2';
 import { useLang } from '../../context/LangContext';
@@ -39,7 +40,19 @@ const UsersTab = () => {
             toast.success(t.toastUserDeleted);
             if (currentUsers.length === 1 && userPage > 1) setUserPage(prev => prev - 1);
         },
-        onError: () => toast.error(t.toastUserDelErr)
+        onError: () => toast.error(t.toastUserDelErr || 'Failed to delete user')
+    });
+
+    const refreshTokenMutation = useMutation({
+        mutationFn: (userId) => authService.refreshUserTokenByUserId(userId),
+        onSuccess: () => {
+            toast.success(t.toastTokenRefreshed || 'Token refreshed successfully!');
+            queryClient.invalidateQueries({ queryKey: ['admin-users'] });
+        },
+        onError: (error) => {
+            const msg = error.response?.data?.message || 'Failed to refresh token';
+            toast.error(msg);
+        }
     });
 
     const confirmSwal = (title, text, onConfirm) => {
@@ -60,6 +73,14 @@ const UsersTab = () => {
         confirmSwal(t.swalDeleteUserTitle, t.swalDeleteUserText, () => {
             deleteUserMutation.mutate(id);
         });
+    };
+
+    const handleRefreshUserToken = (user) => {
+        if (!user || !user.id) {
+            toast.error('Invalid user selected');
+            return;
+        }
+        refreshTokenMutation.mutate(user.id);
     };
 
     return (
@@ -103,6 +124,19 @@ const UsersTab = () => {
                                                 <button className="status-btn details-btn" onClick={() => setSelectedUser(user)}>
                                                     <i className="fas fa-eye"></i> {t.btnDetails}
                                                 </button>
+
+                                                {!isDeleted && (
+                                                    <button 
+                                                        className="status-btn refresh-btn" 
+                                                        onClick={() => handleRefreshUserToken(user)}
+                                                        disabled={refreshTokenMutation.isPending}
+                                                        title="Refresh Token"
+                                                    >
+                                                        <i className={`fas fa-sync-alt ${refreshTokenMutation.isPending ? 'fa-spin' : ''}`}></i>
+                                                        Refresh
+                                                    </button>
+                                                )}
+
                                                 {user.role !== 'ADMIN' && !isDeleted && (
                                                     <button className="btn-delete" onClick={() => handleDeleteUser(user.id)}>
                                                         <i className="fas fa-trash"></i> {t.btnDelete}
