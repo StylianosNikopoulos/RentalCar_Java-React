@@ -28,6 +28,7 @@ public class UserRepositoryImpl implements UserRepository {
         var saved = jpaRepository.save(entity);
         return userPersistenceMapper.toDomain(saved);
     }
+
     @Override
     public Optional<User> findByEmail(String email) {
         return jpaRepository.findByEmail(email).map(userPersistenceMapper::toDomain);
@@ -40,7 +41,7 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public Page<User> findAll(Pageable pageable) {
-        return jpaRepository.findAll(pageable)
+        return jpaRepository.findAllOrderedByActiveStatus(pageable)
                 .map(userPersistenceMapper::toDomain);
     }
 

@@ -20,7 +20,6 @@ public class UserController {
 
     @GetMapping("/me")
     public ResponseEntity<UserResponse> getMyProfile(Principal principal) {
-        System.out.println("Principal Name: " + principal.getName());
         var user = userService.getInternalUserByEmail(principal.getName());
         return ResponseEntity.ok(userMapper.toResponse(user));
     }
@@ -30,5 +29,12 @@ public class UserController {
         var currentUser = userService.getInternalUserByEmail(principal.getName());
         var updatedUser = userService.update(currentUser.getId(), request);
         return ResponseEntity.ok(userMapper.toResponse(updatedUser));
+    }
+
+    @DeleteMapping("/me")
+    public ResponseEntity<Void> deleteMyAccount(Principal principal) {
+        var currentUser = userService.getInternalUserByEmail(principal.getName());
+        userService.delete(currentUser.getId());
+        return ResponseEntity.noContent().build();
     }
 }

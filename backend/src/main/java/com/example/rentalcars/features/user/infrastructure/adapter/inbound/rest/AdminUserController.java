@@ -24,7 +24,7 @@ public class AdminUserController {
     private final UserMapper userMapper;
 
     @GetMapping
-    public ResponseEntity<Page<UserResponse>> getAllUsers(@PageableDefault(size = 9, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
+    public ResponseEntity<Page<UserResponse>> getAllUsers(@PageableDefault(size = 9, direction = Sort.Direction.DESC) Pageable pageable) {
         var users = userService.getAllUsers(pageable).map(userMapper::toResponse);
         return ResponseEntity.ok(users);
     }

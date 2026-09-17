@@ -156,6 +156,11 @@ public class UserServiceImpl implements UserService {
                 .orElseThrow(() -> new UserNotFoundException(id));
 
         validateOwnership(user);
+
+        if (DELETED_USER_FIRST_NAME.equalsIgnoreCase(user.getFirstName())) {
+            throw new BusinessException("Account is already deleted.", "USER_ALREADY_DELETED");
+        }
+
         reservationService.cancelAllActiveReservationsByUserId(id);
 
         user.setFirstName(DELETED_USER_FIRST_NAME);
@@ -172,21 +177,26 @@ public class UserServiceImpl implements UserService {
 
         userRepository.save(user);
     }
+
     // Helper method for security
     private void validateOwnership(User user) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth == null) {
+            throw new AccessDeniedException("You don't have permission to perform this action.");
+        }
+
         if (isAdmin(auth)) {
             return;
         }
 
-        if (!user.getEmail().equals(auth.getName())) {
+        if (!user.getEmail().equalsIgnoreCase(auth.getName())) {
             throw new AccessDeniedException("You do not have permission to access this user's data");
         }
     }
 
     // Helper method for admin check
     private boolean isAdmin(Authentication auth) {
-        return auth.getAuthorities().stream()
+        return auth != null && auth.getAuthorities().stream()
                 .anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
     }
 }

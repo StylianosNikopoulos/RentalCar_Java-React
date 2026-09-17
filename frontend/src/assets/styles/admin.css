@@ -442,6 +442,24 @@ tr.row-out-of-service:hover {
     border: 1px solid transparent;
 }
 
+.status-btn.refresh-btn {
+    background: #2a2a2a;
+    color: #38ef7d;
+    border-color: rgba(56, 239, 125, 0.20);
+}
+
+.status-btn.refresh-btn:hover:not(:disabled) {
+    background: #38ef7d;
+    color: #000000;
+    box-shadow: 0 0 20px rgba(56, 239, 125, 0.40);
+    transform: translateY(-2px);
+}
+
+.status-btn.refresh-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
 /* Status Variants */
 .status-confirmed { background: rgba(0, 255, 136, 0.06); color: #00FF88; border-color: rgba(0, 255, 136, 0.15); }
 .status-pending { background: rgba(255, 170, 0, 0.06); color: #FFAA00; border-color: rgba(255, 170, 0, 0.15); }

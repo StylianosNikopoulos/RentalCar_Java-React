@@ -14,7 +14,7 @@ import java.util.UUID;
 @Repository
 public interface ReservationJpaRepository extends JpaRepository<ReservationJpaEntity, UUID> {
     @Query(
-            value = "SELECT r FROM ReservationJpaEntity r WHERE r.user.id = :userId " +
+            value = "SELECT r FROM ReservationJpaEntity r JOIN FETCH r.user WHERE r.user.id = :userId " +
                     "ORDER BY CASE r.status " +
                     "  WHEN 'ACTIVE' THEN 1 " +
                     "  WHEN 'PENDING' THEN 2 " +
@@ -26,7 +26,7 @@ public interface ReservationJpaRepository extends JpaRepository<ReservationJpaEn
     Page<ReservationJpaEntity> findByUserId(@Param("userId") UUID userId, Pageable pageable);
 
     @Query(
-            value = "SELECT r FROM ReservationJpaEntity r " +
+            value = "SELECT r FROM ReservationJpaEntity r JOIN FETCH r.user " +
                     "ORDER BY CASE r.status " +
                     "  WHEN 'ACTIVE' THEN 1 " +
                     "  WHEN 'PENDING' THEN 2 " +
@@ -34,8 +34,9 @@ public interface ReservationJpaRepository extends JpaRepository<ReservationJpaEn
                     "  WHEN 'COMPLETED' THEN 4 " +
                     "  WHEN 'CANCELED' THEN 5 " +
                     "  ELSE 6 END ASC, r.createdAt DESC",
-            countQuery = "SELECT COUNT(r) FROM ReservationJpaEntity r")
-    Page<ReservationJpaEntity> findAll(Pageable pageable);
+            countQuery = "SELECT COUNT(r) FROM ReservationJpaEntity r"
+    )
+    Page<ReservationJpaEntity> findAllWithUserOrderedByStatus(Pageable pageable);
 
     @Query("SELECT COUNT(r) > 0 FROM ReservationJpaEntity r " +
             "WHERE r.vehicleId = :vehicleId " +
@@ -44,8 +45,8 @@ public interface ReservationJpaRepository extends JpaRepository<ReservationJpaEn
     boolean existsOverlappingReservations(
             @Param("vehicleId") UUID vehicleId,
             @Param(("startDate")) LocalDateTime startDate,
-            @Param("endDate")LocalDateTime endDate
-            );
+            @Param("endDate") LocalDateTime endDate
+    );
 
     List<ReservationJpaEntity> findByVehicleId(UUID vehicleId);
     List<ReservationJpaEntity> findAllByUserIdAndStatusIn(UUID userId, List<ReservationStatus> statuses);

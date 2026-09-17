@@ -12,6 +12,7 @@ import com.example.rentalcars.features.reservation.domain.port.outbound.Reservat
 import com.example.rentalcars.features.user.domain.port.inbound.UserService;
 import com.example.rentalcars.features.vehicle.domain.enums.VehicleStatus;
 import com.example.rentalcars.features.vehicle.domain.port.inbound.VehicleService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.AccessDeniedException;
@@ -20,9 +21,12 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class ReservationServiceImpl implements ReservationService {
@@ -63,7 +67,7 @@ public class ReservationServiceImpl implements ReservationService {
 
     @Override
     @Transactional(readOnly = true)
-    public Page<Reservation> getMyReservations(Pageable pageable) {   //TODO PERFORMANCE ISSUE
+    public Page<Reservation> getMyReservations(Pageable pageable) {
         var auth = SecurityContextHolder.getContext().getAuthentication();
         var user = userService.getUserByEmail(auth.getName());
         return reservationRepository.findByUserId(user.getId(), pageable);
@@ -72,20 +76,9 @@ public class ReservationServiceImpl implements ReservationService {
     @Override
     @Transactional(readOnly = true)
     public Page<Reservation> getAllReservations(Pageable pageable) {
-        Page<Reservation> reservations = reservationRepository.findAll(pageable);
-
-        for (Reservation res : reservations.getContent()) {
-            try {
-                var user = userService.getUserById(res.getUserId());
-                if (user != null) {
-                    res.setEmail(user.getEmail());
-                }
-            } catch (Exception e) {
-                res.setEmail("Unknown User");
-            }
-        }
-        return reservations;
+        return reservationRepository.findAll(pageable);
     }
+
     @Override
     @Transactional(readOnly = true)
     public Reservation getReservationById(UUID id) {
@@ -134,6 +127,49 @@ public class ReservationServiceImpl implements ReservationService {
         for (Reservation res : activeReservations) {
             res.setStatus(ReservationStatus.CANCELED);
             reservationRepository.save(res);
+        }
+    }
+
+    @Override
+    @Transactional
+    public void cancelExpiredPendingReservations() {
+        LocalDateTime threshold = LocalDateTime.now().minusHours(1);
+        List<Reservation> expired = reservationRepository.findAllExpiredPending(threshold);
+
+        for (Reservation res : expired){
+            res.setStatus(ReservationStatus.CANCELED);
+            reservationRepository.save(res);  //TODO IMPROVE PERFORMANCE
+            log.info("Reservation {} canceled due to payment timeout", res.getId());
+        }
+    }
+
+    @Override
+    @Transactional
+    public void startScheduledReservations() {
+        LocalDateTime now = LocalDateTime.now();
+        List<Reservation> toStart = reservationRepository
+                .findByStatusAndPeriodStartBefore(ReservationStatus.CONFIRMED, now);
+
+        for (Reservation res : toStart) {
+            res.setStatus(ReservationStatus.ACTIVE);
+            reservationRepository.save(res);
+            vehicleService.updateVehicleStatus(res.getVehicleId(), VehicleStatus.RENTED);
+            log.info("Reservation {} started automatically", res.getId());
+        }
+    }
+
+    @Override
+    @Transactional
+    public void completeFinishedReservations() {
+        LocalDateTime now = LocalDateTime.now();
+        List<Reservation> toComplete = reservationRepository.findByStatusAndPeriodEndBefore(
+                ReservationStatus.ACTIVE, now);
+
+        for (Reservation res : toComplete) {
+            res.setStatus(ReservationStatus.COMPLETED);
+            reservationRepository.save(res);
+            vehicleService.updateVehicleStatus(res.getVehicleId(), VehicleStatus.AVAILABLE);
+            log.info("Reservation {} completed automatically", res.getId());
         }
     }
 
