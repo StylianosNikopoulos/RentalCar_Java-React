@@ -109,7 +109,15 @@ textarea:focus-visible {
 :root[data-theme='light'] .welcome-msg,
 :root[data-theme='light'] .lang-dropdown-btn,
 :root[data-theme='light'] .theme-toggle-btn {
-    color: #65717d;
+    color: #3f4b56;
+}
+
+:root[data-theme='light'] .nav-links a {
+    font-weight: 800;
+}
+
+:root[data-theme='light'] .welcome-msg {
+    color: #52606d;
 }
 
 :root[data-theme='light'] .lang-dropdown-btn,
