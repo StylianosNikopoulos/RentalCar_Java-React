@@ -134,12 +134,11 @@ public class ReservationServiceImpl implements ReservationService {
     @Transactional
     public void cancelExpiredPendingReservations() {
         LocalDateTime threshold = LocalDateTime.now().minusHours(1);
-        List<Reservation> expired = reservationRepository.findAllExpiredPending(threshold);
 
-        for (Reservation res : expired){
-            res.setStatus(ReservationStatus.CANCELED);
-            reservationRepository.save(res);  //TODO IMPROVE PERFORMANCE
-            log.info("Reservation {} canceled due to payment timeout", res.getId());
+        int canceledCount = reservationRepository.cancelExpiredPending(threshold);
+
+        if (canceledCount > 0) {
+            log.info("Canceled {} pending reservations due to payment timeout", canceledCount);
         }
     }
 
@@ -150,7 +149,7 @@ public class ReservationServiceImpl implements ReservationService {
         List<Reservation> toStart = reservationRepository
                 .findByStatusAndPeriodStartBefore(ReservationStatus.CONFIRMED, now);
 
-        for (Reservation res : toStart) {
+        for (Reservation res : toStart) { //TODO IMPROVE PERFORMANCE
             res.setStatus(ReservationStatus.ACTIVE);
             reservationRepository.save(res);
             vehicleService.updateVehicleStatus(res.getVehicleId(), VehicleStatus.RENTED);
@@ -160,7 +159,7 @@ public class ReservationServiceImpl implements ReservationService {
 
     @Override
     @Transactional
-    public void completeFinishedReservations() {
+    public void completeFinishedReservations() { //TODO IMPROVE PERFORMANCE
         LocalDateTime now = LocalDateTime.now();
         List<Reservation> toComplete = reservationRepository.findByStatusAndPeriodEndBefore(
                 ReservationStatus.ACTIVE, now);

@@ -71,11 +71,12 @@ public class ReservationRepositoryImpl implements ReservationRepository {
     }
 
     @Override
-    public List<Reservation> findAllExpiredPending(LocalDateTime threshold) {
-        return jpaRepository.findAllByStatusAndCreatedAtBefore(ReservationStatus.PENDING, threshold)
-                .stream()
-                .map(reservationMapper::toDomain)
-                .collect(Collectors.toList());
+    public int cancelExpiredPending(LocalDateTime threshold) {
+        return jpaRepository.cancelExpiredPendingReservations(
+                ReservationStatus.PENDING,
+                ReservationStatus.CANCELED,
+                threshold
+        );
     }
 
     @Override
