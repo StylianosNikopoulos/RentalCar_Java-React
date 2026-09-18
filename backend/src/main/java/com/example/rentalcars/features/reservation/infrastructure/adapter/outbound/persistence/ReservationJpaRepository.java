@@ -4,6 +4,7 @@ import com.example.rentalcars.features.reservation.domain.enums.ReservationStatu
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -50,7 +51,16 @@ public interface ReservationJpaRepository extends JpaRepository<ReservationJpaEn
 
     List<ReservationJpaEntity> findByVehicleId(UUID vehicleId);
     List<ReservationJpaEntity> findAllByUserIdAndStatusIn(UUID userId, List<ReservationStatus> statuses);
-    List<ReservationJpaEntity> findAllByStatusAndCreatedAtBefore(ReservationStatus status, LocalDateTime dateTime);
+
+    @Modifying(clearAutomatically = true)
+    @Query("UPDATE ReservationJpaEntity r SET r.status = :newStatus " +
+            "WHERE r.status = :oldStatus AND r.createdAt < :threshold")
+    int cancelExpiredPendingReservations(
+            @Param("oldStatus") ReservationStatus oldStatus,
+            @Param("newStatus") ReservationStatus newStatus,
+            @Param("threshold") LocalDateTime threshold
+    );
+
 
     @Query("SELECT r FROM ReservationJpaEntity r WHERE r.status = :status AND r.startDate < :dateTime")
     List<ReservationJpaEntity> findAllByStatusAndPeriodStartBefore(
