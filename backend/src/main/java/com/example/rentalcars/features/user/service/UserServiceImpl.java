@@ -2,15 +2,16 @@ package com.example.rentalcars.features.user.service;
 
 import com.example.rentalcars.core.exception.BusinessException;
 import com.example.rentalcars.features.reservation.domain.port.inbound.ReservationService;
+import com.example.rentalcars.features.user.domain.enums.Role;
+import com.example.rentalcars.features.user.domain.exception.UserNotFoundException;
 import com.example.rentalcars.features.user.domain.model.CustomerProfile;
+import com.example.rentalcars.features.user.domain.model.User;
+import com.example.rentalcars.features.user.domain.port.inbound.UserService;
+import com.example.rentalcars.features.user.domain.port.outbound.UserRepository;
 import com.example.rentalcars.features.user.infrastructure.adapter.inbound.rest.dto.UpdateUserRequest;
 import com.example.rentalcars.features.user.infrastructure.adapter.inbound.rest.dto.UserRequest;
-import com.example.rentalcars.features.user.domain.enums.Role;
-import com.example.rentalcars.features.user.domain.model.User;
-import com.example.rentalcars.features.user.domain.port.outbound.UserRepository;
-import com.example.rentalcars.features.user.domain.exception.UserNotFoundException;
-import com.example.rentalcars.features.user.domain.port.inbound.UserService;
 import jakarta.transaction.Transactional;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -23,6 +24,7 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 import java.util.UUID;
 
+@Slf4j
 @Service
 public class UserServiceImpl implements UserService {
 
@@ -75,6 +77,7 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public User register(UserRequest request) {
         if (userRepository.findByEmail(request.getEmail()).isPresent()) {
+            log.warn("Registration failed: Email {} is already registered", request.getEmail());
             throw new BusinessException("Email already exists", "EMAIL_TAKEN");
         }
 
@@ -95,7 +98,9 @@ public class UserServiceImpl implements UserService {
                 .profile(profile)
                 .build();
 
-        return userRepository.save(user);
+        User savedUser = userRepository.save(user);
+        log.info("New user registered successfully with email: {} and ID: {}", savedUser.getEmail(), savedUser.getId());
+        return savedUser;
     }
 
     @Override
@@ -141,7 +146,9 @@ public class UserServiceImpl implements UserService {
             existingProfile.setDriverLicenseNumber(request.getDriverLicenseNumber());
         }
 
-        return userRepository.save(user);
+        User updated = userRepository.save(user);
+        log.info("User profile updated for user ID: {}", id);
+        return updated;
     }
 
     @Override
@@ -158,6 +165,7 @@ public class UserServiceImpl implements UserService {
         validateOwnership(user);
 
         if (DELETED_USER_FIRST_NAME.equalsIgnoreCase(user.getFirstName())) {
+            log.warn("Soft-delete failed: Account {} is already deleted", id);
             throw new BusinessException("Account is already deleted.", "USER_ALREADY_DELETED");
         }
 
@@ -176,6 +184,7 @@ public class UserServiceImpl implements UserService {
         }
 
         userRepository.save(user);
+        log.info("User account soft-deleted for user ID: {}", id);
     }
 
     // Helper method for security
@@ -190,6 +199,7 @@ public class UserServiceImpl implements UserService {
         }
 
         if (!user.getEmail().equalsIgnoreCase(auth.getName())) {
+            log.warn("Access denied for authentication: {} trying to access user ID: {}", auth.getName(), user.getId());
             throw new AccessDeniedException("You do not have permission to access this user's data");
         }
     }
