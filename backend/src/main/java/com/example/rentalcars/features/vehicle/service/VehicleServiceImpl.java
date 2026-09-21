@@ -11,6 +11,7 @@ import com.example.rentalcars.features.vehicle.domain.port.inbound.VehicleServic
 import com.example.rentalcars.features.vehicle.domain.port.outbound.VehicleRepository;
 import com.example.rentalcars.features.vehicle.infrastructure.adapter.inbound.rest.dto.VehicleRequest;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -22,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class VehicleServiceImpl implements VehicleService {
@@ -32,6 +34,7 @@ public class VehicleServiceImpl implements VehicleService {
     @Transactional
     public Vehicle createVehicle(VehicleRequest request) {
         if (vehicleRepository.existsByLicensePlate(request.getLicensePlate())) {
+            log.warn("Vehicle creation failed: Duplicate license plate {}", request.getLicensePlate());
             throw new BusinessException("Vehicle already exists", "DUPLICATE_LICENSE_PLATE");
         }
         List<VehicleImage> domainImages = mapImageUrlsToDomain(request.getImageUrls(), request.getMainImageUrl(), null);
@@ -48,7 +51,9 @@ public class VehicleServiceImpl implements VehicleService {
                 .images(domainImages)
                 .build();
 
-        return vehicleRepository.save(vehicle);
+        Vehicle saved = vehicleRepository.save(vehicle);
+        log.info("Vehicle created with ID: {} [{}]", saved.getId(), saved.getLicensePlate().value());
+        return saved;
     }
 
     @Override
@@ -74,6 +79,7 @@ public class VehicleServiceImpl implements VehicleService {
         vehicle.setDailyPrice(request.getDailyPrice());
         vehicle.setImages(updatedImages);
 
+        log.info("Vehicle {} updated successfully", id);
         return vehicle;
     }
 
@@ -91,6 +97,7 @@ public class VehicleServiceImpl implements VehicleService {
                 .orElseThrow(() -> new VehicleNotFoundException(id));
 
         vehicle.setStatus(VehicleStatus.OUT_OF_SERVICE);
+        log.info("Vehicle {} status changed to OUT_OF_SERVICE", id);
     }
 
     @Override
@@ -107,13 +114,16 @@ public class VehicleServiceImpl implements VehicleService {
                 .orElseThrow(() -> new VehicleNotFoundException(vehicleId));
 
         vehicle.setStatus(newStatus);
+        log.info("Vehicle {} status updated to {}", vehicleId, newStatus);
     }
 
     @Override
     @Transactional
     public int updateVehiclesStatusBulk(List<UUID> vehicleIds, VehicleStatus newStatus) {
         if (!CollectionUtils.isEmpty(vehicleIds)) {
-             return vehicleRepository.updateStatusForIds(vehicleIds, newStatus);
+            int count = vehicleRepository.updateStatusForIds(vehicleIds, newStatus);
+            log.info("Bulk status update: {} vehicle(s) set to {}", count, newStatus);
+            return count;
         }
         return 0;
     }
@@ -125,6 +135,7 @@ public class VehicleServiceImpl implements VehicleService {
                 .orElseThrow(() -> new VehicleNotFoundException(id));
 
         vehicle.setStatus(VehicleStatus.AVAILABLE);
+        log.info("Vehicle {} restored to AVAILABLE", id);
         return vehicle;
     }
 

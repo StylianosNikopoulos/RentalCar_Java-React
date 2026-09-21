@@ -2,25 +2,25 @@ package com.example.rentalcars.features.reservation.service;
 
 import com.example.rentalcars.core.valueobject.Money;
 import com.example.rentalcars.features.payment.domain.port.inbound.PaymentService;
+import com.example.rentalcars.features.reservation.domain.enums.ReservationStatus;
 import com.example.rentalcars.features.reservation.domain.exception.CarNotAvailableException;
 import com.example.rentalcars.features.reservation.domain.exception.InvalidReservationDatesException;
 import com.example.rentalcars.features.reservation.domain.exception.ReservationNotFoundException;
 import com.example.rentalcars.features.reservation.domain.model.Reservation;
-import com.example.rentalcars.features.reservation.domain.enums.ReservationStatus;
 import com.example.rentalcars.features.reservation.domain.port.inbound.ReservationService;
 import com.example.rentalcars.features.reservation.domain.port.outbound.ReservationRepository;
 import com.example.rentalcars.features.user.domain.port.inbound.UserService;
 import com.example.rentalcars.features.vehicle.domain.enums.VehicleStatus;
 import com.example.rentalcars.features.vehicle.domain.port.inbound.VehicleService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.transaction.annotation.Transactional;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -55,14 +55,19 @@ public class ReservationServiceImpl implements ReservationService {
         var vehicle = vehicleService.getVehicleByIdWithLock(reservation.getVehicleId());
 
         if (reservationRepository.existsOverlap(reservation.getVehicleId(), reservation.getPeriod())) {
+            log.warn("Reservation creation failed: Vehicle {} is already booked for period {}", reservation.getVehicleId(), reservation.getPeriod());
             throw new CarNotAvailableException();
         }
+
         reservation.setVehicleName(vehicle.getModel());
         reservation.setVehicleBrand(vehicle.getBrand());
-        reservation.calculateTotal(new Money(vehicle.getDailyPrice(),"EUR"));
+        reservation.calculateTotal(new Money(vehicle.getDailyPrice(), "EUR"));
         reservation.setStatus(ReservationStatus.PENDING);
         reservation.setEmail(user.getEmail());
-        return reservationRepository.save(reservation);
+
+        Reservation savedReservation = reservationRepository.save(reservation);
+        log.info("Reservation created with ID: {} for user: {} and vehicle: {}", savedReservation.getId(), user.getEmail(), vehicle.getId());
+        return savedReservation;
     }
 
     @Override
@@ -100,11 +105,14 @@ public class ReservationServiceImpl implements ReservationService {
         if (reservation.getStatus() == ReservationStatus.CONFIRMED) {
             var payment = paymentService.getPaymentByReservationId(reservationId);
             paymentService.refundPayment(payment.getStripePaymentId());
+            log.info("Refund initiated for confirmed reservation: {}", reservationId);
         }
 
         reservation.cancel();
         reservationRepository.save(reservation);
         vehicleService.updateVehicleStatus(reservation.getVehicleId(), VehicleStatus.AVAILABLE);
+
+        log.info("Reservation {} canceled successfully by user {}", reservationId, userEmail);
     }
 
     @Override
@@ -112,8 +120,11 @@ public class ReservationServiceImpl implements ReservationService {
     public Reservation confirmReservation(UUID reservationId) {
         var reservation = reservationRepository.findById(reservationId)
                 .orElseThrow(() -> new ReservationNotFoundException(reservationId));
+
         reservation.confirm();
-        return reservationRepository.save(reservation);
+        Reservation saved = reservationRepository.save(reservation);
+        log.info("Reservation {} status updated to CONFIRMED", reservationId);
+        return saved;
     }
 
     @Override
@@ -124,8 +135,11 @@ public class ReservationServiceImpl implements ReservationService {
                 List.of(ReservationStatus.PENDING, ReservationStatus.CONFIRMED)
         );
 
-        for (Reservation res : activeReservations) {
-            res.setStatus(ReservationStatus.CANCELED);
+        if (!activeReservations.isEmpty()) {
+            for (Reservation res : activeReservations) {
+                res.setStatus(ReservationStatus.CANCELED);
+            }
+            log.info("Canceled {} active reservation(s) for user ID: {}", activeReservations.size(), userId);
         }
     }
 
@@ -133,7 +147,6 @@ public class ReservationServiceImpl implements ReservationService {
     @Transactional
     public void cancelExpiredPendingReservations() {
         LocalDateTime threshold = LocalDateTime.now().minusHours(1);
-
         int canceledCount = reservationRepository.cancelExpiredPending(threshold);
 
         if (canceledCount > 0) {
@@ -173,6 +186,7 @@ public class ReservationServiceImpl implements ReservationService {
         var reservation = reservationRepository.findById(reservationId)
                 .orElseThrow(() -> new ReservationNotFoundException(reservationId));
         reservation.setStatus(ReservationStatus.CANCELED);
+        log.info("Reservation {} canceled internally by system", reservationId);
     }
 
     @Override
@@ -185,6 +199,7 @@ public class ReservationServiceImpl implements ReservationService {
         var updatedReservation = reservationRepository.save(reservation);
 
         vehicleService.updateVehicleStatus(reservation.getVehicleId(), VehicleStatus.AVAILABLE);
+        log.info("Reservation {} marked as COMPLETED. Vehicle {} set to AVAILABLE", reservationId, reservation.getVehicleId());
         return updatedReservation;
     }
 
@@ -206,6 +221,7 @@ public class ReservationServiceImpl implements ReservationService {
         var user = userService.getUserByEmail(auth.getName());
 
         if (!reservation.getUserId().equals(user.getId())) {
+            log.warn("Access denied for user {} attempting to access reservation {}", auth.getName(), reservation.getId());
             throw new AccessDeniedException("You don't have permission to do this action");
         }
     }
