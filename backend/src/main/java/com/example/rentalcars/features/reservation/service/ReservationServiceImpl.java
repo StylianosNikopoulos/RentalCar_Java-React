@@ -126,7 +126,6 @@ public class ReservationServiceImpl implements ReservationService {
 
         for (Reservation res : activeReservations) {
             res.setStatus(ReservationStatus.CANCELED);
-            reservationRepository.save(res);
         }
     }
 
@@ -146,29 +145,25 @@ public class ReservationServiceImpl implements ReservationService {
     @Transactional
     public void startScheduledReservations() {
         LocalDateTime now = LocalDateTime.now();
-        List<Reservation> toStart = reservationRepository
-                .findByStatusAndPeriodStartBefore(ReservationStatus.CONFIRMED, now);
+        List<UUID> vehicleIds = reservationRepository.findVehicleIdsToStart(now);
 
-        for (Reservation res : toStart) { //TODO IMPROVE PERFORMANCE
-            res.setStatus(ReservationStatus.ACTIVE);
-            reservationRepository.save(res);
-            vehicleService.updateVehicleStatus(res.getVehicleId(), VehicleStatus.RENTED);
-            log.info("Reservation {} started automatically", res.getId());
+        if (!vehicleIds.isEmpty()) {
+            int updatedCount = reservationRepository.bulkStartReservations(now);
+            int updatedVehicles = vehicleService.updateVehiclesStatusBulk(vehicleIds, VehicleStatus.RENTED);
+            log.info("Auto-start task: Updated {} reservation(s) and {} vehicle(s)", updatedCount, updatedVehicles);
         }
     }
 
     @Override
     @Transactional
-    public void completeFinishedReservations() { //TODO IMPROVE PERFORMANCE
+    public void completeFinishedReservations() {
         LocalDateTime now = LocalDateTime.now();
-        List<Reservation> toComplete = reservationRepository.findByStatusAndPeriodEndBefore(
-                ReservationStatus.ACTIVE, now);
+        List<UUID> vehicleIds = reservationRepository.findVehicleIdsToComplete(now);
 
-        for (Reservation res : toComplete) {
-            res.setStatus(ReservationStatus.COMPLETED);
-            reservationRepository.save(res);
-            vehicleService.updateVehicleStatus(res.getVehicleId(), VehicleStatus.AVAILABLE);
-            log.info("Reservation {} completed automatically", res.getId());
+        if (!vehicleIds.isEmpty()) {
+            int updatedCount = reservationRepository.bulkCompleteReservations(now);
+            int updatedVehicles = vehicleService.updateVehiclesStatusBulk(vehicleIds, VehicleStatus.AVAILABLE);
+            log.info("Auto-complete task: Updated {} reservation(s) and {} vehicle(s)", updatedCount, updatedVehicles);
         }
     }
 
@@ -178,7 +173,6 @@ public class ReservationServiceImpl implements ReservationService {
         var reservation = reservationRepository.findById(reservationId)
                 .orElseThrow(() -> new ReservationNotFoundException(reservationId));
         reservation.setStatus(ReservationStatus.CANCELED);
-        reservationRepository.save(reservation);
     }
 
     @Override

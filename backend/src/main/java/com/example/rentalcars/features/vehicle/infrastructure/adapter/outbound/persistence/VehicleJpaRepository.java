@@ -1,14 +1,17 @@
 package com.example.rentalcars.features.vehicle.infrastructure.adapter.outbound.persistence;
 
+import com.example.rentalcars.features.vehicle.domain.enums.VehicleStatus;
 import jakarta.persistence.LockModeType;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Lock;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -49,4 +52,8 @@ public interface VehicleJpaRepository extends JpaRepository<VehicleJpaEntity, UU
             "OR LOWER(v.brand) LIKE LOWER(CONCAT('%', :search, '%')) " +
             "OR LOWER(v.model) LIKE LOWER(CONCAT('%', :search, '%')))")
     Page<VehicleJpaEntity> findAllAvailableWithSearch(@Param("search") String search, Pageable pageable);
+
+    @Modifying(clearAutomatically = true)
+    @Query("UPDATE VehicleJpaEntity v SET v.status = :status WHERE v.id IN :ids")
+    int updateStatusForIds(@Param("ids") List<UUID> ids, @Param("status") VehicleStatus status);
 }

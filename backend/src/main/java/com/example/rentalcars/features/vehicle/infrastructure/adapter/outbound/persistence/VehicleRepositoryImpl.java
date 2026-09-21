@@ -1,5 +1,6 @@
 package com.example.rentalcars.features.vehicle.infrastructure.adapter.outbound.persistence;
 
+import com.example.rentalcars.features.vehicle.domain.enums.VehicleStatus;
 import com.example.rentalcars.features.vehicle.domain.model.Vehicle;
 import com.example.rentalcars.features.vehicle.domain.port.outbound.VehicleRepository;
 import lombok.AllArgsConstructor;
@@ -7,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -38,6 +40,11 @@ public class VehicleRepositoryImpl implements VehicleRepository {
     public Page<Vehicle> findAll(String search, Pageable pageable) {
         return jpaRepository.findAllWithSearch(search, pageable)
                 .map(vehiclePersistenceMapper::toDomain);
+    }
+
+    @Override
+    public int updateStatusForIds(List<UUID> vehicleIds, VehicleStatus status) {
+        return jpaRepository.updateStatusForIds(vehicleIds, status);
     }
 
     @Override

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet author="db" id="013-add-no-overlapping-reservations">
+        <sql dbms="postgresql">
+            CREATE EXTENSION IF NOT EXISTS btree_gist;
+        </sql>
+    </changeSet>
+
+    <changeSet author="db" id="013-add-no-overlapping-reservations-2">
+        <sql dbms="postgresql">
+            ALTER TABLE reservations
+                ADD CONSTRAINT no_overlapping_reservations
+                EXCLUDE USING gist (
+                vehicle_id WITH =,
+                tsrange(start_date, end_date, '[)') WITH &amp;&amp;
+            )
+            WHERE (status != 'CANCELED');
+        </sql>
+        <rollback>
+            <sql dbms="postgresql">
+                ALTER TABLE reservations DROP CONSTRAINT IF EXISTS no_overlapping_reservations;
+            </sql>
+        </rollback>
+    </changeSet>
+</databaseChangeLog>

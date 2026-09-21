@@ -14,7 +14,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
@@ -80,18 +79,22 @@ public class ReservationRepositoryImpl implements ReservationRepository {
     }
 
     @Override
-    public List<Reservation> findByStatusAndPeriodStartBefore(ReservationStatus status, LocalDateTime now) {
-        return jpaRepository.findAllByStatusAndPeriodStartBefore(status, now)
-                .stream()
-                .map(reservationMapper::toDomain)
-                .toList();
+    public List<UUID> findVehicleIdsToStart(LocalDateTime now) {
+        return jpaRepository.findVehicleIdsToStart(now);
     }
 
     @Override
-    public List<Reservation> findByStatusAndPeriodEndBefore(ReservationStatus status, LocalDateTime now) {
-        return jpaRepository.findAllByStatusAndPeriodEndBefore(status, now)
-                .stream()
-                .map(reservationMapper::toDomain)
-                .toList();
+    public int bulkStartReservations(LocalDateTime now) {
+        return jpaRepository.bulkStartReservations(now);
+    }
+
+    @Override
+    public List<UUID> findVehicleIdsToComplete(LocalDateTime now) {
+        return jpaRepository.findVehicleIdsToComplete(now);
+    }
+
+    @Override
+    public int bulkCompleteReservations(LocalDateTime now) {
+        return jpaRepository.bulkCompleteReservations(now);
     }
 }

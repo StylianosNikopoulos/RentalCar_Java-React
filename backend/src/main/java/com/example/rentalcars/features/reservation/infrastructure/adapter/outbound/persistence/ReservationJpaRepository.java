@@ -45,13 +45,14 @@ public interface ReservationJpaRepository extends JpaRepository<ReservationJpaEn
             "AND (:startDate <= r.endDate AND :endDate >= r.startDate)")
     boolean existsOverlappingReservations(
             @Param("vehicleId") UUID vehicleId,
-            @Param(("startDate")) LocalDateTime startDate,
+            @Param("startDate") LocalDateTime startDate,
             @Param("endDate") LocalDateTime endDate
     );
 
     List<ReservationJpaEntity> findByVehicleId(UUID vehicleId);
     List<ReservationJpaEntity> findAllByUserIdAndStatusIn(UUID userId, List<ReservationStatus> statuses);
 
+    // Cancel Expired
     @Modifying(clearAutomatically = true)
     @Query("UPDATE ReservationJpaEntity r SET r.status = :newStatus " +
             "WHERE r.status = :oldStatus AND r.createdAt < :threshold")
@@ -61,16 +62,19 @@ public interface ReservationJpaRepository extends JpaRepository<ReservationJpaEn
             @Param("threshold") LocalDateTime threshold
     );
 
+    // Start Scheduled
+    @Query("SELECT r.vehicleId FROM ReservationJpaEntity r WHERE r.status = 'CONFIRMED' AND r.startDate < :now")
+    List<UUID> findVehicleIdsToStart(@Param("now") LocalDateTime now);
 
-    @Query("SELECT r FROM ReservationJpaEntity r WHERE r.status = :status AND r.startDate < :dateTime")
-    List<ReservationJpaEntity> findAllByStatusAndPeriodStartBefore(
-            @Param("status") ReservationStatus status,
-            @Param("dateTime") LocalDateTime dateTime
-    );
+    @Modifying(clearAutomatically = true)
+    @Query("UPDATE ReservationJpaEntity r SET r.status = 'ACTIVE' WHERE r.status = 'CONFIRMED' AND r.startDate < :now")
+    int bulkStartReservations(@Param("now") LocalDateTime now);
 
-    @Query("SELECT r FROM ReservationJpaEntity r WHERE r.status = :status AND r.endDate < :dateTime")
-    List<ReservationJpaEntity> findAllByStatusAndPeriodEndBefore(
-            @Param("status") ReservationStatus status,
-            @Param("dateTime") LocalDateTime dateTime
-    );
+    // Complete Finished
+    @Query("SELECT r.vehicleId FROM ReservationJpaEntity r WHERE r.status = 'ACTIVE' AND r.endDate < :now")
+    List<UUID> findVehicleIdsToComplete(@Param("now") LocalDateTime now);
+
+    @Modifying(clearAutomatically = true)
+    @Query("UPDATE ReservationJpaEntity r SET r.status = 'COMPLETED' WHERE r.status = 'ACTIVE' AND r.endDate < :now")
+    int bulkCompleteReservations(@Param("now") LocalDateTime now);
 }
