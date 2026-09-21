@@ -1,6 +1,7 @@
 package com.example.rentalcars.core.exception;
 
 import com.example.rentalcars.core.dto.ApiError;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
@@ -71,5 +72,28 @@ public class GlobalExceptionHandler {
                 .timestamp(LocalDateTime.now())
                 .build();
         return new ResponseEntity<>(error, HttpStatus.FORBIDDEN);
+    }
+
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public ResponseEntity<ApiError> handleDataIntegrityViolation(DataIntegrityViolationException ex) {
+        String mostSpecificCause = ex.getMostSpecificCause().getMessage();
+
+        if (mostSpecificCause != null && mostSpecificCause.contains("no_overlapping_reservations")) {
+            var error = ApiError.builder()
+                    .status(HttpStatus.CONFLICT.value())
+                    .message("Car is not available for the selected dates.")
+                    .errorCode("CAR_NOT_AVAILABLE")
+                    .timestamp(LocalDateTime.now())
+                    .build();
+            return new ResponseEntity<>(error, HttpStatus.CONFLICT);
+        }
+
+        var error = ApiError.builder()
+                .status(HttpStatus.BAD_REQUEST.value())
+                .message("Database integrity violation occurred.")
+                .errorCode("DATA_INTEGRITY_VIOLATION")
+                .timestamp(LocalDateTime.now())
+                .build();
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
 }

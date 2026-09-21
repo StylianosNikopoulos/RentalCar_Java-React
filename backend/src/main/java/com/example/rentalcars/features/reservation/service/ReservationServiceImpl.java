@@ -126,7 +126,6 @@ public class ReservationServiceImpl implements ReservationService {
 
         for (Reservation res : activeReservations) {
             res.setStatus(ReservationStatus.CANCELED);
-            reservationRepository.save(res);
         }
     }
 
@@ -150,12 +149,8 @@ public class ReservationServiceImpl implements ReservationService {
 
         if (!vehicleIds.isEmpty()) {
             int updatedCount = reservationRepository.bulkStartReservations(now);
-
-            for (UUID vehicleId : vehicleIds) {
-                vehicleService.updateVehicleStatus(vehicleId, VehicleStatus.RENTED);
-            }
-
-            log.info("Auto-start task: Updated {} reservation(s) for {} vehicle(s)", updatedCount, vehicleIds.size());
+            int updatedVehicles = vehicleService.updateVehiclesStatusBulk(vehicleIds, VehicleStatus.RENTED);
+            log.info("Auto-start task: Updated {} reservation(s) and {} vehicle(s)", updatedCount, updatedVehicles);
         }
     }
 
@@ -167,12 +162,8 @@ public class ReservationServiceImpl implements ReservationService {
 
         if (!vehicleIds.isEmpty()) {
             int updatedCount = reservationRepository.bulkCompleteReservations(now);
-
-            for (UUID vehicleId : vehicleIds) {
-                vehicleService.updateVehicleStatus(vehicleId, VehicleStatus.AVAILABLE);
-            }
-
-            log.info("Auto-complete task: Updated {} reservation(s) for {} vehicle(s)", updatedCount, vehicleIds.size());
+            int updatedVehicles = vehicleService.updateVehiclesStatusBulk(vehicleIds, VehicleStatus.AVAILABLE);
+            log.info("Auto-complete task: Updated {} reservation(s) and {} vehicle(s)", updatedCount, updatedVehicles);
         }
     }
 
@@ -182,7 +173,6 @@ public class ReservationServiceImpl implements ReservationService {
         var reservation = reservationRepository.findById(reservationId)
                 .orElseThrow(() -> new ReservationNotFoundException(reservationId));
         reservation.setStatus(ReservationStatus.CANCELED);
-        reservationRepository.save(reservation);
     }
 
     @Override
