@@ -11,7 +11,7 @@ public class ReservationCleanupTask {
     private final ReservationService reservationService;
 
     @Scheduled(fixedRate = 300000)
-    public void cancelExpiredReservations(){
+    public void cancelExpiredReservations() {
         reservationService.cancelExpiredPendingReservations();
     }
 

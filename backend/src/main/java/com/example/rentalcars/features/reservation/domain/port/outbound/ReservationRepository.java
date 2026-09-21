@@ -20,6 +20,8 @@ public interface ReservationRepository {
     boolean existsOverlap(UUID vehicleId, DateRange period);
     List<Reservation> findAllByUserIdAndStatusIn(UUID userId, List<ReservationStatus> statuses);
     int cancelExpiredPending(LocalDateTime threshold);
-    List<Reservation> findByStatusAndPeriodStartBefore(ReservationStatus status, LocalDateTime now);
-    List<Reservation> findByStatusAndPeriodEndBefore(ReservationStatus status, LocalDateTime now);
+    List<UUID> findVehicleIdsToStart(LocalDateTime now);
+    int bulkStartReservations(LocalDateTime now);
+    List<UUID> findVehicleIdsToComplete(LocalDateTime now);
+    int bulkCompleteReservations(LocalDateTime now);
 }

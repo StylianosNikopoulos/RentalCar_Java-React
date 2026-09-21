@@ -110,19 +110,7 @@ public class VehicleServiceImpl implements VehicleService {
         Vehicle vehicle = vehicleRepository.findById(vehicleId)
                 .orElseThrow(() -> new VehicleNotFoundException(vehicleId));
 
-        Vehicle updatedVehicle = Vehicle.builder()
-                .id(vehicle.getId())
-                .brand(vehicle.getBrand())
-                .model(vehicle.getModel())
-                .year(vehicle.getYear())
-                .fuelType(vehicle.getFuelType())
-                .licensePlate(vehicle.getLicensePlate())
-                .dailyPrice(vehicle.getDailyPrice())
-                .version(vehicle.getVersion())
-                .status(newStatus)
-                .build();
-
-        vehicleRepository.save(updatedVehicle);
+        vehicle.setStatus(newStatus);
     }
 
     @Override
