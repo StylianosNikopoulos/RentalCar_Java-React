@@ -467,11 +467,12 @@ tr.row-out-of-service:hover {
 .status-confirmed { background: rgba(0, 255, 136, 0.06); color: #00FF88; border-color: rgba(0, 255, 136, 0.15); }
 .status-pending { background: rgba(255, 170, 0, 0.06); color: #FFAA00; border-color: rgba(255, 170, 0, 0.15); }
 .status-canceled { background: rgba(255, 77, 77, 0.06); color: #FF4D4D; border-color: rgba(255, 77, 77, 0.15); }
-.status-active { background: rgba(46, 204, 113, 0.15); color: #2ECC71; border-color: rgba(46, 204, 113, 0.30); }
-.status-completed { background: rgba(153, 51, 255, 0.06); color: #9933FF; border-color: rgba(153, 51, 255, 0.15); }
+.status-active { background: rgba(0, 229, 255, 0.08); color: #00E5FF; border-color: rgba(0, 229, 255, 0.25); }
+.status-completed { background: rgba(153, 51, 255, 0.08); color: #9933FF; border-color: rgba(153, 51, 255, 0.25); }
 .status-badge.status-oos { background: rgba(231, 76, 60, 0.15); color: #E74C3C; border-color: rgba(231, 76, 60, 0.30); }
 .payment-pending { background: rgba(255, 170, 0, 0.06); color: #FFAA00; border-color: rgba(255, 170, 0, 0.15); }
-.payment-confirmed, .payment-active, .payment-completed { background: rgba(0, 255, 136, 0.06); color: #00FF88; border-color: rgba(0, 255, 136, 0.15); }
+.payment-confirmed, .payment-completed { background: rgba(0, 255, 136, 0.06); color: #00FF88; border-color: rgba(0, 255, 136, 0.15); }
+.payment-active { background: rgba(0, 229, 255, 0.08); color: #00E5FF; border-color: rgba(0, 229, 255, 0.25); }
 .payment-canceled { background: rgba(255, 77, 77, 0.06); color: #FF4D4D; border-color: rgba(255, 77, 77, 0.15); }
 
 /* Role Variants */
