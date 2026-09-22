@@ -15,8 +15,8 @@
     --status-confirmed: #00ff88;
     --status-canceled: #ff3355;
     --status-completed: #9933FF;
+    --status-active: #00E5FF;
 }
-
 body {
     background-color: var(--bg-dark);
     color: var(--text-main);
@@ -117,6 +117,7 @@ body {
 .status-border-confirmed .res-card-accent { background: var(--status-confirmed); }
 .status-border-canceled .res-card-accent { background: var(--status-canceled); }
 .status-border-completed .res-card-accent { background: var(--status-completed); }
+.status-border-active .res-card-accent { background: var(--status-active); }
 
 .res-meta-section {
     display: flex;
@@ -248,6 +249,9 @@ body {
 
 .status-badge.completed { color: var(--status-completed); border-color: rgba(153, 51, 255, 0.3); }
 .status-badge.completed .status-dot { background: var(--status-completed); box-shadow: 0 0 8px var(--status-completed); }
+
+.status-badge.active { color: var(--status-active); border-color: rgba(0, 229, 255, 0.25); }
+.status-badge.active .status-dot { background: var(--status-active); box-shadow: 0 0 8px var(--status-active); }
 
 .res-timer {
     font-size: 0.8rem;
