@@ -24,11 +24,9 @@ public interface VehicleJpaRepository extends JpaRepository<VehicleJpaEntity, UU
     @Query("SELECT v FROM VehicleJpaEntity v WHERE v.id = :id")
     Optional<VehicleJpaEntity> findByIdWithLock(@Param("id") UUID id);
 
-    @Query("SELECT v FROM VehicleJpaEntity v WHERE v.status = 'AVAILABLE' " +
-            "AND (:search IS NULL " +
-            "OR LOWER(v.brand) LIKE :search " +
-            "OR LOWER(v.model) LIKE :search) " +
-            "AND (:brand IS NULL OR LOWER(v.brand) = :brand) " +
+    @Query("SELECT v FROM VehicleJpaEntity v WHERE v.status = com.example.rentalcars.features.vehicle.domain.enums.VehicleStatus.ACTIVE " +
+            "AND (CAST(:search AS string) IS NULL OR :search = '' OR LOWER(v.brand) LIKE LOWER(:search) OR LOWER(v.model) LIKE LOWER(:search)) " +
+            "AND (CAST(:brand AS string) IS NULL OR :brand = '' OR LOWER(v.brand) = LOWER(:brand)) " +
             "AND (:fuelType IS NULL OR v.fuelType = :fuelType) " +
             "AND (:minPrice IS NULL OR v.dailyPrice >= :minPrice) " +
             "AND (:maxPrice IS NULL OR v.dailyPrice <= :maxPrice) " +
@@ -48,11 +46,9 @@ public interface VehicleJpaRepository extends JpaRepository<VehicleJpaEntity, UU
             Pageable pageable
     );
 
-    @Query("SELECT v FROM VehicleJpaEntity v WHERE v.status = 'AVAILABLE' " +
-            "AND (:search IS NULL " +
-            "OR LOWER(v.brand) LIKE :search " +
-            "OR LOWER(v.model) LIKE :search) " +
-            "AND (:brand IS NULL OR LOWER(v.brand) = :brand) " +
+    @Query("SELECT v FROM VehicleJpaEntity v WHERE v.status = com.example.rentalcars.features.vehicle.domain.enums.VehicleStatus.ACTIVE " +
+            "AND (CAST(:search AS string) IS NULL OR :search = '' OR LOWER(v.brand) LIKE LOWER(:search) OR LOWER(v.model) LIKE LOWER(:search)) " +
+            "AND (CAST(:brand AS string) IS NULL OR :brand = '' OR LOWER(v.brand) = LOWER(:brand)) " +
             "AND (:fuelType IS NULL OR v.fuelType = :fuelType) " +
             "AND (:minPrice IS NULL OR v.dailyPrice >= :minPrice) " +
             "AND (:maxPrice IS NULL OR v.dailyPrice <= :maxPrice)")
@@ -67,11 +63,11 @@ public interface VehicleJpaRepository extends JpaRepository<VehicleJpaEntity, UU
 
     @Query("SELECT v FROM VehicleJpaEntity v WHERE " +
             "(:status IS NULL OR v.status = :status) " +
-            "AND (:search IS NULL " +
-            "OR LOWER(v.brand) LIKE :search " +
-            "OR LOWER(v.model) LIKE :search " +
-            "OR LOWER(CONCAT(v.brand, ' ', v.model)) LIKE :search) " +
-            "AND (:brand IS NULL OR LOWER(v.brand) LIKE :brand) " +
+            "AND (CAST(:search AS string) IS NULL OR :search = '' " +
+            "OR LOWER(v.brand) LIKE LOWER(:search) " +
+            "OR LOWER(v.model) LIKE LOWER(:search) " +
+            "OR LOWER(CONCAT(v.brand, ' ', v.model)) LIKE LOWER(:search)) " +
+            "AND (CAST(:brand AS string) IS NULL OR :brand = '' OR LOWER(v.brand) = LOWER(:brand)) " +
             "AND (:fuelType IS NULL OR v.fuelType = :fuelType) " +
             "AND (:minPrice IS NULL OR v.dailyPrice >= :minPrice) " +
             "AND (:maxPrice IS NULL OR v.dailyPrice <= :maxPrice)")
