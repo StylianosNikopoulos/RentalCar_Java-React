@@ -6,7 +6,7 @@ import com.example.rentalcars.features.auth.infrastructure.adapter.inbound.rest.
 
 import java.util.UUID;
 
-public interface AuthUseCase {
+public interface AuthService {
     AuthResponse login(LoginRequest request);
     AuthResponse register(RegisterRequest request);
     AuthResponse refreshTokenByUserId(UUID userId);

@@ -1,6 +1,6 @@
 package com.example.rentalcars.features.auth.infrastructure.adapter.inbound.rest;
 
-import com.example.rentalcars.features.auth.domain.port.inbound.AuthUseCase;
+import com.example.rentalcars.features.auth.domain.port.inbound.AuthService;
 import com.example.rentalcars.features.auth.infrastructure.adapter.inbound.rest.dto.*;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class AuthController {
 
-    private final AuthUseCase authService;
+    private final AuthService authService;
 
     @PostMapping("/register")
     public ResponseEntity<AuthResponse> register(@Valid @RequestBody RegisterRequest request) {
