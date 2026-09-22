@@ -12,7 +12,6 @@ const VehiclesTab = () => {
     const queryClient = useQueryClient();
     const { lang } = useLang();
     const t = translations[lang].admin;
-    const activeTranslation = translations[lang].myReservations?.active;
 
     const [vehiclePage, setVehiclePage] = useState(1);
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -42,7 +41,10 @@ const VehiclesTab = () => {
             queryClient.invalidateQueries({ queryKey: ['admin-vehicles'] });
             toast.success(t.toastVehOos);
         },
-        onError: () => toast.error(t.toastOpFailed)
+        onError: (error) => {
+            const errorMessage = error.response?.data?.message || t.toastOpFailed;
+            toast.error(errorMessage);
+        }
     });
 
     const restoreMutation = useMutation({
@@ -98,6 +100,42 @@ const VehiclesTab = () => {
         setIsModalOpen(true);
     };
 
+    const getStatusText = (status) => {
+        switch (status) {
+            case 'OUT_OF_SERVICE':
+                return t.btnOutOfService;
+            case 'RENTED':
+                return t.statusRented || 'Rented';
+            case 'AVAILABLE':
+            case 'ACTIVE':
+                return t.statusActive || t.activeStatus;
+            case 'PENDING':
+                return t.statusPending;
+            case 'CONFIRMED':
+                return t.statusConfirmed;
+            case 'COMPLETED':
+                return t.statusCompleted;
+            case 'CANCELED':
+                return t.statusCanceled;
+            default:
+                return status || t.statusUnknown;
+        }
+    };
+
+    const renderStatusBadge = (status) => {
+        const isOos = status === 'OUT_OF_SERVICE';
+        const isRented = status === 'RENTED';
+        const badgeClass = isOos ? 'status-oos' : isRented ? 'status-rented' : 'status-active';
+        const iconClass = isOos ? 'fa-ban' : isRented ? 'fa-car' : 'fa-check-circle';
+
+        return (
+            <span className={`status-badge ${badgeClass}`}>
+                <i className={`fas ${iconClass}`}></i>
+                {getStatusText(status)}
+            </span>
+        );
+    };
+
     return (
         <div className="admin-section">
             <button className="add-btn" onClick={openCreateModal}>
@@ -122,35 +160,37 @@ const VehiclesTab = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {currentVehicles.map(car => {
-                                        const isOos = car.status === 'OUT_OF_SERVICE';
-                                return (
-                                    <tr key={car.id} className={isOos ? 'row-out-of-service' : ''}>
-                                        <td><strong>{car.brand}</strong> {car.model}</td>
-                                        <td>
-                                            <span className={`status-badge ${isOos ? 'status-oos' : 'status-active'}`}>
-                                                <i className={`fas ${isOos ? 'fa-ban' : 'fa-check-circle'}`}></i>
-                                                {isOos ? t.btnOutOfService : activeTranslation}
-                                            </span>
-                                        </td>
-                                        <td className="actions-cell">
-                                            <button className="status-btn details-btn" onClick={() => setSelectedVehicleDetails(car)}>
-                                                <i className="fas fa-eye"></i> {t.btnDetails}
-                                            </button>
-                                            <button className="btn-update" onClick={() => openUpdateModal(car)}>
-                                                <i className="fas fa-edit"></i> {t.btnUpdate}
-                                            </button>
-                                            <button 
-                                                className={`btn-status-toggle ${isOos ? 'btn-restore' : 'btn-oos'}`} 
-                                                onClick={() => handleRestoreVehicle(car)}
-                                            >
-                                                <i className={`fas ${isOos ? 'fa-undo' : 'fa-ban'}`}></i> 
-                                                {isOos ? t.btnRestore : t.btnOutOfService}
-                                            </button>
-                                        </td>
-                                    </tr>
-                                );
-                            })}
+                        {currentVehicles.map(car => {
+                            const isOos = car.status === 'OUT_OF_SERVICE';
+                            const isRented = car.status === 'RENTED';
+
+                            return (
+                                <tr key={car.id} className={isOos ? 'row-out-of-service' : ''}>
+                                    <td><strong>{car.brand}</strong> {car.model}</td>
+                                    <td>
+                                        {renderStatusBadge(car.status)}
+                                    </td>
+                                    <td className="actions-cell">
+                                        <button className="status-btn details-btn" onClick={() => setSelectedVehicleDetails(car)}>
+                                            <i className="fas fa-eye"></i> {t.btnDetails}
+                                        </button>
+                                        <button className="btn-update" onClick={() => openUpdateModal(car)}>
+                                            <i className="fas fa-edit"></i> {t.btnUpdate}
+                                        </button>
+                                        <button 
+                                            className={`btn-status-toggle ${isOos ? 'btn-restore' : 'btn-oos'}`} 
+                                            onClick={() => handleRestoreVehicle(car)}
+                                            disabled={isRented}
+                                            title={isRented ? 'Cannot modify a rented vehicle' : ''}
+                                            style={isRented ? { opacity: 0.5, cursor: 'not-allowed' } : {}}
+                                        >
+                                            <i className={`fas ${isOos ? 'fa-undo' : 'fa-ban'}`}></i> 
+                                            {isOos ? t.btnRestore : t.btnOutOfService}
+                                        </button>
+                                    </td>
+                                </tr>
+                            );
+                        })}
                         </tbody>
                     </table>
                     
@@ -184,7 +224,7 @@ const VehiclesTab = () => {
                             <div><span>{t.tablePrice}</span><strong>€{selectedVehicleDetails.dailyPrice} / {t.daySingle}</strong></div>
                             <div><span>{t.placeholderYear}</span><strong>{selectedVehicleDetails.year}</strong></div>
                             <div><span>{t.placeholderFuel}</span><strong>{selectedVehicleDetails.fuelType}</strong></div>
-                            <div><span>{t.tableStatus}</span><strong>{selectedVehicleDetails.status === 'OUT_OF_SERVICE' ? t.btnOutOfService : activeTranslation}</strong></div>
+                            <div><span>{t.tableStatus}</span><strong>{getStatusText(selectedVehicleDetails.status)}</strong></div>
                         </div>
                     </div>
                 </div>
