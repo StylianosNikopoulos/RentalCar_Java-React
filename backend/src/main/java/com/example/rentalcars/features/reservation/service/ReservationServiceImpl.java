@@ -138,6 +138,7 @@ public class ReservationServiceImpl implements ReservationService {
         if (!activeReservations.isEmpty()) {
             for (Reservation res : activeReservations) {
                 res.setStatus(ReservationStatus.CANCELED);
+                reservationRepository.save(res);
             }
             log.info("Canceled {} active reservation(s) for user ID: {}", activeReservations.size(), userId);
         }
@@ -186,6 +187,7 @@ public class ReservationServiceImpl implements ReservationService {
         var reservation = reservationRepository.findById(reservationId)
                 .orElseThrow(() -> new ReservationNotFoundException(reservationId));
         reservation.setStatus(ReservationStatus.CANCELED);
+        reservationRepository.save(reservation);
         log.info("Reservation {} canceled internally by system", reservationId);
     }
 
