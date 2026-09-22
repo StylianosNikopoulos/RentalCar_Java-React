@@ -1,7 +1,7 @@
 package com.example.rentalcars.features.auth.infrastructure.adapter.inbound.rest;
 
+import com.example.rentalcars.features.auth.domain.port.inbound.AuthService;
 import com.example.rentalcars.features.auth.infrastructure.adapter.inbound.rest.dto.AuthResponse;
-import com.example.rentalcars.features.auth.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;

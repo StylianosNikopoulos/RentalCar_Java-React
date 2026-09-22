@@ -1,7 +1,7 @@
 package com.example.rentalcars.features.payment.service;
 
 import com.example.rentalcars.core.valueobject.Money;
-import com.example.rentalcars.features.auth.service.EmailService;
+import com.example.rentalcars.features.payment.domain.port.outbound.PaymentEmailPort;
 import com.example.rentalcars.features.payment.domain.exception.InvalidPaymentStatusException;
 import com.example.rentalcars.features.payment.domain.exception.PaymentNotFoundException;
 import com.example.rentalcars.features.payment.domain.exception.StripePaymentException;
@@ -35,16 +35,16 @@ public class PaymentServiceImpl implements PaymentService {
 
     private final PaymentRepository paymentRepository;
     private final ReservationService reservationService;
-    private final EmailService emailService;
+    private final PaymentEmailPort paymentEmailPort;
     private final UserService userService;
 
     @Value("${APP_FRONTEND_URL}")
     private String frontendUrl;
 
-    public PaymentServiceImpl(PaymentRepository paymentRepository, @Lazy ReservationService reservationService, EmailService emailService, UserService userService) {
+    public PaymentServiceImpl(PaymentRepository paymentRepository, @Lazy ReservationService reservationService, PaymentEmailPort paymentEmailPort, UserService userService) {
         this.paymentRepository = paymentRepository;
         this.reservationService = reservationService;
-        this.emailService = emailService;
+        this.paymentEmailPort = paymentEmailPort;
         this.userService = userService;
     }
 
@@ -209,6 +209,6 @@ public class PaymentServiceImpl implements PaymentService {
     private void sendConfirmationEmail(User user, Payment payment, String receiptUrl, UUID reservationId) {
         String formattedAmount = payment.getAmount().amount() + " " + payment.getAmount().currency();
         log.info("Sending payment confirmation email to: {} for reservation ID: {}", user.getEmail(), reservationId);
-        emailService.sendPaymentConfirmationEmail(user.getEmail(), formattedAmount, receiptUrl);
+        paymentEmailPort.sendPaymentConfirmationEmail(user.getEmail(), formattedAmount, receiptUrl);
     }
 }

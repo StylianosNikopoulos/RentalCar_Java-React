@@ -443,7 +443,7 @@ tr.row-out-of-service:hover {
 }
 
 .status-btn.refresh-btn {
-    background: #2a2a2a;
+    background: rgba(56, 239, 125, 0.08);
     color: #38ef7d;
     border-color: rgba(56, 239, 125, 0.20);
 }
@@ -451,13 +451,16 @@ tr.row-out-of-service:hover {
 .status-btn.refresh-btn:hover:not(:disabled) {
     background: #38ef7d;
     color: #000000;
+    font-weight: 800;
     box-shadow: 0 0 20px rgba(56, 239, 125, 0.40);
     transform: translateY(-2px);
 }
 
 .status-btn.refresh-btn:disabled {
-    opacity: 0.6;
+    opacity: 0.5;
     cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
 }
 
 /* Status Variants */

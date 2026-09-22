@@ -79,8 +79,9 @@ public class VehicleServiceImpl implements VehicleService {
         vehicle.setDailyPrice(request.getDailyPrice());
         vehicle.setImages(updatedImages);
 
+        Vehicle savedVehicle = vehicleRepository.save(vehicle);
         log.info("Vehicle {} updated successfully", id);
-        return vehicle;
+        return savedVehicle;
     }
 
     @Override
@@ -97,6 +98,7 @@ public class VehicleServiceImpl implements VehicleService {
                 .orElseThrow(() -> new VehicleNotFoundException(id));
 
         vehicle.setStatus(VehicleStatus.OUT_OF_SERVICE);
+        vehicleRepository.save(vehicle);
         log.info("Vehicle {} status changed to OUT_OF_SERVICE", id);
     }
 
@@ -114,6 +116,7 @@ public class VehicleServiceImpl implements VehicleService {
                 .orElseThrow(() -> new VehicleNotFoundException(vehicleId));
 
         vehicle.setStatus(newStatus);
+        vehicleRepository.save(vehicle);
         log.info("Vehicle {} status updated to {}", vehicleId, newStatus);
     }
 
@@ -135,8 +138,9 @@ public class VehicleServiceImpl implements VehicleService {
                 .orElseThrow(() -> new VehicleNotFoundException(id));
 
         vehicle.setStatus(VehicleStatus.AVAILABLE);
+        Vehicle updatedVehicle = vehicleRepository.save(vehicle);
         log.info("Vehicle {} restored to AVAILABLE", id);
-        return vehicle;
+        return updatedVehicle;
     }
 
     @Override

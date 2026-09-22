@@ -3,7 +3,8 @@ package com.example.rentalcars.features.auth.service;
 import com.example.rentalcars.core.exception.BusinessException;
 import com.example.rentalcars.features.auth.domain.exception.EmailAlreadyExistsException;
 import com.example.rentalcars.features.auth.domain.exception.InvalidCredentialsException;
-import com.example.rentalcars.features.auth.domain.port.inbound.AuthUseCase;
+import com.example.rentalcars.features.auth.domain.port.inbound.AuthService;
+import com.example.rentalcars.features.auth.domain.port.outbound.AuthEmailPort;
 import com.example.rentalcars.features.auth.domain.port.outbound.IdentityPort;
 import com.example.rentalcars.features.auth.infrastructure.adapter.inbound.rest.dto.AuthResponse;
 import com.example.rentalcars.features.auth.infrastructure.adapter.inbound.rest.dto.LoginRequest;
@@ -25,13 +26,13 @@ import java.util.UUID;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class AuthService implements AuthUseCase {
+public class AuthServiceImpl implements AuthService {
 
     private final IdentityPort identityPort;
     private final UserService userService;
     private final UserRestMapper userRestMapper;
     private final PasswordEncoder passwordEncoder;
-    private final EmailService emailService;
+    private final AuthEmailPort authEmailPort;
 
     @Override
     public AuthResponse login(LoginRequest request) {
@@ -114,7 +115,7 @@ public class AuthService implements AuthUseCase {
             user.setResetTokenExpiry(LocalDateTime.now().plusHours(1));
             userService.save(user);
 
-            emailService.sendPasswordResetEmail(email, token);
+            authEmailPort.sendPasswordResetEmail(email, token);
             log.info("Sent password reset email to {}", email);
         } catch (UserNotFoundException e) {
             log.warn("Password reset requested for non existing email: {}", email);
