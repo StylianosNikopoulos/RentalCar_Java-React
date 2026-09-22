@@ -1,5 +1,6 @@
 package com.example.rentalcars.features.vehicle.infrastructure.adapter.outbound.persistence;
 
+import com.example.rentalcars.features.vehicle.domain.enums.FuelType;
 import com.example.rentalcars.features.vehicle.domain.enums.VehicleStatus;
 import com.example.rentalcars.features.vehicle.domain.model.Vehicle;
 import com.example.rentalcars.features.vehicle.domain.port.outbound.VehicleRepository;
@@ -7,6 +8,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
+
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -37,9 +40,8 @@ public class VehicleRepositoryImpl implements VehicleRepository {
     }
 
     @Override
-    public Page<Vehicle> findAll(String search, Pageable pageable) {
-        return jpaRepository.findAllWithSearch(search, pageable)
-                .map(vehiclePersistenceMapper::toDomain);
+    public boolean existsByLicensePlate(String licensePlate) {
+        return jpaRepository.findByLicensePlate(licensePlate).isPresent();
     }
 
     @Override
@@ -48,19 +50,20 @@ public class VehicleRepositoryImpl implements VehicleRepository {
     }
 
     @Override
-    public Page<Vehicle> findAllAvailableVehicles(String search, Pageable pageable) {
-        return jpaRepository.findAllAvailableWithSearch(search, pageable)
+    public Page<Vehicle> findAvailableVehicles(LocalDateTime start, LocalDateTime end, String search, String brand, FuelType fuelType, BigDecimal minPrice, BigDecimal maxPrice, Pageable pageable) {
+        return jpaRepository.findAvailableVehiclesWithFilters(start, end, search, brand, fuelType, minPrice, maxPrice, pageable)
                 .map(vehiclePersistenceMapper::toDomain);
     }
 
     @Override
-    public boolean existsByLicensePlate(String licensePlate) {
-        return jpaRepository.findByLicensePlate(licensePlate).isPresent();
+    public Page<Vehicle> findAllAvailableVehicles(String search, String brand, FuelType fuelType, BigDecimal minPrice, BigDecimal maxPrice, Pageable pageable) {
+        return jpaRepository.findAllAvailableWithFilters(search, brand, fuelType, minPrice, maxPrice, pageable)
+                .map(vehiclePersistenceMapper::toDomain);
     }
 
     @Override
-    public Page<Vehicle> findAvailableVehicles(LocalDateTime start, LocalDateTime end, String search, Pageable pageable) {
-        Page<VehicleJpaEntity> entities = jpaRepository.findAvailableVehicles(start, end, search, pageable);
-        return entities.map(vehiclePersistenceMapper::toDomain);
+    public Page<Vehicle> findAllAdminVehicles(String search, String brand, FuelType fuelType, VehicleStatus status, BigDecimal minPrice, BigDecimal maxPrice, Pageable pageable) {
+        return jpaRepository.findAllAdminWithFilters(search, brand, fuelType, status, minPrice, maxPrice, pageable)
+                .map(vehiclePersistenceMapper::toDomain);
     }
 }

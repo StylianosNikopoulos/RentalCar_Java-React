@@ -1,5 +1,7 @@
 package com.example.rentalcars.features.vehicle.infrastructure.adapter.inbound.rest;
 
+import com.example.rentalcars.features.vehicle.domain.enums.FuelType;
+import com.example.rentalcars.features.vehicle.domain.enums.VehicleStatus;
 import com.example.rentalcars.features.vehicle.domain.port.inbound.VehicleService;
 import com.example.rentalcars.features.vehicle.infrastructure.adapter.inbound.rest.dto.VehicleRequest;
 import com.example.rentalcars.features.vehicle.infrastructure.adapter.inbound.rest.dto.VehicleResponse;
@@ -15,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.UUID;
 
 @RestController
@@ -27,22 +30,28 @@ public class AdminVehicleController {
     private final VehicleRestMapper vehicleRestMapper;
 
     @GetMapping
-    public ResponseEntity<Page<VehicleResponse>> getAllVehicles(
-            @RequestParam(required = false) String search,
-            @PageableDefault(size = 9, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
-        var vehicles = vehicleService.getAllVehicles(search, pageable).map(vehicleRestMapper::toResponse);
+    public ResponseEntity<Page<VehicleResponse>> getAllVehicles(@RequestParam(required = false) String search,
+                                                                @RequestParam(required = false) String brand,
+                                                                @RequestParam(required = false) FuelType fuelType,
+                                                                @RequestParam(required = false) VehicleStatus status,
+                                                                @RequestParam(required = false) BigDecimal minPrice,
+                                                                @RequestParam(required = false) BigDecimal maxPrice,
+                                                                @PageableDefault(size = 9, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
+
+        var vehicles = vehicleService.getAllVehiclesAdmin(search, brand, fuelType, status, minPrice, maxPrice, pageable)
+                .map(vehicleRestMapper::toResponse);
         return ResponseEntity.ok(vehicles);
     }
 
     @PostMapping
-    public ResponseEntity<VehicleResponse> createVehicle(@Valid @RequestBody VehicleRequest request){
+    public ResponseEntity<VehicleResponse> createVehicle(@Valid @RequestBody VehicleRequest request) {
         var vehicle = vehicleService.createVehicle(request);
         return new ResponseEntity<>(vehicleRestMapper.toResponse(vehicle), HttpStatus.CREATED);
     }
 
     @PatchMapping("/{id}")
     public ResponseEntity<VehicleResponse> updateVehicle(@PathVariable UUID id, @Valid @RequestBody VehicleRequest request) {
-        var updatedVehicle = vehicleService.updateVehicle(id,request);
+        var updatedVehicle = vehicleService.updateVehicle(id, request);
         return ResponseEntity.ok(updatedVehicle != null ? vehicleRestMapper.toResponse(updatedVehicle) : null);
     }
 

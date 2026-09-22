@@ -1,5 +1,6 @@
 package com.example.rentalcars.features.vehicle.infrastructure.adapter.inbound.rest;
 
+import com.example.rentalcars.features.vehicle.domain.enums.FuelType;
 import com.example.rentalcars.features.vehicle.infrastructure.adapter.inbound.rest.dto.VehicleResponse;
 import com.example.rentalcars.features.vehicle.domain.port.inbound.VehicleService;
 import com.example.rentalcars.features.vehicle.infrastructure.adapter.inbound.rest.mapper.VehicleRestMapper;
@@ -11,6 +12,8 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -23,8 +26,15 @@ public class VehicleController {
     private final VehicleRestMapper vehicleRestMapper;
 
     @GetMapping
-    public ResponseEntity<Page<VehicleResponse>> getAllAvailableVehicles(@RequestParam(required = false) String search, @PageableDefault(size = 9, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
-        var vehicles = vehicleService.getAllAvailableVehicles(search, pageable).map(vehicleRestMapper::toResponse);
+    public ResponseEntity<Page<VehicleResponse>> getAllAvailableVehicles(@RequestParam(required = false) String search,
+                                                                         @RequestParam(required = false) String brand,
+                                                                         @RequestParam(required = false) FuelType fuelType,
+                                                                         @RequestParam(required = false) BigDecimal minPrice,
+                                                                         @RequestParam(required = false) BigDecimal maxPrice,
+                                                                         @PageableDefault(size = 9, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
+
+        var vehicles = vehicleService.getAllAvailableVehicles(search, brand, fuelType, minPrice, maxPrice, pageable)
+                .map(vehicleRestMapper::toResponse);
         return ResponseEntity.ok(vehicles);
     }
 
@@ -37,9 +47,15 @@ public class VehicleController {
     public ResponseEntity<Page<VehicleResponse>> getAvailableVehicles(@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime start,
                                                                       @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime end,
                                                                       @RequestParam(required = false) String search,
+                                                                      @RequestParam(required = false) String brand,
+                                                                      @RequestParam(required = false) FuelType fuelType,
+                                                                      @RequestParam(required = false) BigDecimal minPrice,
+                                                                      @RequestParam(required = false) BigDecimal maxPrice,
                                                                       @PageableDefault(size = 9, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
 
-        Page<VehicleResponse> available = vehicleService.getAvailableVehicles(start, end, search, pageable).map(vehicleRestMapper::toResponse);
+        Page<VehicleResponse> available = vehicleService.getAvailableVehicles(start, end, search, brand, fuelType, minPrice, maxPrice, pageable)
+                .map(vehicleRestMapper::toResponse);
+
         return ResponseEntity.ok(available);
     }
 

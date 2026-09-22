@@ -110,7 +110,7 @@ public class ReservationServiceImpl implements ReservationService {
 
         reservation.cancel();
         reservationRepository.save(reservation);
-        vehicleService.updateVehicleStatus(reservation.getVehicleId(), VehicleStatus.AVAILABLE);
+        vehicleService.updateVehicleStatus(reservation.getVehicleId(), VehicleStatus.ACTIVE);
 
         log.info("Reservation {} canceled successfully by user {}", reservationId, userEmail);
     }
@@ -176,7 +176,7 @@ public class ReservationServiceImpl implements ReservationService {
 
         if (!vehicleIds.isEmpty()) {
             int updatedCount = reservationRepository.bulkCompleteReservations(now);
-            int updatedVehicles = vehicleService.updateVehiclesStatusBulk(vehicleIds, VehicleStatus.AVAILABLE);
+            int updatedVehicles = vehicleService.updateVehiclesStatusBulk(vehicleIds, VehicleStatus.ACTIVE);
             log.info("Auto-complete task: Updated {} reservation(s) and {} vehicle(s)", updatedCount, updatedVehicles);
         }
     }
@@ -200,7 +200,7 @@ public class ReservationServiceImpl implements ReservationService {
         reservation.markAsCompleted();
         var updatedReservation = reservationRepository.save(reservation);
 
-        vehicleService.updateVehicleStatus(reservation.getVehicleId(), VehicleStatus.AVAILABLE);
+        vehicleService.updateVehicleStatus(reservation.getVehicleId(), VehicleStatus.ACTIVE);
         log.info("Reservation {} marked as COMPLETED. Vehicle {} set to AVAILABLE", reservationId, reservation.getVehicleId());
         return updatedReservation;
     }

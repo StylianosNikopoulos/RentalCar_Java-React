@@ -1,6 +1,7 @@
 package com.example.rentalcars.features.vehicle.domain.model;
 
 import com.example.rentalcars.core.domain.AggregateRoot;
+import com.example.rentalcars.core.exception.BusinessException;
 import com.example.rentalcars.features.vehicle.domain.enums.FuelType;
 import com.example.rentalcars.features.vehicle.domain.enums.VehicleStatus;
 import lombok.*;
@@ -39,5 +40,12 @@ public class Vehicle extends AggregateRoot {
         this.dailyPrice = dailyPrice;
         this.version = version;
         this.images = images;
+    }
+
+    public void markOutOfService() {
+        if (this.status == VehicleStatus.RENTED) {
+            throw new BusinessException("Cannot take a rented vehicle out of service", "INVALID_STATUS_CHANGE");
+        }
+        this.status = VehicleStatus.OUT_OF_SERVICE;
     }
 }

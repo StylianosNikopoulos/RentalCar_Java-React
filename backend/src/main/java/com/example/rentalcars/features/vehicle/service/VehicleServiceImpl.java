@@ -2,6 +2,7 @@ package com.example.rentalcars.features.vehicle.service;
 
 import com.example.rentalcars.core.exception.BusinessException;
 import com.example.rentalcars.core.valueobject.DateRange;
+import com.example.rentalcars.features.vehicle.domain.enums.FuelType;
 import com.example.rentalcars.features.vehicle.domain.enums.VehicleStatus;
 import com.example.rentalcars.features.vehicle.domain.exception.VehicleNotFoundException;
 import com.example.rentalcars.features.vehicle.domain.model.LicensePlate;
@@ -18,10 +19,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+
+import static com.example.rentalcars.features.vehicle.service.SearchStringUtils.cleanBrandParam;
+import static com.example.rentalcars.features.vehicle.service.SearchStringUtils.cleanSearchParam;
 
 @Slf4j
 @Service
@@ -46,7 +51,7 @@ public class VehicleServiceImpl implements VehicleService {
                 .year(request.getYear())
                 .fuelType(request.getFuelType())
                 .licensePlate(new LicensePlate(request.getLicensePlate()))
-                .status(VehicleStatus.AVAILABLE)
+                .status(VehicleStatus.ACTIVE)
                 .dailyPrice(request.getDailyPrice())
                 .images(domainImages)
                 .build();
@@ -68,6 +73,12 @@ public class VehicleServiceImpl implements VehicleService {
     public Vehicle updateVehicle(UUID id, VehicleRequest request) {
         Vehicle vehicle = vehicleRepository.findById(id)
                 .orElseThrow(() -> new VehicleNotFoundException(id));
+
+        if (!vehicle.getLicensePlate().value().equalsIgnoreCase(request.getLicensePlate())
+                && vehicleRepository.existsByLicensePlate(request.getLicensePlate())) {
+            log.warn("Vehicle update failed: Duplicate license plate {}", request.getLicensePlate());
+            throw new BusinessException("License plate already in use", "DUPLICATE_LICENSE_PLATE");
+        }
 
         List<VehicleImage> updatedImages = mapImageUrlsToDomain(request.getImageUrls(), request.getMainImageUrl(), vehicle.getImages());
 
@@ -97,16 +108,16 @@ public class VehicleServiceImpl implements VehicleService {
         Vehicle vehicle = vehicleRepository.findById(id)
                 .orElseThrow(() -> new VehicleNotFoundException(id));
 
-        vehicle.setStatus(VehicleStatus.OUT_OF_SERVICE);
+        vehicle.markOutOfService();
         vehicleRepository.save(vehicle);
         log.info("Vehicle {} status changed to OUT_OF_SERVICE", id);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Page<Vehicle> getAvailableVehicles(LocalDateTime start, LocalDateTime end, String search, Pageable pageable) {
+    public Page<Vehicle> getAvailableVehicles(LocalDateTime start, LocalDateTime end, String search, String brand, FuelType fuelType, BigDecimal minPrice, BigDecimal maxPrice, Pageable pageable) {
         new DateRange(start, end);
-        return vehicleRepository.findAvailableVehicles(start, end, search, pageable);
+        return vehicleRepository.findAvailableVehicles(start, end, cleanSearchParam(search), cleanBrandParam(brand), fuelType, minPrice, maxPrice, pageable);
     }
 
     @Override
@@ -137,7 +148,7 @@ public class VehicleServiceImpl implements VehicleService {
         Vehicle vehicle = vehicleRepository.findById(id)
                 .orElseThrow(() -> new VehicleNotFoundException(id));
 
-        vehicle.setStatus(VehicleStatus.AVAILABLE);
+        vehicle.setStatus(VehicleStatus.ACTIVE);
         Vehicle updatedVehicle = vehicleRepository.save(vehicle);
         log.info("Vehicle {} restored to AVAILABLE", id);
         return updatedVehicle;
@@ -145,14 +156,14 @@ public class VehicleServiceImpl implements VehicleService {
 
     @Override
     @Transactional(readOnly = true)
-    public Page<Vehicle> getAllVehicles(String search, Pageable pageable) {
-        return vehicleRepository.findAll(search, pageable);
+    public Page<Vehicle> getAllVehiclesAdmin(String search, String brand, FuelType fuelType, VehicleStatus status, BigDecimal minPrice, BigDecimal maxPrice, Pageable pageable) {
+        return vehicleRepository.findAllAdminVehicles(cleanSearchParam(search), cleanBrandParam(brand), fuelType, status, minPrice, maxPrice, pageable);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Page<Vehicle> getAllAvailableVehicles(String search, Pageable pageable) {
-        return vehicleRepository.findAllAvailableVehicles(search, pageable);
+    public Page<Vehicle> getAllAvailableVehicles(String search, String brand, FuelType fuelType, BigDecimal minPrice, BigDecimal maxPrice, Pageable pageable) {
+        return vehicleRepository.findAllAvailableVehicles(cleanSearchParam(search), cleanBrandParam(brand), fuelType, minPrice, maxPrice, pageable);
     }
 
     private List<VehicleImage> mapImageUrlsToDomain(List<String> urls, String mainUrl, List<VehicleImage> existingImages) {

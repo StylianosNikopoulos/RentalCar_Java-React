@@ -297,16 +297,7 @@ const MyReservationPage = () => {
                                                     <i className="fas fa-credit-card"></i>
                                                 </button>
                                             )}
-
-                                            {status !== 'CANCELED' && status !== 'CONFIRMED' && !isExpired && (
-                                                <button 
-                                                    onClick={() => handleCancel(res.id)} 
-                                                    className="cancel-btn-premium"
-                                                    disabled={isActionPending}
-                                                >
-                                                    {cancelMutation.isPending ? t.btnProcessing : t.btnCancel}
-                                                </button>
-                                            )}
+                                            {/* TODO Refund Action */}
                                         </div>
                                     </div>
                                 </div>

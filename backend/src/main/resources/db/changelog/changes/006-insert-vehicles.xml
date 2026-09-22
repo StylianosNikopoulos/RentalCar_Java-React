@@ -13,7 +13,7 @@
             <column name="year" valueNumeric="2023"/>
             <column name="fuel_type" value="ELECTRIC"/>
             <column name="license_plate" value="ZXY-1002"/>
-            <column name="status" value="AVAILABLE"/>
+            <column name="status" value="ACTIVE"/>
             <column name="daily_price" valueNumeric="85.00"/>
             <column name="version" valueNumeric="0"/>
             <column name="created_at" valueDate="2024-05-20T10:05:00"/>
@@ -25,7 +25,7 @@
             <column name="year" valueNumeric="2021"/>
             <column name="fuel_type" value="PETROL"/>
             <column name="license_plate" value="ZXY-1003"/>
-            <column name="status" value="AVAILABLE"/>
+            <column name="status" value="ACTIVE"/>
             <column name="daily_price" valueNumeric="55.00"/>
             <column name="version" valueNumeric="0"/>
             <column name="created_at" valueDate="2024-05-20T10:10:00"/>
@@ -37,7 +37,7 @@
             <column name="year" valueNumeric="2022"/>
             <column name="fuel_type" value="PETROL"/>
             <column name="license_plate" value="ZXY-1004"/>
-            <column name="status" value="AVAILABLE"/>
+            <column name="status" value="ACTIVE"/>
             <column name="daily_price" valueNumeric="95.00"/>
             <column name="version" valueNumeric="0"/>
             <column name="created_at" valueDate="2024-05-20T10:15:00"/>
@@ -49,7 +49,7 @@
             <column name="year" valueNumeric="2022"/>
             <column name="fuel_type" value="DIESEL"/>
             <column name="license_plate" value="ZXY-1005"/>
-            <column name="status" value="AVAILABLE"/>
+            <column name="status" value="ACTIVE"/>
             <column name="daily_price" valueNumeric="70.00"/>
             <column name="version" valueNumeric="0"/>
             <column name="created_at" valueDate="2024-05-20T10:20:00"/>
@@ -61,7 +61,7 @@
             <column name="year" valueNumeric="2023"/>
             <column name="fuel_type" value="ELECTRIC"/>
             <column name="license_plate" value="ZXY-1006"/>
-            <column name="status" value="AVAILABLE"/>
+            <column name="status" value="ACTIVE"/>
             <column name="daily_price" valueNumeric="50.00"/>
             <column name="version" valueNumeric="0"/>
             <column name="created_at" valueDate="2024-05-20T10:25:00"/>
@@ -73,7 +73,7 @@
             <column name="year" valueNumeric="2021"/>
             <column name="fuel_type" value="PETROL"/>
             <column name="license_plate" value="ZXY-1007"/>
-            <column name="status" value="AVAILABLE"/>
+            <column name="status" value="ACTIVE"/>
             <column name="daily_price" valueNumeric="52.00"/>
             <column name="version" valueNumeric="0"/>
             <column name="created_at" valueDate="2024-05-20T10:30:00"/>
@@ -85,7 +85,7 @@
             <column name="year" valueNumeric="2022"/>
             <column name="fuel_type" value="DIESEL"/>
             <column name="license_plate" value="ZXY-1008"/>
-            <column name="status" value="AVAILABLE"/>
+            <column name="status" value="ACTIVE"/>
             <column name="daily_price" valueNumeric="65.00"/>
             <column name="version" valueNumeric="0"/>
             <column name="created_at" valueDate="2024-05-20T10:35:00"/>
@@ -97,7 +97,7 @@
             <column name="year" valueNumeric="2023"/>
             <column name="fuel_type" value="HYBRID"/>
             <column name="license_plate" value="ZXY-1009"/>
-            <column name="status" value="AVAILABLE"/>
+            <column name="status" value="ACTIVE"/>
             <column name="daily_price" valueNumeric="88.00"/>
             <column name="version" valueNumeric="0"/>
             <column name="created_at" valueDate="2024-05-20T10:40:00"/>
@@ -109,7 +109,7 @@
             <column name="year" valueNumeric="2023"/>
             <column name="fuel_type" value="ELECTRIC"/>
             <column name="license_plate" value="ZXY-1010"/>
-            <column name="status" value="AVAILABLE"/>
+            <column name="status" value="ACTIVE"/>
             <column name="daily_price" valueNumeric="90.00"/>
             <column name="version" valueNumeric="0"/>
             <column name="created_at" valueDate="2024-05-20T10:45:00"/>
@@ -122,7 +122,7 @@
             <column name="year" valueNumeric="2022"/>
             <column name="fuel_type" value="HYBRID"/>
             <column name="license_plate" value="NKM-4291"/>
-            <column name="status" value="AVAILABLE"/>
+            <column name="status" value="ACTIVE"/>
             <column name="daily_price" valueNumeric="48.00"/>
             <column name="version" valueNumeric="0"/>
             <column name="created_at" valueDate="2024-05-20T10:50:00"/>
@@ -134,7 +134,7 @@
             <column name="year" valueNumeric="2023"/>
             <column name="fuel_type" value="ELECTRIC"/>
             <column name="license_plate" value="TXT-8821"/>
-            <column name="status" value="AVAILABLE"/>
+            <column name="status" value="ACTIVE"/>
             <column name="daily_price" valueNumeric="220.00"/>
             <column name="version" valueNumeric="0"/>
             <column name="created_at" valueDate="2024-05-20T10:55:00"/>
@@ -146,7 +146,7 @@
             <column name="year" valueNumeric="2022"/>
             <column name="fuel_type" value="HYBRID"/>
             <column name="license_plate" value="IMT-5512"/>
-            <column name="status" value="AVAILABLE"/>
+            <column name="status" value="ACTIVE"/>
             <column name="daily_price" valueNumeric="140.00"/>
             <column name="version" valueNumeric="0"/>
             <column name="created_at" valueDate="2024-05-20T11:00:00"/>
@@ -158,7 +158,7 @@
             <column name="year" valueNumeric="2021"/>
             <column name="fuel_type" value="DIESEL"/>
             <column name="license_plate" value="ROT-2094"/>
-            <column name="status" value="AVAILABLE"/>
+            <column name="status" value="ACTIVE"/>
             <column name="daily_price" valueNumeric="110.00"/>
             <column name="version" valueNumeric="0"/>
             <column name="created_at" valueDate="2024-05-20T11:05:00"/>
@@ -170,7 +170,7 @@
             <column name="year" valueNumeric="2022"/>
             <column name="fuel_type" value="PETROL"/>
             <column name="license_plate" value="YPT-7731"/>
-            <column name="status" value="AVAILABLE"/>
+            <column name="status" value="ACTIVE"/>
             <column name="daily_price" valueNumeric="58.00"/>
             <column name="version" valueNumeric="0"/>
             <column name="created_at" valueDate="2024-05-20T11:10:00"/>
@@ -182,7 +182,7 @@
             <column name="year" valueNumeric="2023"/>
             <column name="fuel_type" value="HYBRID"/>
             <column name="license_plate" value="HNZ-8264"/>
-            <column name="status" value="AVAILABLE"/>
+            <column name="status" value="ACTIVE"/>
             <column name="daily_price" valueNumeric="75.00"/>
             <column name="version" valueNumeric="0"/>
             <column name="created_at" valueDate="2024-05-20T11:15:00"/>
@@ -194,7 +194,7 @@
             <column name="year" valueNumeric="2020"/>
             <column name="fuel_type" value="DIESEL"/>
             <column name="license_plate" value="KMM-6125"/>
-            <column name="status" value="AVAILABLE"/>
+            <column name="status" value="ACTIVE"/>
             <column name="daily_price" valueNumeric="42.00"/>
             <column name="version" valueNumeric="0"/>
             <column name="created_at" valueDate="2024-05-20T11:20:00"/>
@@ -206,7 +206,7 @@
             <column name="year" valueNumeric="2022"/>
             <column name="fuel_type" value="DIESEL"/>
             <column name="license_plate" value="EPK-3984"/>
-            <column name="status" value="AVAILABLE"/>
+            <column name="status" value="ACTIVE"/>
             <column name="daily_price" valueNumeric="105.00"/>
             <column name="version" valueNumeric="0"/>
             <column name="created_at" valueDate="2024-05-20T11:25:00"/>
@@ -218,7 +218,7 @@
             <column name="year" valueNumeric="2023"/>
             <column name="fuel_type" value="ELECTRIC"/>
             <column name="license_plate" value="BPA-2248"/>
-            <column name="status" value="AVAILABLE"/>
+            <column name="status" value="ACTIVE"/>
             <column name="daily_price" valueNumeric="98.00"/>
             <column name="version" valueNumeric="0"/>
             <column name="created_at" valueDate="2024-05-20T11:30:00"/>
@@ -230,7 +230,7 @@
             <column name="year" valueNumeric="2021"/>
             <column name="fuel_type" value="PETROL"/>
             <column name="license_plate" value="ZMT-9013"/>
-            <column name="status" value="AVAILABLE"/>
+            <column name="status" value="ACTIVE"/>
             <column name="daily_price" valueNumeric="60.00"/>
             <column name="version" valueNumeric="0"/>
             <column name="created_at" valueDate="2024-05-20T11:35:00"/>
@@ -243,7 +243,7 @@
             <column name="year" valueNumeric="2022"/>
             <column name="fuel_type" value="PETROL"/>
             <column name="license_plate" value="OXA-1478"/>
-            <column name="status" value="AVAILABLE"/>
+            <column name="status" value="ACTIVE"/>
             <column name="daily_price" valueNumeric="75.00"/>
             <column name="version" valueNumeric="0"/>
             <column name="created_at" valueDate="2024-05-20T11:40:00"/>
@@ -255,7 +255,7 @@
             <column name="year" valueNumeric="2023"/>
             <column name="fuel_type" value="ELECTRIC"/>
             <column name="license_plate" value="EET-3691"/>
-            <column name="status" value="AVAILABLE"/>
+            <column name="status" value="ACTIVE"/>
             <column name="daily_price" valueNumeric="115.00"/>
             <column name="version" valueNumeric="0"/>
             <column name="created_at" valueDate="2024-05-20T11:45:00"/>
@@ -267,7 +267,7 @@
             <column name="year" valueNumeric="2022"/>
             <column name="fuel_type" value="ELECTRIC"/>
             <column name="license_plate" value="YPA-6547"/>
-            <column name="status" value="AVAILABLE"/>
+            <column name="status" value="ACTIVE"/>
             <column name="daily_price" valueNumeric="82.00"/>
             <column name="version" valueNumeric="0"/>
             <column name="created_at" valueDate="2024-05-20T11:50:00"/>
@@ -279,7 +279,7 @@
             <column name="year" valueNumeric="2022"/>
             <column name="fuel_type" value="HYBRID"/>
             <column name="license_plate" value="XAT-8841"/>
-            <column name="status" value="AVAILABLE"/>
+            <column name="status" value="ACTIVE"/>
             <column name="daily_price" valueNumeric="89.00"/>
             <column name="version" valueNumeric="0"/>
             <column name="created_at" valueDate="2024-05-20T11:55:00"/>
@@ -291,7 +291,7 @@
             <column name="year" valueNumeric="2023"/>
             <column name="fuel_type" value="ELECTRIC"/>
             <column name="license_plate" value="NZM-3021"/>
-            <column name="status" value="AVAILABLE"/>
+            <column name="status" value="ACTIVE"/>
             <column name="daily_price" valueNumeric="135.00"/>
             <column name="version" valueNumeric="0"/>
             <column name="created_at" valueDate="2024-05-20T12:00:00"/>
@@ -303,7 +303,7 @@
             <column name="year" valueNumeric="2022"/>
             <column name="fuel_type" value="HYBRID"/>
             <column name="license_plate" value="KBT-7412"/>
-            <column name="status" value="AVAILABLE"/>
+            <column name="status" value="ACTIVE"/>
             <column name="daily_price" valueNumeric="68.00"/>
             <column name="version" valueNumeric="0"/>
             <column name="created_at" valueDate="2024-05-20T12:05:00"/>
@@ -315,7 +315,7 @@
             <column name="year" valueNumeric="2021"/>
             <column name="fuel_type" value="DIESEL"/>
             <column name="license_plate" value="MIT-2259"/>
-            <column name="status" value="AVAILABLE"/>
+            <column name="status" value="ACTIVE"/>
             <column name="daily_price" valueNumeric="45.00"/>
             <column name="version" valueNumeric="0"/>
             <column name="created_at" valueDate="2024-05-20T12:10:00"/>
@@ -327,7 +327,7 @@
             <column name="year" valueNumeric="2022"/>
             <column name="fuel_type" value="HYBRID"/>
             <column name="license_plate" value="HKM-1094"/>
-            <column name="status" value="AVAILABLE"/>
+            <column name="status" value="ACTIVE"/>
             <column name="daily_price" valueNumeric="85.00"/>
             <column name="version" valueNumeric="0"/>
             <column name="created_at" valueDate="2024-05-20T12:15:00"/>
@@ -339,7 +339,7 @@
             <column name="year" valueNumeric="2022"/>
             <column name="fuel_type" value="PETROL"/>
             <column name="license_plate" value="NNE-4512"/>
-            <column name="status" value="AVAILABLE"/>
+            <column name="status" value="ACTIVE"/>
             <column name="daily_price" valueNumeric="115.00"/>
             <column name="version" valueNumeric="0"/>
             <column name="created_at" valueDate="2024-05-20T12:20:00"/>
@@ -351,7 +351,7 @@
             <column name="year" valueNumeric="2023"/>
             <column name="fuel_type" value="ELECTRIC"/>
             <column name="license_plate" value="ZZA-3087"/>
-            <column name="status" value="AVAILABLE"/>
+            <column name="status" value="ACTIVE"/>
             <column name="daily_price" valueNumeric="130.00"/>
             <column name="version" valueNumeric="0"/>
             <column name="created_at" valueDate="2024-05-20T12:25:00"/>
@@ -364,7 +364,7 @@
             <column name="year" valueNumeric="2022"/>
             <column name="fuel_type" value="PETROL"/>
             <column name="license_plate" value="IBB-4491"/>
-            <column name="status" value="AVAILABLE"/>
+            <column name="status" value="ACTIVE"/>
             <column name="daily_price" valueNumeric="95.00"/>
             <column name="version" valueNumeric="0"/>
             <column name="created_at" valueDate="2024-05-20T12:30:00"/>
@@ -376,7 +376,7 @@
             <column name="year" valueNumeric="2022"/>
             <column name="fuel_type" value="DIESEL"/>
             <column name="license_plate" value="KAA-9632"/>
-            <column name="status" value="AVAILABLE"/>
+            <column name="status" value="ACTIVE"/>
             <column name="daily_price" valueNumeric="72.00"/>
             <column name="version" valueNumeric="0"/>
             <column name="created_at" valueDate="2024-05-20T12:35:00"/>
@@ -388,7 +388,7 @@
             <column name="year" valueNumeric="2021"/>
             <column name="fuel_type" value="DIESEL"/>
             <column name="license_plate" value="YEE-4125"/>
-            <column name="status" value="AVAILABLE"/>
+            <column name="status" value="ACTIVE"/>
             <column name="daily_price" valueNumeric="44.00"/>
             <column name="version" valueNumeric="0"/>
             <column name="created_at" valueDate="2024-05-20T12:40:00"/>
@@ -400,7 +400,7 @@
             <column name="year" valueNumeric="2022"/>
             <column name="fuel_type" value="HYBRID"/>
             <column name="license_plate" value="MNN-7410"/>
-            <column name="status" value="AVAILABLE"/>
+            <column name="status" value="ACTIVE"/>
             <column name="daily_price" valueNumeric="54.00"/>
             <column name="version" valueNumeric="0"/>
             <column name="created_at" valueDate="2024-05-20T12:45:00"/>
@@ -412,7 +412,7 @@
             <column name="year" valueNumeric="2023"/>
             <column name="fuel_type" value="DIESEL"/>
             <column name="license_plate" value="TXX-8521"/>
-            <column name="status" value="AVAILABLE"/>
+            <column name="status" value="ACTIVE"/>
             <column name="daily_price" valueNumeric="145.00"/>
             <column name="version" valueNumeric="0"/>
             <column name="created_at" valueDate="2024-05-20T12:50:00"/>
@@ -424,7 +424,7 @@
             <column name="year" valueNumeric="2023"/>
             <column name="fuel_type" value="PETROL"/>
             <column name="license_plate" value="BPA-6321"/>
-            <column name="status" value="AVAILABLE"/>
+            <column name="status" value="ACTIVE"/>
             <column name="daily_price" valueNumeric="80.00"/>
             <column name="version" valueNumeric="0"/>
             <column name="created_at" valueDate="2024-05-20T12:55:00"/>
@@ -436,7 +436,7 @@
             <column name="year" valueNumeric="2022"/>
             <column name="fuel_type" value="HYBRID"/>
             <column name="license_plate" value="ZXT-4412"/>
-            <column name="status" value="AVAILABLE"/>
+            <column name="status" value="ACTIVE"/>
             <column name="daily_price" valueNumeric="65.00"/>
             <column name="version" valueNumeric="0"/>
             <column name="created_at" valueDate="2024-05-20T13:00:00"/>
@@ -448,7 +448,7 @@
             <column name="year" valueNumeric="2023"/>
             <column name="fuel_type" value="ELECTRIC"/>
             <column name="license_plate" value="NKA-9915"/>
-            <column name="status" value="AVAILABLE"/>
+            <column name="status" value="ACTIVE"/>
             <column name="daily_price" valueNumeric="105.00"/>
             <column name="version" valueNumeric="0"/>
             <column name="created_at" valueDate="2024-05-20T13:05:00"/>
@@ -460,7 +460,7 @@
             <column name="year" valueNumeric="2023"/>
             <column name="fuel_type" value="HYBRID"/>
             <column name="license_plate" value="PTT-3652"/>
-            <column name="status" value="AVAILABLE"/>
+            <column name="status" value="ACTIVE"/>
             <column name="daily_price" valueNumeric="165.00"/>
             <column name="version" valueNumeric="0"/>
             <column name="created_at" valueDate="2024-05-20T13:10:00"/>
@@ -472,7 +472,7 @@
             <column name="year" valueNumeric="2021"/>
             <column name="fuel_type" value="PETROL"/>
             <column name="license_plate" value="KME-1594"/>
-            <column name="status" value="AVAILABLE"/>
+            <column name="status" value="ACTIVE"/>
             <column name="daily_price" valueNumeric="46.00"/>
             <column name="version" valueNumeric="0"/>
             <column name="created_at" valueDate="2024-05-20T13:15:00"/>
@@ -485,7 +485,7 @@
             <column name="year" valueNumeric="2023"/>
             <column name="fuel_type" value="HYBRID"/>
             <column name="license_plate" value="XBB-2074"/>
-            <column name="status" value="AVAILABLE"/>
+            <column name="status" value="ACTIVE"/>
             <column name="daily_price" valueNumeric="88.00"/>
             <column name="version" valueNumeric="0"/>
             <column name="created_at" valueDate="2024-05-20T13:20:00"/>
@@ -497,7 +497,7 @@
             <column name="year" valueNumeric="2022"/>
             <column name="fuel_type" value="DIESEL"/>
             <column name="license_plate" value="EET-6320"/>
-            <column name="status" value="AVAILABLE"/>
+            <column name="status" value="ACTIVE"/>
             <column name="daily_price" valueNumeric="138.00"/>
             <column name="version" valueNumeric="0"/>
             <column name="created_at" valueDate="2024-05-20T13:25:00"/>
@@ -509,7 +509,7 @@
             <column name="year" valueNumeric="2022"/>
             <column name="fuel_type" value="PETROL"/>
             <column name="license_plate" value="HKZ-3211"/>
-            <column name="status" value="AVAILABLE"/>
+            <column name="status" value="ACTIVE"/>
             <column name="daily_price" valueNumeric="45.00"/>
             <column name="version" valueNumeric="0"/>
             <column name="created_at" valueDate="2024-05-20T13:30:00"/>
@@ -521,7 +521,7 @@
             <column name="year" valueNumeric="2023"/>
             <column name="fuel_type" value="ELECTRIC"/>
             <column name="license_plate" value="ZXX-9904"/>
-            <column name="status" value="AVAILABLE"/>
+            <column name="status" value="ACTIVE"/>
             <column name="daily_price" valueNumeric="195.00"/>
             <column name="version" valueNumeric="0"/>
             <column name="created_at" valueDate="2024-05-20T13:35:00"/>
@@ -533,7 +533,7 @@
             <column name="year" valueNumeric="2021"/>
             <column name="fuel_type" value="HYBRID"/>
             <column name="license_plate" value="NNE-1496"/>
-            <column name="status" value="AVAILABLE"/>
+            <column name="status" value="ACTIVE"/>
             <column name="daily_price" valueNumeric="50.00"/>
             <column name="version" valueNumeric="0"/>
             <column name="created_at" valueDate="2024-05-20T13:40:00"/>
@@ -545,7 +545,7 @@
             <column name="year" valueNumeric="2022"/>
             <column name="fuel_type" value="DIESEL"/>
             <column name="license_plate" value="YAA-7852"/>
-            <column name="status" value="AVAILABLE"/>
+            <column name="status" value="ACTIVE"/>
             <column name="daily_price" valueNumeric="110.00"/>
             <column name="version" valueNumeric="0"/>
             <column name="created_at" valueDate="2024-05-20T13:45:00"/>
@@ -557,7 +557,7 @@
             <column name="year" valueNumeric="2023"/>
             <column name="fuel_type" value="ELECTRIC"/>
             <column name="license_plate" value="XTT-4521"/>
-            <column name="status" value="AVAILABLE"/>
+            <column name="status" value="ACTIVE"/>
             <column name="daily_price" valueNumeric="210.00"/>
             <column name="version" valueNumeric="0"/>
             <column name="created_at" valueDate="2024-05-20T13:50:00"/>
@@ -569,7 +569,7 @@
             <column name="year" valueNumeric="2023"/>
             <column name="fuel_type" value="ELECTRIC"/>
             <column name="license_plate" value="KMM-8841"/>
-            <column name="status" value="AVAILABLE"/>
+            <column name="status" value="ACTIVE"/>
             <column name="daily_price" valueNumeric="62.00"/>
             <column name="version" valueNumeric="0"/>
             <column name="created_at" valueDate="2024-05-20T13:55:00"/>
@@ -581,7 +581,7 @@
             <column name="year" valueNumeric="2022"/>
             <column name="fuel_type" value="PETROL"/>
             <column name="license_plate" value="HNN-2104"/>
-            <column name="status" value="AVAILABLE"/>
+            <column name="status" value="ACTIVE"/>
             <column name="daily_price" valueNumeric="52.00"/>
             <column name="version" valueNumeric="0"/>
             <column name="created_at" valueDate="2024-05-20T14:00:00"/>
@@ -593,7 +593,7 @@
             <column name="year" valueNumeric="2023"/>
             <column name="fuel_type" value="HYBRID"/>
             <column name="license_plate" value="IMB-7521"/>
-            <column name="status" value="AVAILABLE"/>
+            <column name="status" value="ACTIVE"/>
             <column name="daily_price" valueNumeric="145.00"/>
             <column name="version" valueNumeric="0"/>
             <column name="created_at" valueDate="2024-05-20T14:05:00"/>
