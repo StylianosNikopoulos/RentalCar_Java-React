@@ -33,6 +33,11 @@ const UsersTab = () => {
     const currentUsers = userResponse.content || [];
     const totalUserPages = userResponse.page?.totalPages || 1;
 
+    const isDeletedUser = (user) => {
+        if (!user) return false;
+        return user.email?.startsWith('deleted_') || (user.firstName === 'Deleted' && user.lastName === 'User');
+    };
+
     const deleteUserMutation = useMutation({
         mutationFn: (id) => userService.deleteUser(id),
         onSuccess: () => {
@@ -104,12 +109,7 @@ const UsersTab = () => {
                         </thead>
                         <tbody>
                             {currentUsers.map(user => {
-                                const isDeleted = user.deleted || 
-                                                user.isDeleted || 
-                                                user.status === 'DELETED' || 
-                                                user.active === false ||
-                                                user.email?.startsWith('deleted_') ||
-                                                user.firstName === 'Deleted User';
+                                const isDeleted = isDeletedUser(user);
 
                                 return (
                                     <tr key={user.id} className={isDeleted ? 'row-out-of-service' : ''}>
@@ -178,7 +178,6 @@ const UsersTab = () => {
                                     <div><span>{t.phoneNumber}</span><strong>{selectedUser.phoneNumber || '-'}</strong></div>
                                     <div><span>{t.address}</span><strong>{selectedUser.address || '-'}</strong></div>
                                     <div><span>{t.driverLicenseNumber}</span><strong>{selectedUser.driverLicenseNumber || '-'}</strong></div>
-                                    <div><span>{t.tableStatus}</span><strong>{selectedUser.deleted || selectedUser.isDeleted || selectedUser.status === 'DELETED' || selectedUser.active === false || selectedUser.email?.startsWith('deleted_') || selectedUser.firstName === 'Deleted User' ? t.badgeDeleted || 'DELETED' : t.activeStatus}</strong></div>
                                 </div>
                             </div>
                         </div>
