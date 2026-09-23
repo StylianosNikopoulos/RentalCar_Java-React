@@ -12,6 +12,7 @@ const VehiclesTab = () => {
     const queryClient = useQueryClient();
     const { lang } = useLang();
     const t = translations[lang].admin;
+    const tVehicles = translations[lang].vehicles;
 
     const [vehiclePage, setVehiclePage] = useState(1);
     const [searchTerm, setSearchTerm] = useState('');
@@ -131,10 +132,11 @@ const VehiclesTab = () => {
             case 'OUT_OF_SERVICE':
                 return t.btnOutOfService;
             case 'RENTED':
-                return t.statusRented || 'Rented';
+                return t.statusRented;
             case 'AVAILABLE':
+                return t.statusAvailable;
             case 'ACTIVE':
-                return t.statusActive || t.activeStatus;
+                return t.statusActive;
             case 'PENDING':
                 return t.statusPending;
             case 'CONFIRMED':
@@ -175,7 +177,7 @@ const VehiclesTab = () => {
                     <div className="search-input-wrapper">
                         <input 
                             type="text" 
-                            placeholder={t.searchPlaceholder || "Search brand or model..."} 
+                            placeholder={tVehicles.searchPlaceholder} 
                             value={searchTerm} 
                             onChange={handleSearchChange} 
                             className="admin-filter-input"
@@ -187,10 +189,10 @@ const VehiclesTab = () => {
                     <div className="filter-select-wrapper">
                         <i className="fas fa-filter select-lead-icon"></i>
                         <select value={statusFilter} onChange={handleStatusFilterChange} className="admin-filter-select">
-                            <option value="">{t.allStatuses || "All Statuses"}</option>
-                            <option value="ACTIVE">ACTIVE</option>
-                            <option value="OUT_OF_SERVICE">OUT OF SERVICE</option>
-                            <option value="RENTED">RENTED</option>
+                            <option value="">{t.tableStatus}</option>
+                            <option value="ACTIVE">{t.statusActive}</option>
+                            <option value="OUT_OF_SERVICE">{t.btnOutOfService}</option>
+                            <option value="RENTED">{t.statusRented}</option>
                         </select>
                     </div>
 
@@ -198,11 +200,11 @@ const VehiclesTab = () => {
                     <div className="filter-select-wrapper">
                         <i className="fas fa-gas-pump select-lead-icon"></i>
                         <select value={fuelTypeFilter} onChange={handleFuelFilterChange} className="admin-filter-select">
-                            <option value="">{t.allFuelTypes || "All Fuel Types"}</option>
-                            <option value="PETROL">PETROL</option>
-                            <option value="DIESEL">DIESEL</option>
-                            <option value="ELECTRIC">ELECTRIC</option>
-                            <option value="HYBRID">HYBRID</option>
+                            <option value="">{t.placeholderFuel}</option>
+                            <option value="PETROL">{t.fuelGasoline}</option>
+                            <option value="DIESEL">{t.fuelDiesel}</option>
+                            <option value="ELECTRIC">{t.fuelElectric}</option>
+                            <option value="HYBRID">{t.fuelHybrid}</option>
                         </select>
                     </div>
                 </div>
@@ -247,7 +249,6 @@ const VehiclesTab = () => {
                                                 className={`btn-status-toggle ${isOos ? 'btn-restore' : 'btn-oos'}`} 
                                                 onClick={() => handleRestoreVehicle(car)}
                                                 disabled={isRented}
-                                                title={isRented ? 'Cannot modify a rented vehicle' : ''}
                                                 style={isRented ? { opacity: 0.5, cursor: 'not-allowed' } : {}}
                                             >
                                                 <i className={`fas ${isOos ? 'fa-undo' : 'fa-ban'}`}></i> 
@@ -260,7 +261,7 @@ const VehiclesTab = () => {
                         ) : (
                             <tr>
                                 <td colSpan="3" style={{ textAlign: 'center', padding: '20px' }}>
-                                    {t.noVehiclesFound || "No vehicles found matching criteria"}
+                                    {tVehicles.noResults}
                                 </td>
                             </tr>
                         )}
