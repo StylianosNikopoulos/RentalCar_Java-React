@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom'; 
 import vehicleService from '../services/vehicleService';
 import { useQuery } from '@tanstack/react-query';
@@ -21,10 +21,16 @@ const VehiclesPage = () => {
     const queryParams = new URLSearchParams(location.search);
     const selectedStart = queryParams.get('start');
     const selectedEnd = queryParams.get('end');
-    const [searchTerm, setSearchTerm] = useState(queryParams.get('search') || "");
-    const [sortOrder, setSortOrder] = useState(queryParams.get('sort') || "default");
+    const brand = queryParams.get('brand') || '';
+    const fuelType = queryParams.get('fuelType') || '';
+    const minPrice = queryParams.get('minPrice') || '';
+    const maxPrice = queryParams.get('maxPrice') || '';
+    const [searchTerm, setSearchTerm] = useState(queryParams.get('search') || '');
+    const [sortOrder, setSortOrder] = useState(queryParams.get('sort') || 'default');
     const [currentPage, setCurrentPage] = useState(1);
+    const [isMobileFiltersOpen, setIsMobileFiltersOpen] = useState(false);
     const itemsPerPage = 9;
+    const priceOptions = [0, 25, 50, 75, 100, 150, 200, 300, 500];
 
     useEffect(() => {
         window.scrollTo({
@@ -40,13 +46,17 @@ const VehiclesPage = () => {
         setCurrentPage(1);
     }, [location.search]);
 
-    const updateFiltersInUrl = (nextSearch, nextSort) => {
+    const updateFiltersInUrl = (updates) => {
         const params = new URLSearchParams(location.search);
-        if (nextSearch) params.set('search', nextSearch);
-        else params.delete('search');
-        if (nextSort && nextSort !== 'default') params.set('sort', nextSort);
-        else params.delete('sort');
-        navigate(`/vehicles?${params.toString()}`, { replace: true });
+        Object.entries(updates).forEach(([key, value]) => {
+            if (value === undefined || value === null || value === '' || (key === 'sort' && value === 'default')) {
+                params.delete(key);
+            } else {
+                params.set(key, value);
+            }
+        });
+        const nextQuery = params.toString();
+        navigate(nextQuery ? `/vehicles?${nextQuery}` : '/vehicles', { replace: true });
     };
 
     const rentalDays = selectedStart && selectedEnd 
@@ -54,22 +64,35 @@ const VehiclesPage = () => {
         : 0;
 
     const { data: responseData = {}, isLoading, isError, refetch } = useQuery({
-        queryKey: ['vehicles', selectedStart, selectedEnd, currentPage, sortOrder, searchTerm], 
+        queryKey: ['vehicles', selectedStart, selectedEnd, currentPage, sortOrder, searchTerm, brand, fuelType, minPrice, maxPrice],
         queryFn: async () => {
+            const filters = { brand, fuelType, minPrice, maxPrice };
             if (selectedStart && selectedEnd) {
-                return await vehicleService.getAvailableVehicles(selectedStart, selectedEnd, currentPage - 1, itemsPerPage, sortOrder, searchTerm);
+                return await vehicleService.getAvailableVehicles(selectedStart, selectedEnd, currentPage - 1, itemsPerPage, sortOrder, searchTerm, filters);
             }
-            return await vehicleService.getAllVehicles(currentPage - 1, itemsPerPage, sortOrder, searchTerm);
+            return await vehicleService.getAllVehicles(currentPage - 1, itemsPerPage, sortOrder, searchTerm, filters);
         },
         staleTime: 1000 * 60 * 5,
         keepPreviousData: true
     });
 
+    const { data: brandsResponseData = {}, isLoading: isBrandsLoading } = useQuery({
+        queryKey: ['vehicle-filter-brands'],
+        queryFn: () => vehicleService.getAllVehicles(0, 100, 'default', ''),
+        staleTime: 1000 * 60 * 5
+    });
+
     const currentItems = responseData.content || [];
     const totalPages = responseData.page?.totalPages || 1;
+    const totalResults = responseData.page?.totalElements ?? currentItems.length;
+
+    const brandOptions = useMemo(() => {
+        return [...new Set([...(brandsResponseData.content || []).map((car) => car.brand), brand]
+            .filter(Boolean))].sort();
+    }, [brand, brandsResponseData.content]);
 
     const handleSearch = (e) => {
-        updateFiltersInUrl(e.target.value, sortOrder);
+        updateFiltersInUrl({ search: e.target.value });
     };
 
     const formatDate = (dateString) => {
@@ -125,7 +148,7 @@ const VehiclesPage = () => {
                             <strong>{formatDate(selectedEnd)}</strong>
                             <span className="days-badge">({rentalDays} {rentalDays === 1 ? t.daySingle : t.daysPlural})</span>
                         </div>
-                        <button className="clear-dates-btn" onClick={() => navigate('/vehicles')}>
+                            <button className="clear-dates-btn" onClick={() => updateFiltersInUrl({ start: '', end: '' })}>
                             <i className="fas fa-undo-alt" style={{ fontSize: '0.85rem' }}></i> {t.btnResetDates}
                         </button>
                     </div>
@@ -142,19 +165,75 @@ const VehiclesPage = () => {
                             onChange={handleSearch}
                         />
                     </div>
-                    <div className="sort-container">
-                        <select 
-                            className="sort-select" 
-                            value={sortOrder}
-                             onChange={(e) => updateFiltersInUrl(searchTerm, e.target.value)}
+                </div>
+            </div>
+
+            <div className="vehicles-content-layout">
+                <main className="vehicles-results">
+                    <div className="results-toolbar">
+                        <span>{totalResults} {totalResults === 1 ? 'vehicle' : 'vehicles'} found</span>
+                        <button
+                            type="button"
+                            className="mobile-filters-toggle"
+                            aria-expanded={isMobileFiltersOpen}
+                            aria-controls="vehicle-filters"
+                            onClick={() => setIsMobileFiltersOpen((isOpen) => !isOpen)}
                         >
+                            <i className="fas fa-filter" aria-hidden="true"></i>
+                            Filters
+                        </button>
+                        <label>Sort by<select className="sort-select" value={sortOrder} onChange={(e) => updateFiltersInUrl({ sort: e.target.value })}>
                             <option value="default">{t.sortFeatured}</option>
                             <option value="low">{t.sortLowHigh}</option>
                             <option value="high">{t.sortHighLow}</option>
-                        </select>
+                        </select></label>
                     </div>
-                </div>
-            </div>
+
+                <aside
+                    id="vehicle-filters"
+                    className={`vehicle-filter-sidebar${isMobileFiltersOpen ? ' is-open' : ''}`}
+                    aria-label="Vehicle filters"
+                >
+                    <div className="filter-sidebar-heading">
+                        <div>
+                            <p>Find your car</p>
+                            <h2>Filters</h2>
+                        </div>
+                        <button type="button" className="sidebar-clear-button" onClick={() => updateFiltersInUrl({ brand: '', fuelType: '', minPrice: '', maxPrice: '' })}>
+                            Clear filters
+                        </button>
+                    </div>
+
+                    <section className="filter-section">
+                        <h3>Car brand</h3>
+                        <label className="filter-option"><input type="radio" name="brand" checked={!brand} onChange={() => updateFiltersInUrl({ brand: '' })} /><span>All brands</span></label>
+                        {isBrandsLoading && <small>Loading brands...</small>}
+                        {brandOptions.map((option) => (
+                            <label className="filter-option" key={option}><input type="radio" name="brand" checked={brand === option} onChange={() => updateFiltersInUrl({ brand: option })} /><span>{option}</span></label>
+                        ))}
+                    </section>
+
+                    <section className="filter-section">
+                        <h3>Fuel type</h3>
+                        {[['', 'All fuel types'], ['PETROL', 'Petrol'], ['DIESEL', 'Diesel'], ['HYBRID', 'Hybrid'], ['ELECTRIC', 'Electric']].map(([value, label]) => (
+                            <label className="filter-option" key={label}><input type="radio" name="fuelType" checked={fuelType === value} onChange={() => updateFiltersInUrl({ fuelType: value })} /><span>{label}</span></label>
+                        ))}
+                    </section>
+
+                    <section className="filter-section">
+                        <h3>Price per day</h3>
+                        <div className="price-selects">
+                            <label>From<select value={minPrice} onChange={(event) => {
+                                const value = event.target.value;
+                                updateFiltersInUrl({ minPrice: value, ...(maxPrice && Number(value) > Number(maxPrice) ? { maxPrice: value } : {}) });
+                            }}><option value="">Any price</option>{priceOptions.map((price) => <option key={price} value={price}>€{price}</option>)}</select></label>
+                            <label>To<select value={maxPrice} onChange={(event) => {
+                                const value = event.target.value;
+                                updateFiltersInUrl({ maxPrice: value, ...(minPrice && value && Number(value) < Number(minPrice) ? { minPrice: value } : {}) });
+                            }}><option value="">Any price</option>{priceOptions.map((price) => <option key={price} value={price}>€{price}</option>)}</select></label>
+                        </div>
+                    </section>
+                </aside>
 
             {isLoading ? (
                 <div className="loader-container">
@@ -166,8 +245,8 @@ const VehiclesPage = () => {
                     <i className="fas fa-search"></i>
                     <h3>{selectedStart && selectedEnd ? t.noAvailabilityTitle : t.noResultsTitle}</h3>
                     <p>{selectedStart && selectedEnd ? t.noAvailability : t.noResults}</p>
-                    <button className="clear-dates-btn" onClick={() => navigate('/vehicles')}>
-                        {selectedStart && selectedEnd ? t.changeDates : t.clearSearch}
+                    <button className="clear-dates-btn" onClick={() => selectedStart && selectedEnd ? updateFiltersInUrl({ start: '', end: '' }) : updateFiltersInUrl({ search: '', brand: '', fuelType: '', minPrice: '', maxPrice: '' })}>
+                        {selectedStart && selectedEnd ? t.changeDates : t.clearFilters}
                     </button>
                 </div>
             ) : (
@@ -221,9 +300,9 @@ const VehiclesPage = () => {
                                         )}
                                     </div>
                                 </div>
-                                    <button className="rent-btn-minimal" type="button" tabIndex={-1}>
+                                    <div className="rent-btn-minimal">
                                         {t.viewRentalDetails} <i className="fas fa-arrow-right"></i>
-                                    </button>
+                                    </div>
                             </article>
                         ))}
                     </div>
@@ -249,6 +328,8 @@ const VehiclesPage = () => {
                     )}
                 </>
             )}
+                </main>
+            </div>
         </div>
     );
 };
