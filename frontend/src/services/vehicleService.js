@@ -54,16 +54,26 @@ const vehicleService = {
 
     // Admin endpoints
 
-    getAllVehiclesForAdmin: async (page = 0, size = 9, sortOrder = 'default', searchTerm = '') => {
-        let sortParam = 'id,desc';
-        if (sortOrder === 'low') sortParam = 'dailyPrice,asc';
-        if (sortOrder === 'high') sortParam = 'dailyPrice,desc';
+    getAllVehiclesForAdmin: async (page = 0, size = 9, sortOrder = 'default', searchTerm = '', filters = {}) => {
+            let sortParam = 'id,desc';
+            if (sortOrder === 'low') sortParam = 'dailyPrice,asc';
+            if (sortOrder === 'high') sortParam = 'dailyPrice,desc';
 
-        const response = await api.get('/admin/vehicles', {
-            params: { page, size, sort: sortParam, search: searchTerm }
-        });
-        return response.data;
-    },  
+            const response = await api.get('/admin/vehicles', {
+                params: { 
+                    page, 
+                    size, 
+                    sort: sortParam, 
+                    search: searchTerm,
+                    ...(filters.brand ? { brand: filters.brand } : {}),
+                    ...(filters.fuelType ? { fuelType: filters.fuelType } : {}),
+                    ...(filters.status ? { status: filters.status } : {}),
+                    ...(filters.minPrice !== undefined && filters.minPrice !== '' ? { minPrice: filters.minPrice } : {}),
+                    ...(filters.maxPrice !== undefined && filters.maxPrice !== '' ? { maxPrice: filters.maxPrice } : {})
+                }
+            });
+            return response.data;
+        },
 
     createVehicle: async (vehicleData) => {
         const response = await api.post('/admin/vehicles', vehicleData);
