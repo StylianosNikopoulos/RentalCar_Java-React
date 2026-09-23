@@ -2,7 +2,7 @@ import api from '../api/axios';
 
 const vehicleService = {
     // User endpoints
-    getAllVehicles: async (page = 0, size = 9, sortOrder = 'default', searchTerm = '') => {
+    getAllVehicles: async (page = 0, size = 9, sortOrder = 'default', searchTerm = '', filters = {}) => {
         let sortParam = 'id,desc';
         if (sortOrder === 'low') sortParam = 'dailyPrice,asc';
         if (sortOrder === 'high') sortParam = 'dailyPrice,desc';
@@ -12,7 +12,11 @@ const vehicleService = {
                 page: page,
                 size: size,
                 sort: sortParam,
-                search: searchTerm
+                search: searchTerm,
+                ...(filters.brand ? { brand: filters.brand } : {}),
+                ...(filters.fuelType ? { fuelType: filters.fuelType } : {}),
+                ...(filters.minPrice !== undefined && filters.minPrice !== '' ? { minPrice: filters.minPrice } : {}),
+                ...(filters.maxPrice !== undefined && filters.maxPrice !== '' ? { maxPrice: filters.maxPrice } : {})
             }
         });
         return response.data;
@@ -23,7 +27,7 @@ const vehicleService = {
         return response.data;
     },
   
-    getAvailableVehicles: async (startDate, endDate, page = 0, size = 9, sortOrder = 'default', searchTerm = '') => {
+    getAvailableVehicles: async (startDate, endDate, page = 0, size = 9, sortOrder = 'default', searchTerm = '', filters = {}) => {
         const startISO = `${startDate}T00:00:00`;
         const endISO = `${endDate}T23:59:59`;
 
@@ -38,7 +42,11 @@ const vehicleService = {
                 page: page,
                 size: size,
                 sort: sortParam,
-                search: searchTerm
+                search: searchTerm,
+                ...(filters.brand ? { brand: filters.brand } : {}),
+                ...(filters.fuelType ? { fuelType: filters.fuelType } : {}),
+                ...(filters.minPrice !== undefined && filters.minPrice !== '' ? { minPrice: filters.minPrice } : {}),
+                ...(filters.maxPrice !== undefined && filters.maxPrice !== '' ? { maxPrice: filters.maxPrice } : {})
             }
         });
         return response.data;
