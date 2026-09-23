@@ -7,13 +7,12 @@ import { translations } from '../i18n/translations';
 import '../assets/styles/vehicles.css'; 
 
 const VehiclesPage = () => {
-   
-    useEffect(() => {
-        document.title = 'RentalCar | Vehicles';
-    }, []);
-
     const { lang } = useLang();
     const t = translations[lang].vehicles;
+
+    useEffect(() => {
+        document.title = `RentalCar | ${t.pageTitle}`;
+    }, [t.pageTitle]);
 
     const navigate = useNavigate();
     const location = useLocation(); 
@@ -148,7 +147,7 @@ const VehiclesPage = () => {
                             <strong>{formatDate(selectedEnd)}</strong>
                             <span className="days-badge">({rentalDays} {rentalDays === 1 ? t.daySingle : t.daysPlural})</span>
                         </div>
-                            <button className="clear-dates-btn" onClick={() => updateFiltersInUrl({ start: '', end: '' })}>
+                        <button className="clear-dates-btn" onClick={() => updateFiltersInUrl({ start: '', end: '' })}>
                             <i className="fas fa-undo-alt" style={{ fontSize: '0.85rem' }}></i> {t.btnResetDates}
                         </button>
                     </div>
@@ -171,7 +170,7 @@ const VehiclesPage = () => {
             <div className="vehicles-content-layout">
                 <main className="vehicles-results">
                     <div className="results-toolbar">
-                        <span>{totalResults} {totalResults === 1 ? 'vehicle' : 'vehicles'} found</span>
+                        <span>{totalResults} {totalResults === 1 ? t.singleVehicle : t.pluralVehicles} {t.found}</span>
                         <button
                             type="button"
                             className="mobile-filters-toggle"
@@ -180,9 +179,9 @@ const VehiclesPage = () => {
                             onClick={() => setIsMobileFiltersOpen((isOpen) => !isOpen)}
                         >
                             <i className="fas fa-filter" aria-hidden="true"></i>
-                            Filters
+                            {t.filtersTitle}
                         </button>
-                        <label>Sort by<select className="sort-select" value={sortOrder} onChange={(e) => updateFiltersInUrl({ sort: e.target.value })}>
+                        <label>{t.sortBy}<select className="sort-select" value={sortOrder} onChange={(e) => updateFiltersInUrl({ sort: e.target.value })}>
                             <option value="default">{t.sortFeatured}</option>
                             <option value="low">{t.sortLowHigh}</option>
                             <option value="high">{t.sortHighLow}</option>
@@ -192,45 +191,51 @@ const VehiclesPage = () => {
                 <aside
                     id="vehicle-filters"
                     className={`vehicle-filter-sidebar${isMobileFiltersOpen ? ' is-open' : ''}`}
-                    aria-label="Vehicle filters"
+                    aria-label={t.filtersTitle}
                 >
                     <div className="filter-sidebar-heading">
                         <div>
-                            <p>Find your car</p>
-                            <h2>Filters</h2>
+                            <p>{t.findCarSub}</p>
+                            <h2>{t.filtersTitle}</h2>
                         </div>
                         <button type="button" className="sidebar-clear-button" onClick={() => updateFiltersInUrl({ brand: '', fuelType: '', minPrice: '', maxPrice: '' })}>
-                            Clear filters
+                            {t.clearFilters}
                         </button>
                     </div>
 
                     <section className="filter-section">
-                        <h3>Car brand</h3>
-                        <label className="filter-option"><input type="radio" name="brand" checked={!brand} onChange={() => updateFiltersInUrl({ brand: '' })} /><span>All brands</span></label>
-                        {isBrandsLoading && <small>Loading brands...</small>}
+                        <h3>{t.brandTitle}</h3>
+                        <label className="filter-option"><input type="radio" name="brand" checked={!brand} onChange={() => updateFiltersInUrl({ brand: '' })} /><span>{t.allBrands}</span></label>
+                        {isBrandsLoading && <small>{t.fetching}</small>}
                         {brandOptions.map((option) => (
                             <label className="filter-option" key={option}><input type="radio" name="brand" checked={brand === option} onChange={() => updateFiltersInUrl({ brand: option })} /><span>{option}</span></label>
                         ))}
                     </section>
 
                     <section className="filter-section">
-                        <h3>Fuel type</h3>
-                        {[['', 'All fuel types'], ['PETROL', 'Petrol'], ['DIESEL', 'Diesel'], ['HYBRID', 'Hybrid'], ['ELECTRIC', 'Electric']].map(([value, label]) => (
+                        <h3>{t.fuelTypeTitle}</h3>
+                        {[
+                            ['', t.allFuelTypes], 
+                            ['PETROL', t.fuelPetrol], 
+                            ['DIESEL', t.fuelDiesel], 
+                            ['HYBRID', t.fuelHybrid], 
+                            ['ELECTRIC', t.fuelElectric]
+                        ].map(([value, label]) => (
                             <label className="filter-option" key={label}><input type="radio" name="fuelType" checked={fuelType === value} onChange={() => updateFiltersInUrl({ fuelType: value })} /><span>{label}</span></label>
                         ))}
                     </section>
 
                     <section className="filter-section">
-                        <h3>Price per day</h3>
+                        <h3>{t.pricePerDay}</h3>
                         <div className="price-selects">
-                            <label>From<select value={minPrice} onChange={(event) => {
+                            <label>{t.priceFrom}<select value={minPrice} onChange={(event) => {
                                 const value = event.target.value;
                                 updateFiltersInUrl({ minPrice: value, ...(maxPrice && Number(value) > Number(maxPrice) ? { maxPrice: value } : {}) });
-                            }}><option value="">Any price</option>{priceOptions.map((price) => <option key={price} value={price}>€{price}</option>)}</select></label>
-                            <label>To<select value={maxPrice} onChange={(event) => {
+                            }}><option value="">-</option>{priceOptions.map((price) => <option key={price} value={price}>€{price}</option>)}</select></label>
+                            <label>{t.priceTo}<select value={maxPrice} onChange={(event) => {
                                 const value = event.target.value;
                                 updateFiltersInUrl({ maxPrice: value, ...(minPrice && value && Number(value) < Number(minPrice) ? { minPrice: value } : {}) });
-                            }}><option value="">Any price</option>{priceOptions.map((price) => <option key={price} value={price}>€{price}</option>)}</select></label>
+                            }}><option value="">-</option>{priceOptions.map((price) => <option key={price} value={price}>€{price}</option>)}</select></label>
                         </div>
                     </section>
                 </aside>
@@ -260,7 +265,7 @@ const VehiclesPage = () => {
                                 onKeyDown={(event) => handleCardKeyDown(event, car.id)}
                                 role="link"
                                 tabIndex={0}
-                                 aria-label={`${t.viewDetailsFor} ${car.brand} ${car.model}`}
+                                aria-label={`${t.viewDetailsFor} ${car.brand} ${car.model}`}
                             >
                                 <div className="vehicle-img-wrapper">
                                     <img 
@@ -300,9 +305,9 @@ const VehiclesPage = () => {
                                         )}
                                     </div>
                                 </div>
-                                    <div className="rent-btn-minimal">
-                                        {t.viewRentalDetails} <i className="fas fa-arrow-right"></i>
-                                    </div>
+                                <div className="rent-btn-minimal">
+                                    {t.viewRentalDetails} <i className="fas fa-arrow-right"></i>
+                                </div>
                             </article>
                         ))}
                     </div>
