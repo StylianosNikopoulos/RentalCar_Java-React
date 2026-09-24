@@ -28,7 +28,6 @@ const VehiclesTab = () => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }, [vehiclePage]);
 
-    // Reset στη σελίδα 1 όταν αλλάζει κάποιο φίλτρο
     const handleSearchChange = (e) => {
         setSearchTerm(e.target.value);
         setVehiclePage(1);
@@ -173,7 +172,6 @@ const VehiclesTab = () => {
                 </button>
 
                 <div className="admin-filters-group">
-                    {/* Search Bar με εσωτερικό Icon */}
                     <div className="search-input-wrapper">
                         <input 
                             type="text" 
@@ -185,7 +183,6 @@ const VehiclesTab = () => {
                         <i className="fas fa-search"></i>
                     </div>
                     
-                    {/* Status Dropdown με εσωτερικό Icon */}
                     <div className="filter-select-wrapper">
                         <i className="fas fa-filter select-lead-icon"></i>
                         <select value={statusFilter} onChange={handleStatusFilterChange} className="admin-filter-select">
@@ -196,7 +193,6 @@ const VehiclesTab = () => {
                         </select>
                     </div>
 
-                    {/* Fuel Dropdown με εσωτερικό Icon */}
                     <div className="filter-select-wrapper">
                         <i className="fas fa-gas-pump select-lead-icon"></i>
                         <select value={fuelTypeFilter} onChange={handleFuelFilterChange} className="admin-filter-select">
