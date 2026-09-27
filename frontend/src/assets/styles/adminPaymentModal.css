@@ -1,0 +1,207 @@
+.payments-dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  gap: 20px;
+  margin-bottom: 28px;
+}
+
+.payment-kpi-card {
+  border-radius: 16px;
+  padding: 24px 28px;
+  display: flex;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+  backdrop-filter: blur(10px);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+}
+
+.payment-kpi-card:hover {
+  transform: none; 
+}
+
+.payment-kpi-card.light-theme {
+  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+  border: 1px solid #e2e8f0;
+}
+
+.payment-kpi-card.light-theme:hover {
+  border-color: #cbd5e1;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+}
+
+.payment-kpi-card.dark-theme {
+  background: linear-gradient(135deg, #181818 0%, #1e1e1e 100%);
+  border: 1px solid #2e2e2e;
+}
+
+.payment-kpi-card.dark-theme:hover {
+  border-color: #3e3e3e;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+}
+
+.financial-card-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.financial-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.kpi-title {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  font-weight: 800;
+}
+
+.kpi-title.light-text { color: #64748b; }
+.kpi-title.dark-text { color: #94a3b8; }
+
+.kpi-value-main {
+  font-size: 2.2rem;
+  margin: 8px 0 0 0;
+  font-weight: 900;
+  letter-spacing: -0.5px;
+}
+
+.kpi-value-main.light-text { color: #0f172a; }
+.kpi-value-main.dark-text { color: #ffffff; }
+
+.wallet-icon-badge {
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  background: rgba(16, 185, 129, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #10b981;
+  font-size: 1.4rem;
+  border: 1px solid rgba(16, 185, 129, 0.2);
+}
+
+.mini-metrics-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.mini-metric-pill {
+  padding: 12px 14px;
+  border-radius: 10px;
+}
+
+.mini-metric-pill.success { border-left: 3px solid #10b981; }
+.mini-metric-pill.pending { border-left: 3px solid #f59e0b; }
+
+.mini-metric-pill.light-bg { background: #f1f5f9; }
+.mini-metric-pill.dark-bg { background: #262626; }
+
+.mini-metric-pill .label {
+  font-size: 0.7rem;
+  display: block;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.mini-metric-pill .val-success { font-size: 1.1rem; color: #10b981; font-weight: 800; }
+.mini-metric-pill .val-pending { font-size: 1.1rem; color: #f59e0b; font-weight: 800; }
+
+.breakdown-card-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  width: 100%;
+}
+
+.breakdown-info {
+  flex: 1;
+}
+
+.status-pills-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.status-pill-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.82rem;
+  padding: 8px 12px;
+  border-radius: 8px;
+  transition: background-color 0.2s ease;
+}
+
+.status-pill-item.light-bg { background: #f1f5f9; }
+.status-pill-item.light-bg:hover { background: #e2e8f0; }
+
+.status-pill-item.dark-bg { background: #242424; }
+.status-pill-item.dark-bg:hover { background: #2e2e2e; }
+
+.status-pill-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+}
+
+.status-pill-label.light-text { color: #0f172a; }
+.status-pill-label.dark-text { color: #ffffff; }
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.status-dot.completed { background: #10b981; }
+.status-dot.failed { background: #ef4444; }
+.status-dot.refunded { background: #6b7280; }
+
+.chart-wrapper-container {
+  width: 125px;
+  height: 125px;
+  position: relative;
+}
+
+.chart-center-overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  pointer-events: none;
+}
+
+.chart-center-overlay .count-text {
+  font-size: 0.95rem;
+  font-weight: 800;
+  display: block;
+}
+
+.chart-center-overlay .count-text.light-text { color: #0f172a; }
+.chart-center-overlay .count-text.dark-text { color: #ffffff; }
+
+.chart-center-overlay .sub-text {
+  font-size: 0.55rem;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.empty-chart-success {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #10b981;
+  font-size: 2.2rem;
+}

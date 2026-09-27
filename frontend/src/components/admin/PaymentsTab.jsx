@@ -1,15 +1,19 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useQuery, useMutation, useQueryClient, keepPreviousData } from '@tanstack/react-query';
 import paymentService from '../../services/paymentService';
 import toast from 'react-hot-toast';
 import Swal from 'sweetalert2';
 import { useLang } from '../../context/LangContext';
+import { useTheme } from '../../context/ThemeContext';
 import { translations } from '../../i18n/translations';
 import PaginationControls from './PaginationControls';
+import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from 'recharts';
 
 const PaymentsTab = () => {
     const queryClient = useQueryClient();
     const { lang } = useLang();
+    const { theme } = useTheme();
+    const isLight = theme === 'light';
     const t = translations[lang].admin;
 
     const [page, setPage] = useState(1);
@@ -55,7 +59,32 @@ const PaymentsTab = () => {
     const currentPayments = paymentResponse.content || [];
     const totalPages = paymentResponse.page?.totalPages || paymentResponse.totalPages || 1;
 
-    // Refund Mutation
+    const statsData = useMemo(() => {
+        const counts = { COMPLETED: 0, PENDING: 0, FAILED: 0, REFUNDED: 0 };
+        let totalRevenue = 0;
+
+        currentPayments.forEach((p) => {
+            const status = p.status ? p.status.toUpperCase() : '';
+            if (counts[status] !== undefined) counts[status]++;
+            if (status === 'COMPLETED') {
+                const val = typeof p.amount === 'object' ? p.amount?.amount : p.amount;
+                totalRevenue += Number(val) || 0;
+            }
+        });
+
+        const total = currentPayments.length || 1;
+        const successRate = Math.round((counts.COMPLETED / total) * 100);
+
+        const chart = [
+            { name: 'Completed', value: counts.COMPLETED, color: '#10B981' },
+            { name: 'Pending', value: counts.PENDING, color: '#F59E0B' },
+            { name: 'Failed', value: counts.FAILED, color: '#EF4444' },
+            { name: 'Refunded', value: counts.REFUNDED, color: '#6B7280' },
+        ].filter(item => item.value > 0);
+
+        return { counts, totalRevenue, successRate, chart, totalCount: currentPayments.length };
+    }, [currentPayments]);
+
     const refundMutation = useMutation({
         mutationFn: (stripePaymentId) => paymentService.refundPayment(stripePaymentId),
         onSuccess: () => {
@@ -75,7 +104,8 @@ const PaymentsTab = () => {
             text: `${t.swalRefundText || 'Are you sure you want to refund this payment?'} (€${amountVal})`,
             icon: 'warning',
             iconColor: '#ff4d00',
-            background: '#151515',
+            background: isLight ? '#ffffff' : '#151515',
+            color: isLight ? '#1f2937' : '#ffffff',
             showCancelButton: true,
             confirmButtonText: t.swalYes || 'Yes, Refund',
             cancelButtonText: t.swalNo || 'Cancel',
@@ -126,8 +156,121 @@ const PaymentsTab = () => {
         );
     };
 
+    const themeClass = isLight ? 'light-theme' : 'dark-theme';
+    const textThemeClass = isLight ? 'light-text' : 'dark-text';
+    const bgThemeClass = isLight ? 'light-bg' : 'dark-bg';
+
     return (
         <div className="admin-section">
+
+            <div className="payments-dashboard-grid">
+                
+                <div className={`payment-kpi-card ${themeClass}`}>
+                    <div className="financial-card-content">
+                        <div className="financial-header">
+                            <div>
+                                <span className={`kpi-title ${textThemeClass}`}>Total Revenue</span>
+                                <h2 className={`kpi-value-main ${textThemeClass}`}>
+                                    €{statsData.totalRevenue.toLocaleString(undefined, { minimumFractionDigits: 2 })}
+                                </h2>
+                            </div>
+                            <div className="wallet-icon-badge">
+                                <i className="fas fa-wallet"></i>
+                            </div>
+                        </div>
+
+                        <div className="mini-metrics-grid">
+                            <div className={`mini-metric-pill success ${bgThemeClass}`}>
+                                <span className={`label ${textThemeClass}`}>Success Rate</span>
+                                <strong className="val-success">{statsData.successRate}%</strong>
+                            </div>
+
+                            <div className={`mini-metric-pill pending ${bgThemeClass}`}>
+                                <span className={`label ${textThemeClass}`}>Pending</span>
+                                <strong className="val-pending">{statsData.counts.PENDING} transactions</strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div className={`payment-kpi-card ${themeClass}`}>
+                    <div className="breakdown-card-content flex-row">
+                        <div className="breakdown-info">
+                            <span className={`kpi-title ${textThemeClass}`} style={{ display: 'block', marginBottom: '12px' }}>
+                                Status Breakdown
+                            </span>
+                            
+                            <div className="status-pills-list">
+                                <div className={`status-pill-item ${bgThemeClass}`}>
+                                    <span className={`status-pill-label ${textThemeClass}`}>
+                                        <span className="status-dot completed"></span> Completed
+                                    </span>
+                                    <strong style={{ color: '#10B981' }}>{statsData.counts.COMPLETED}</strong>
+                                </div>
+
+                                <div className={`status-pill-item ${bgThemeClass}`}>
+                                    <span className={`status-pill-label ${textThemeClass}`}>
+                                        <span className="status-dot failed"></span> Failed
+                                    </span>
+                                    <strong style={{ color: '#EF4444' }}>{statsData.counts.FAILED}</strong>
+                                </div>
+
+                                <div className={`status-pill-item ${bgThemeClass}`}>
+                                    <span className={`status-pill-label ${textThemeClass}`}>
+                                        <span className="status-dot refunded"></span> Refunded
+                                    </span>
+                                    <strong style={{ color: '#6B7280' }}>{statsData.counts.REFUNDED}</strong>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="chart-wrapper-container">
+                            {statsData.chart.length > 0 ? (
+                                <ResponsiveContainer width="100%" height="100%">
+                                    <PieChart>
+                                        <Pie
+                                            data={statsData.chart}
+                                            cx="50%"
+                                            cy="50%"
+                                            innerRadius={38}
+                                            outerRadius={58}
+                                            paddingAngle={5}
+                                            cornerRadius={4}
+                                            dataKey="value"
+                                        >
+                                            {statsData.chart.map((entry, index) => (
+                                                <Cell key={`cell-${index}`} fill={entry.color} stroke="none" />
+                                            ))}
+                                        </Pie>
+                                        <Tooltip 
+                                            contentStyle={{ 
+                                                background: isLight ? '#ffffff' : '#0f172a', 
+                                                borderColor: isLight ? '#cbd5e1' : '#334155', 
+                                                borderRadius: '10px', 
+                                                fontSize: '0.8rem',
+                                                color: isLight ? '#0f172a' : '#ffffff',
+                                                boxShadow: '0 10px 20px rgba(0,0,0,0.15)'
+                                            }}
+                                            itemStyle={{ color: isLight ? '#0f172a' : '#ffffff', fontWeight: 'bold' }}
+                                            formatter={(val, name) => [`${val} payments`, name]}
+                                        />
+                                    </PieChart>
+                                </ResponsiveContainer>
+                            ) : (
+                                <div className="empty-chart-success">
+                                    <i className="fas fa-check-circle"></i>
+                                </div>
+                            )}
+                            <div className="chart-center-overlay">
+                                <span className={`count-text ${textThemeClass}`}>{statsData.totalCount}</span>
+                                <span className={`sub-text ${textThemeClass}`}>Total</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
             <div className="admin-actions-bar">
                 <div className="admin-filters-group" style={{ marginLeft: 0 }}>
                     {/* Search Email */}
@@ -170,7 +313,7 @@ const PaymentsTab = () => {
             {isLoading ? (
                 <div className="loader-container" style={{ minHeight: '300px', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
                     <div className="loader"></div>
-                    <span style={{ color: '#888', fontSize: '0.8rem', fontWeight: '800', letterSpacing: '2px', marginTop: '15px' }}>
+                    <span style={{ color: isLight ? '#64748b' : '#94a3b8', fontSize: '0.8rem', fontWeight: '800', letterSpacing: '2px', marginTop: '15px' }}>
                         {t.fetchingPayments || 'FETCHING PAYMENTS...'}
                     </span>
                 </div>
@@ -197,15 +340,15 @@ const PaymentsTab = () => {
 
                                     return (
                                         <tr key={payment.id}>
-                                            <td style={{ fontSize: '0.9rem', color: '#fff' }}>
-                                                <i className="fas fa-envelope" style={{ marginRight: '8px', color: '#888' }}></i>
+                                            <td style={{ fontSize: '0.9rem', color: isLight ? '#0f172a' : '#ffffff' }}>
+                                                <i className="fas fa-envelope" style={{ marginRight: '8px', color: isLight ? '#64748b' : '#94a3b8' }}></i>
                                                 {userEmail}
                                             </td>
                                             <td>
-                                                <strong style={{ fontSize: '1.05rem', color: '#fff' }}>
+                                                <strong style={{ fontSize: '1.05rem', color: isLight ? '#0f172a' : '#ffffff' }}>
                                                     €{amountVal}
                                                 </strong>
-                                                <span style={{ fontSize: '0.75rem', color: '#888', marginLeft: '5px' }}>
+                                                <span style={{ fontSize: '0.75rem', color: isLight ? '#64748b' : '#94a3b8', marginLeft: '5px' }}>
                                                     {currencyVal.toUpperCase()}
                                                 </span>
                                             </td>
@@ -221,7 +364,14 @@ const PaymentsTab = () => {
                                                         target="_blank" 
                                                         rel="noopener noreferrer" 
                                                         className="status-btn"
-                                                        style={{ background: '#222', color: '#fff', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '5px' }}
+                                                        style={{ 
+                                                            background: isLight ? '#e2e8f0' : '#222222', 
+                                                            color: isLight ? '#0f172a' : '#ffffff', 
+                                                            textDecoration: 'none', 
+                                                            display: 'inline-flex', 
+                                                            alignItems: 'center', 
+                                                            gap: '5px' 
+                                                        }}
                                                     >
                                                         <i className="fas fa-receipt"></i> {t.btnReceipt || 'Receipt'}
                                                     </a>
@@ -241,7 +391,7 @@ const PaymentsTab = () => {
                                 })
                             ) : (
                                 <tr>
-                                    <td colSpan="4" style={{ textAlign: 'center', padding: '20px' }}>
+                                    <td colSpan="4" style={{ textAlign: 'center', padding: '20px', color: isLight ? '#64748b' : '#94a3b8' }}>
                                         {t.noPaymentsFound || 'No payments found'}
                                     </td>
                                 </tr>
@@ -268,11 +418,11 @@ const PaymentsTab = () => {
                         </div>
                         <div className="reservation-details-grid" style={{ gridTemplateColumns: '1fr', textAlign: 'center', padding: '20px 0' }}>
                             <div>
-                                <span style={{ fontSize: '0.9rem', color: '#888', display: 'block', marginBottom: '8px' }}>
+                                <span style={{ fontSize: '0.9rem', color: isLight ? '#64748b' : '#94a3b8', display: 'block', marginBottom: '8px' }}>
                                     <i className="fas fa-calendar-alt" style={{ marginRight: '6px' }}></i>
                                     {t.tableDate || 'Date & Time'}
                                 </span>
-                                <strong style={{ fontSize: '1.2rem', color: '#fff' }}>{selectedPaymentDate}</strong>
+                                <strong style={{ fontSize: '1.2rem', color: isLight ? '#0f172a' : '#ffffff' }}>{selectedPaymentDate}</strong>
                             </div>
                         </div>
                     </div>

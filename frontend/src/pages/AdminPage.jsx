@@ -7,6 +7,7 @@ import { useLang } from '../context/LangContext';
 import { translations } from "../i18n/translations";
 import '../assets/styles/admin.css';
 import '../assets/styles/swal-custom.css';
+import '../assets/styles/adminPaymentModal.css';
 
 const AdminPage = () => {
 
