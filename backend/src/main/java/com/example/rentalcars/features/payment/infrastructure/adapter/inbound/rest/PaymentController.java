@@ -28,10 +28,4 @@ public class PaymentController {
 
         return ResponseEntity.ok(Map.of("url", checkoutUrl));
     }
-    @PostMapping("/{paymentId}/refund")
-    @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<String> handleManualRefund(@PathVariable String paymentId) {
-        paymentService.refundPayment(paymentId);
-        return ResponseEntity.ok("Refund processed successfully");
-    }
 }

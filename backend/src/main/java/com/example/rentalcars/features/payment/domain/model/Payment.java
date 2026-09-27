@@ -13,15 +13,17 @@ import java.util.UUID;
 @NoArgsConstructor
 public class Payment extends AggregateRoot {
     private UUID reservationId;
+    private String userEmail;
     private Money amount;
     private String stripePaymentId;
     private PaymentStatus status;
     private String receiptUrl;
 
     @Builder
-    public Payment(UUID id, LocalDateTime createdAt, LocalDateTime updatedAt, UUID reservationId, Money amount, String stripePaymentId, PaymentStatus status, String receiptUrl) {
+    public Payment(UUID id, LocalDateTime createdAt, LocalDateTime updatedAt, UUID reservationId, String userEmail, Money amount, String stripePaymentId, PaymentStatus status, String receiptUrl) {
         super(id, createdAt, updatedAt);
         this.reservationId = reservationId;
+        this.userEmail = userEmail;
         this.amount = amount;
         this.stripePaymentId = stripePaymentId;
         this.status = status;

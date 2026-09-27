@@ -1,15 +1,22 @@
 package com.example.rentalcars.features.payment.infrastructure.adapter.inbound.rest.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.example.rentalcars.core.valueobject.Money;
+import com.example.rentalcars.features.payment.domain.enums.PaymentStatus;
+import lombok.*;
 
-@Data
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
+import java.time.LocalDateTime;
+import java.util.UUID;
+
+@Getter
+@Setter
 public class PaymentResponse {
-    private String clientSecret;
+    private UUID id;
+    private UUID reservationId;
+    private String userEmail;
+    private Money amount;
     private String stripePaymentId;
+    private PaymentStatus status;
+    private String receiptUrl;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 }

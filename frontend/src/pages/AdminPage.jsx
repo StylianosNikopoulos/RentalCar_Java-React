@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import VehiclesTab from '../components/admin/VehiclesTab';
+import PaymentsTab from '../components/admin/PaymentsTab';
 import UsersTab from '../components/admin/UsersTab';
 import ReservationsTab from '../components/admin/ReservationsTab';
 import { useLang } from '../context/LangContext';
 import { translations } from "../i18n/translations";
 import '../assets/styles/admin.css';
 import '../assets/styles/swal-custom.css';
+import '../assets/styles/adminPaymentModal.css';
 
 const AdminPage = () => {
 
@@ -34,13 +36,19 @@ const AdminPage = () => {
                     <button className={activeTab === 'reservations' ? 'active' : ''} onClick={() => setActiveTab('reservations')}>
                         <i className="fas fa-calendar-check"></i> {t.tabReservations}
                     </button>
+                    <button className={activeTab === 'payments' ? 'active' : ''} onClick={() => setActiveTab('payments')}>
+                        <i className="fas fa-credit-card"></i> {t.tabPayments || 'Payments'}
+                    </button>
                 </nav>
             </aside>
 
             <main className="admin-main">
                 <header className="admin-topbar">
                     <h2>
-                        {activeTab === 'vehicles' ? t.tabVehicles : activeTab === 'users' ? t.tabUsers : t.tabReservations}
+                        {activeTab === 'vehicles' && t.tabVehicles}
+                        {activeTab === 'users' && t.tabUsers}
+                        {activeTab === 'reservations' && t.tabReservations}
+                        {activeTab === 'payments' && (t.tabPayments || 'Payments')}
                     </h2>
                 </header>
 
@@ -48,6 +56,7 @@ const AdminPage = () => {
                     {activeTab === 'vehicles' && <VehiclesTab />}
                     {activeTab === 'users' && <UsersTab />}
                     {activeTab === 'reservations' && <ReservationsTab />}
+                    {activeTab === 'payments' && <PaymentsTab />}
                 </div>
             </main>
         </div>

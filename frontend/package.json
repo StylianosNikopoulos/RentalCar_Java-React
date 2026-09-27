@@ -19,6 +19,7 @@
     "react-dom": "^18.2.0",
     "react-hot-toast": "^2.6.0",
     "react-router-dom": "^7.13.2",
+    "recharts": "^3.10.1",
     "sweetalert2": "^11.26.24",
     "sweetalert2-react-content": "^5.1.2",
     "swiper": "^12.1.3"
