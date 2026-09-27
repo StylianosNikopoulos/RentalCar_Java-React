@@ -1,6 +1,7 @@
 package com.example.rentalcars.features.payment.infrastructure.adapter.outbound.persistence;
 
 import com.example.rentalcars.features.payment.domain.enums.PaymentStatus;
+import com.example.rentalcars.features.reservation.infrastructure.adapter.outbound.persistence.ReservationJpaEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import java.math.BigDecimal;
@@ -43,6 +44,10 @@ public class PaymentJpaEntity {
 
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "reservation_id", insertable = false, updatable = false)
+    private ReservationJpaEntity reservation;
 
     @PrePersist
     protected void onCreate() {

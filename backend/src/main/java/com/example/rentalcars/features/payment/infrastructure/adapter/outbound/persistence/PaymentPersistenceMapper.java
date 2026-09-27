@@ -12,5 +12,6 @@ public interface PaymentPersistenceMapper {
     PaymentJpaEntity toEntity(Payment payment);
 
     @Mapping(target = "amount", expression = "java(new Money(entity.getAmount(), entity.getCurrency()))")
+    @Mapping(target = "userEmail", source = "reservation.user.email")
     Payment toDomain(PaymentJpaEntity entity);
 }

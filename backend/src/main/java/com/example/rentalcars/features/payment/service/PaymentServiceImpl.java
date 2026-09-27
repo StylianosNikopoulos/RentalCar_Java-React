@@ -1,13 +1,13 @@
 package com.example.rentalcars.features.payment.service;
 
 import com.example.rentalcars.core.valueobject.Money;
-import com.example.rentalcars.features.payment.domain.port.outbound.PaymentEmailPort;
+import com.example.rentalcars.features.payment.domain.enums.PaymentStatus;
 import com.example.rentalcars.features.payment.domain.exception.InvalidPaymentStatusException;
 import com.example.rentalcars.features.payment.domain.exception.PaymentNotFoundException;
 import com.example.rentalcars.features.payment.domain.exception.StripePaymentException;
 import com.example.rentalcars.features.payment.domain.model.Payment;
-import com.example.rentalcars.features.payment.domain.enums.PaymentStatus;
 import com.example.rentalcars.features.payment.domain.port.inbound.PaymentService;
+import com.example.rentalcars.features.payment.domain.port.outbound.PaymentEmailPort;
 import com.example.rentalcars.features.payment.domain.port.outbound.PaymentRepository;
 import com.example.rentalcars.features.reservation.domain.model.Reservation;
 import com.example.rentalcars.features.reservation.domain.port.inbound.ReservationService;
@@ -24,8 +24,11 @@ import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -183,6 +186,11 @@ public class PaymentServiceImpl implements PaymentService {
                     log.warn("No payment found for reservation ID: {}", reservationId);
                     return new PaymentNotFoundException(reservationId.toString());
                 });
+    }
+
+    @Override
+    public Page<Payment> getAllPaymentsFiltered(PaymentStatus status, LocalDateTime startDate, LocalDateTime endDate, String userEmail, Pageable pageable) {
+        return paymentRepository.findAllFiltered(status, startDate, endDate, userEmail, pageable);
     }
 
     private String extractReceiptUrlFromPaymentIntent(String paymentIntentId) {
